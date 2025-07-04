@@ -7,7 +7,6 @@ import { useToast } from '@/hooks/use-toast';
 import { useAppContext } from './app-context';
 import { useLanguage } from './language-context';
 import { names } from '@/lib/data';
-import { PartyPopper } from 'lucide-react';
 
 interface TradingContextType {
   balance: number;
@@ -184,7 +183,6 @@ export function TradingProvider({ children }: { children: ReactNode }) {
         title: t('withdrawal_notification_title'),
         description: <span className="font-bold">{descriptionText}</span>,
         duration: 5000,
-        icon: <PartyPopper className="absolute top-4 right-10 h-6 w-6 text-sky-300" />
       });
 
       const nextInterval = 25000 + Math.random() * 20000; // 25s to 45s
