@@ -20,6 +20,8 @@ const TradingContext = createContext<TradingContextType | undefined>(undefined);
 const INITIAL_BALANCE = 150;
 const INITIAL_TRADES: Trade[] = [];
 
+let tradeCounter = 0;
+
 export function TradingProvider({ children }: { children: ReactNode }) {
   const [balance, setBalance] = useLocalStorage<number>('trading-balance-v3', INITIAL_BALANCE);
   const [trades, setTrades] = useLocalStorage<Trade[]>('trading-trades-v3', INITIAL_TRADES);
@@ -32,10 +34,11 @@ export function TradingProvider({ children }: { children: ReactNode }) {
   const executeTrade = useCallback((trade: Omit<Trade, 'id' | 'timestamp'>) => {
     const cost = trade.amount * trade.price;
     const timestamp = Date.now();
+    tradeCounter += 1;
 
     const newTrade: Trade = {
       ...trade,
-      id: `${trade.type}-${timestamp}-${trade.price}-${trade.amount}-${Math.random()}`,
+      id: `${timestamp}-${tradeCounter}`,
       timestamp: timestamp,
     };
 
