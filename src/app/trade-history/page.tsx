@@ -5,6 +5,10 @@ import { useLanguage } from "@/contexts/language-context";
 import { useTrading } from "@/contexts/trading-context";
 import { TrendingUp, TrendingDown } from "lucide-react";
 
+const formatCurrency = (value: number) => {
+  return new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(value);
+};
+
 export default function TradeHistoryPage() {
   const { t } = useLanguage();
   const { trades } = useTrading();
@@ -25,10 +29,10 @@ export default function TradeHistoryPage() {
                 </div>
                 <div className="flex-grow">
                     <p className="font-medium">
-                      <span className={`capitalize font-semibold ${trade.type === 'buy' ? 'text-green-600' : 'text-red-600'}`}>{t(trade.type)}</span> {trade.amount} of {trade.symbol}
+                      <span className={`capitalize font-semibold ${trade.type === 'buy' ? 'text-green-600' : 'text-red-600'}`}>{t(trade.type)}</span> {trade.amount.toFixed(2)} of {trade.symbol}
                     </p>
                     <p className="text-sm text-muted-foreground">
-                        at ${trade.price.toFixed(2)}
+                        at {formatCurrency(trade.price)}
                     </p>
                 </div>
                 <div className="text-right">

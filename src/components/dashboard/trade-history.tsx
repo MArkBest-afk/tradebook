@@ -7,6 +7,9 @@ import { useTrading } from "@/contexts/trading-context"
 import { Button } from "../ui/button"
 import { TrendingUp, TrendingDown } from "lucide-react"
 
+const formatCurrency = (value: number) => {
+  return new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(value);
+};
 
 export function TradeHistory() {
   const { t } = useLanguage()
@@ -33,7 +36,7 @@ export function TradeHistory() {
                         <span className={`capitalize font-semibold ${trade.type === 'buy' ? 'text-green-600' : 'text-red-600'}`}>{t(trade.type)}</span> of {trade.symbol}
                     </p>
                     <p className="text-sm text-muted-foreground">
-                        at ${trade.price.toFixed(2)}
+                        at {formatCurrency(trade.price)}
                     </p>
                 </div>
                 <p className="text-sm text-muted-foreground">

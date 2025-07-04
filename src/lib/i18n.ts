@@ -29,7 +29,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'date': 'Date',
     'generating_insight': 'Generating insight...',
     'onboarding_welcome_title': 'Welcome to Facebook AI!',
-    'onboarding_welcome_text': 'You have been given a demo account with a balance of $150 to get acquainted with the platform.',
+    'onboarding_welcome_text': 'You have been given a demo account with a balance of €150 to get acquainted with the platform.',
     'onboarding_demo_account_title': 'Demo Account',
     'onboarding_demo_account_text': 'This is a demo account. You are trading with real market data, but all funds are virtual. It\'s a great way to learn without risk.',
     'onboarding_trade_panel_title': 'Trade Panel',
@@ -50,6 +50,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'balanced_bot_description': 'Confidently combines stability and profit.',
     'high_yield_bot_description': 'There is a risk of small losses, but the profit is greater.',
     'start_trading': 'Start Trading',
+    'stop_trading': 'Stop Trading',
   },
   ru: {
     'app.name': 'Facebook AI',
@@ -79,7 +80,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'date': 'Дата',
     'generating_insight': 'Генерация рекомендации...',
     'onboarding_welcome_title': 'Добро пожаловать в Facebook AI!',
-    'onboarding_welcome_text': 'Вам был предоставлен демо-счет с балансом $150 для ознакомления с платформой.',
+    'onboarding_welcome_text': 'Вам был предоставлен демо-счет с балансом €150 для ознакомления с платформой.',
     'onboarding_demo_account_title': 'Демонстрационный счет',
     'onboarding_demo_account_text': 'Это демонстрационный счет. Вы торгуете с использованием реальных рыночных данных, но все средства являются виртуальными. Это отличный способ научиться без риска.',
     'onboarding_trade_panel_title': 'Торговая панель',
@@ -100,6 +101,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'balanced_bot_description': 'Уверенно сочетает стабильность и прибыль.',
     'high_yield_bot_description': 'Есть риск небольших убытков, но прибыль больше.',
     'start_trading': 'Начать торговлю',
+    'stop_trading': 'Остановить торговлю',
   },
   de: {
     'app.name': 'Facebook AI',
@@ -134,6 +136,8 @@ export const translations: Record<Language, Record<string, string>> = {
     'cautious_bot_description': 'Eine gute Wahl für einen vorsichtigen Start.',
     'balanced_bot_description': 'Kombiniert souverän Stabilität und Gewinn.',
     'high_yield_bot_description': 'Es besteht das Risiko kleiner Verluste, aber der Gewinn ist größer.',
+    'start_trading': 'Handel starten',
+    'stop_trading': 'Handel stoppen',
   },
   bg: {
     'app.name': 'Facebook AI',
@@ -168,6 +172,8 @@ export const translations: Record<Language, Record<string, string>> = {
     'cautious_bot_description': 'Чудесен избор за предпазлив старт.',
     'balanced_bot_description': 'Уверено съчетава стабилност и печалба.',
     'high_yield_bot_description': 'Има риск от малки загуби, но печалбата е по-голяма.',
+    'start_trading': 'Започнете да търгувате',
+    'stop_trading': 'Спрете да търгувате',
   },
   pl: {
     'app.name': 'Facebook AI',
@@ -202,6 +208,8 @@ export const translations: Record<Language, Record<string, string>> = {
     'cautious_bot_description': 'Świetny wybór na ostrożny początek.',
     'balanced_bot_description': 'Pewnie łączy stabilność i zysk.',
     'high_yield_bot_description': 'Istnieje ryzyko niewielkich strat, ale zysk jest większy.',
+    'start_trading': 'Rozpocznij handel',
+    'stop_trading': 'Zatrzymaj handel',
   },
   mo: {
     'app.name': 'Facebook AI',
@@ -236,6 +244,8 @@ export const translations: Record<Language, Record<string, string>> = {
     'cautious_bot_description': 'O alegere excelentă pentru un început precaut.',
     'balanced_bot_description': 'Combină cu încredere stabilitatea și profitul.',
     'high_yield_bot_description': 'Există riscul unor pierderi mici, dar profitul este mai mare.',
+    'start_trading': 'Începeți tranzacționarea',
+    'stop_trading': 'Opriți tranzacționarea',
   },
   sr: {
     'app.name': 'Facebook AI',
@@ -270,5 +280,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'cautious_bot_description': 'Odličan izbor za oprezan početak.',
     'balanced_bot_description': 'Samouvereno kombinuje stabilnost i profit.',
     'high_yield_bot_description': 'Postoji rizik od malih gubitaka, ali je profit veći.',
+    'start_trading': 'Počni trgovati',
+    'stop_trading': 'Zaustavi trgovanje',
   },
 };
