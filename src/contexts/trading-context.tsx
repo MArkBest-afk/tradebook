@@ -18,10 +18,11 @@ interface TradingContextType {
 const TradingContext = createContext<TradingContextType | undefined>(undefined);
 
 const INITIAL_BALANCE = 150;
+const INITIAL_TRADES: Trade[] = [];
 
 export function TradingProvider({ children }: { children: ReactNode }) {
   const [balance, setBalance] = useLocalStorage<number>('trading-balance-v3', INITIAL_BALANCE);
-  const [trades, setTrades] = useLocalStorage<Trade[]>('trading-trades-v3', []);
+  const [trades, setTrades] = useLocalStorage<Trade[]>('trading-trades-v3', INITIAL_TRADES);
   const [isTrading, setIsTrading] = useLocalStorage<boolean>('is-trading-v3', false);
   const [currentPrice, setCurrentPrice] = useState(50000);
 
