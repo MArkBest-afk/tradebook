@@ -1,9 +1,16 @@
 "use client"
 
 import * as React from "react"
-import { Line, LineChart, CartesianGrid, XAxis, Tooltip, YAxis, ResponsiveContainer, Legend } from "recharts"
+import { Line, LineChart, CartesianGrid, XAxis, YAxis } from "recharts"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { ChartTooltipContent } from "@/components/ui/chart"
+import {
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+  ChartLegend,
+  ChartLegendContent,
+  type ChartConfig,
+} from "@/components/ui/chart"
 import { useLanguage } from "@/contexts/language-context"
 import { Skeleton } from "../ui/skeleton"
 
@@ -45,6 +52,17 @@ function generateChartData(): ChartData[] {
   return data
 }
 
+const chartConfig = {
+  price: {
+    label: "Price",
+    color: "hsl(var(--primary))",
+  },
+  movingAverage: {
+    label: "5-Day MA",
+    color: "hsl(var(--accent))",
+  },
+} satisfies ChartConfig
+
 export function TradingChart({ onPriceUpdate }: { onPriceUpdate: (price: number) => void }) {
   const { t } = useLanguage()
   const [data, setData] = React.useState<ChartData[]>([])
@@ -81,57 +99,57 @@ export function TradingChart({ onPriceUpdate }: { onPriceUpdate: (price: number)
       </CardHeader>
       <CardContent>
         <div className="h-[400px] w-full">
-            <ResponsiveContainer width="100%" height="100%">
-            <LineChart
-                data={data}
-                margin={{
-                top: 5,
-                right: 10,
-                left: -10,
-                bottom: 0,
-                }}
-            >
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--border))" />
-                <XAxis dataKey="date" tickLine={false} axisLine={false} tickMargin={8} />
-                <YAxis
-                    tickLine={false}
-                    axisLine={false}
-                    tickMargin={8}
-                    domain={['dataMin - 1000', 'dataMax + 1000']}
-                    tickFormatter={(value) => `$${Number(value) / 1000}k`}
-                />
-                <Tooltip
-                    cursor={{ stroke: 'hsl(var(--accent))', strokeWidth: 2, strokeDasharray: '3 3' }}
-                    content={<ChartTooltipContent 
-                        formatter={(value, name) => (
-                            <div className="flex flex-col">
-                                <span className="text-xs capitalize text-muted-foreground">{name === 'movingAverage' ? '5-Day MA' : 'Price'}</span>
-                                <span className="font-bold">{`$${Number(value).toLocaleString()}`}</span>
-                            </div>
-                        )}
-                        labelFormatter={(label) => new Date(label).toLocaleDateString()}
-                    />}
-                />
-                <Legend />
-                <Line
-                    type="monotone"
-                    dataKey="price"
-                    stroke="hsl(var(--primary))"
-                    strokeWidth={2}
-                    dot={false}
-                    name="Price"
-                />
-                 <Line
-                    type="monotone"
-                    dataKey="movingAverage"
-                    stroke="hsl(var(--accent))"
-                    strokeWidth={2}
-                    dot={false}
-                    name="5-Day MA"
-                    strokeDasharray="5 5"
-                />
-            </LineChart>
-            </ResponsiveContainer>
+            <ChartContainer config={chartConfig}>
+              <LineChart
+                  data={data}
+                  margin={{
+                  top: 5,
+                  right: 10,
+                  left: -10,
+                  bottom: 0,
+                  }}
+              >
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--border))" />
+                  <XAxis dataKey="date" tickLine={false} axisLine={false} tickMargin={8} />
+                  <YAxis
+                      tickLine={false}
+                      axisLine={false}
+                      tickMargin={8}
+                      domain={['dataMin - 1000', 'dataMax + 1000']}
+                      tickFormatter={(value) => `$${Number(value) / 1000}k`}
+                  />
+                  <ChartTooltip
+                      cursor={{ stroke: 'hsl(var(--accent))', strokeWidth: 2, strokeDasharray: '3 3' }}
+                      content={<ChartTooltipContent 
+                          formatter={(value, name) => (
+                              <div className="flex flex-col">
+                                  <span className="text-xs capitalize text-muted-foreground">{name === 'movingAverage' ? '5-Day MA' : 'Price'}</span>
+                                  <span className="font-bold">{`$${Number(value).toLocaleString()}`}</span>
+                              </div>
+                          )}
+                          labelFormatter={(label) => new Date(label).toLocaleDateString()}
+                      />}
+                  />
+                  <ChartLegend content={<ChartLegendContent />} />
+                  <Line
+                      type="monotone"
+                      dataKey="price"
+                      stroke="var(--color-price)"
+                      strokeWidth={2}
+                      dot={false}
+                      name="Price"
+                  />
+                  <Line
+                      type="monotone"
+                      dataKey="movingAverage"
+                      stroke="var(--color-movingAverage)"
+                      strokeWidth={2}
+                      dot={false}
+                      name="5-Day MA"
+                      strokeDasharray="5 5"
+                  />
+              </LineChart>
+            </ChartContainer>
         </div>
       </CardContent>
     </Card>
