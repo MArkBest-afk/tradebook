@@ -1,6 +1,6 @@
 "use client"
 
-import { Languages } from "lucide-react"
+import { Globe } from "lucide-react"
 
 import { useLanguage } from "@/contexts/language-context"
 import { languages } from "@/lib/types"
@@ -19,7 +19,7 @@ export function LanguageSwitcher() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="icon">
-          <Languages className="h-[1.2rem] w-[1.2rem]" />
+          <Globe className="h-[1.2rem] w-[1.2rem]" />
           <span className="sr-only">Change language</span>
         </Button>
       </DropdownMenuTrigger>
