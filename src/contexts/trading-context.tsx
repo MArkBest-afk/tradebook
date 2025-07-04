@@ -43,7 +43,7 @@ export function TradingProvider({ children }: { children: ReactNode }) {
 
     toast({
       title: 'Trade Executed',
-      description: `${trade.type.toUpperCase()} ${trade.amount} ${trade.symbol} at $${trade.price.toFixed(2)}`,
+      description: `${trade.type.toUpperCase()} ${trade.amount} ${trade.symbol} at €${trade.price.toFixed(2)}`,
     });
   }, [balance, setBalance, setTrades, toast]);
 

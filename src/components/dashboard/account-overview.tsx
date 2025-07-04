@@ -10,12 +10,11 @@ export function AccountOverview() {
   const { balance } = useTrading()
 
   const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value);
+    return new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(value);
   }
 
-  // Dummy values for equity and P/L for demonstration
-  const equity = balance * 1.05;
-  const unrealizedPL = equity - balance;
+  // Dummy value for profit
+  const profit24h = 12.75; 
 
   return (
     <Card>
@@ -30,13 +29,9 @@ export function AccountOverview() {
             <p className="text-2xl font-bold">{formatCurrency(balance)}</p>
           </div>
           <div>
-            <p className="text-xs text-muted-foreground">{t('equity')}</p>
-            <p className="text-lg font-semibold">{formatCurrency(equity)}</p>
-          </div>
-          <div>
-            <p className="text-xs text-muted-foreground">{t('unrealized_pl')}</p>
-            <p className={`text-lg font-semibold ${unrealizedPL >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-              {formatCurrency(unrealizedPL)}
+            <p className="text-xs text-muted-foreground">{t('profit_24h')}</p>
+            <p className={`text-lg font-semibold ${profit24h >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+              {formatCurrency(profit24h)}
             </p>
           </div>
         </div>
