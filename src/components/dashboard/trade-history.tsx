@@ -1,10 +1,8 @@
 "use client"
 
-import Link from "next/link"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { useLanguage } from "@/contexts/language-context"
 import { useTrading } from "@/contexts/trading-context"
-import { Button } from "../ui/button"
 import { TrendingUp, TrendingDown } from "lucide-react"
 
 const formatCurrency = (value: number) => {
@@ -50,13 +48,6 @@ export function TradeHistory() {
            <p className="text-sm text-muted-foreground text-center py-8">{t('no_trades_yet')}</p>
         )}
       </CardContent>
-      {trades.length > 5 && (
-        <CardFooter className="justify-center border-t pt-4">
-          <Button asChild variant="link">
-            <Link href="/trade-history">{t('view_all')}</Link>
-          </Button>
-        </CardFooter>
-      )}
     </Card>
   )
 }
