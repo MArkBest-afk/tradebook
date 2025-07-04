@@ -75,7 +75,7 @@ export function TradingChart({ onPriceUpdate }: { onPriceUpdate: (price: number)
         onPriceUpdate(generatedData[generatedData.length - 1].price)
     }
     setIsLoading(false)
-  }, [onPriceUpdate])
+  }, [])
 
   if (isLoading) {
       return (
