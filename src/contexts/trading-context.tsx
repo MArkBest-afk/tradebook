@@ -34,60 +34,28 @@ export function TradingProvider({ children }: { children: ReactNode }) {
   const executeTrade = useCallback((trade: Omit<Trade, 'id' | 'timestamp'>) => {
     const cost = trade.amount * trade.price;
 
-    if (trade.type === 'buy' && balance < cost) {
-      toast({
-        title: 'Error',
-        description: 'Not enough balance to execute trade.',
-        variant: 'destructive',
-      });
-      return;
-    }
-    
-    tradeCounter++;
     const newTrade: Trade = {
       ...trade,
-      id: `${Date.now()}-${tradeCounter}`,
+      id: `${Date.now()}-${tradeCounter++}`,
       timestamp: Date.now(),
     };
 
     setTrades(prevTrades => [newTrade, ...prevTrades]);
     setBalance(prevBalance => trade.type === 'buy' ? prevBalance - cost : prevBalance + cost);
 
-    if (trade.type === 'sell') {
-      toast({
-        title: 'Trade Closed',
-        description: `Sold ${trade.amount.toFixed(6)} ${trade.symbol} at €${trade.price.toFixed(2)}`,
-      });
-    } else if (trade.type === 'buy') {
-      toast({
-        title: 'Trade Opened',
-        description: `Bought ${trade.amount.toFixed(6)} ${trade.symbol} at €${trade.price.toFixed(2)}`,
-      });
-    }
-  }, [balance, setBalance, setTrades, toast]);
+  }, [setBalance, setTrades]);
 
 
   const runBotTrade = useCallback(() => {
     if (!selectedBot) return;
 
-    let tradeValueEur: number;
-
-    switch (selectedBot) {
-      case 'cautious':
-        tradeValueEur = 10 + Math.random() * 5; // 10-15
-        break;
-      case 'balanced':
-        tradeValueEur = 16 + Math.random() * 9; // 16-25
-        break;
-      case 'high-yield':
-        tradeValueEur = 26 + Math.random() * 19; // 26-45
-        break;
-      default:
-        return;
-    }
+    // Unified trading strategy for all bots.
+    // Trades are opened for an amount in the range of 16-25 EUR.
+    const tradeValueEur = 16 + Math.random() * 9; 
 
     const isProfitable = Math.random() < 0.8; // 80% chance for profit, within 70-85% range
-    const profitMargin = 0.1 + Math.random() * 0.1; // 10-20%
+    // Profit margin is 10-20% of the trade amount.
+    const profitMargin = 0.1 + Math.random() * 0.1;
 
     // Simulate price fluctuation for buy/sell
     const newPrice = currentPrice * (1 + (Math.random() - 0.49) * 0.02); // Fluctuate up to 1% up or down
@@ -96,6 +64,11 @@ export function TradingProvider({ children }: { children: ReactNode }) {
     const buyPrice = newPrice;
     const cryptoAmount = tradeValueEur / buyPrice;
 
+    if (balance < tradeValueEur) {
+      // Not enough balance, skip this trade cycle.
+      return;
+    }
+
     const sellPrice = isProfitable ? buyPrice * (1 + profitMargin) : buyPrice * (1 - (profitMargin / 2));
     
     const baseTrade = {
@@ -103,20 +76,30 @@ export function TradingProvider({ children }: { children: ReactNode }) {
       amount: cryptoAmount,
     };
 
-    executeTrade({
+    const buyTrade = {
       ...baseTrade,
-      type: 'buy',
+      type: 'buy' as const,
       price: buyPrice,
+    };
+    executeTrade(buyTrade);
+    toast({
+        title: 'Trade Opened',
+        description: `Bought ${buyTrade.amount.toFixed(6)} ${buyTrade.symbol} at €${buyTrade.price.toFixed(2)}`,
     });
 
     setTimeout(() => {
-      executeTrade({
+      const sellTrade = {
         ...baseTrade,
-        type: 'sell',
+        type: 'sell' as const,
         price: sellPrice,
+      };
+      executeTrade(sellTrade);
+      toast({
+          title: 'Trade Closed',
+          description: `Sold ${sellTrade.amount.toFixed(6)} ${sellTrade.symbol} at €${sellTrade.price.toFixed(2)}`,
       });
     }, 3000 + Math.random() * 4000);
-  }, [selectedBot, executeTrade, currentPrice]);
+  }, [selectedBot, executeTrade, currentPrice, balance, toast]);
 
   useEffect(() => {
     if (isTrading && selectedBot) {
