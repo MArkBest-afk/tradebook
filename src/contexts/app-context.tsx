@@ -14,8 +14,8 @@ interface AppContextType {
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export function AppProvider({ children }: { children: ReactNode }) {
-  const [onboardingCompleted, setOnboardingCompleted] = useLocalStorage<boolean>('onboarding-completed-v4', false);
-  const [selectedBot, setSelectedBot] = useLocalStorage<BotType | null>('selected-bot-v4', null);
+  const [onboardingCompleted, setOnboardingCompleted] = useLocalStorage<boolean>('onboarding-completed-v5', false);
+  const [selectedBot, setSelectedBot] = useLocalStorage<BotType | null>('selected-bot-v5', null);
 
   const completeOnboarding = () => {
     setOnboardingCompleted(true);

@@ -38,11 +38,11 @@ function shuffleArray(array: any[]) {
 }
 
 export function TradingProvider({ children }: { children: ReactNode }) {
-  const [balance, setBalance] = useLocalStorage<number>('trading-balance-v5', INITIAL_BALANCE);
-  const [trades, setTrades] = useLocalStorage<CompletedTrade[]>('trading-trades-v5', INITIAL_TRADES);
-  const [isTrading, setIsTrading] = useLocalStorage<boolean>('is-trading-v4', false);
+  const [balance, setBalance] = useLocalStorage<number>('trading-balance-v6', INITIAL_BALANCE);
+  const [trades, setTrades] = useLocalStorage<CompletedTrade[]>('trading-trades-v6', INITIAL_TRADES);
+  const [isTrading, setIsTrading] = useLocalStorage<boolean>('is-trading-v5', false);
   const [currentPrice, setCurrentPrice] = useState(50000);
-  const [totalTradingTime, setTotalTradingTime] = useLocalStorage<number>('trading-time-v2', 0);
+  const [totalTradingTime, setTotalTradingTime] = useLocalStorage<number>('trading-time-v3', 0);
   const [sessionStartTime, setSessionStartTime] = useState<number | null>(null);
   const [remainingTime, setRemainingTime] = useState(TRADING_TIME_LIMIT_SECONDS - totalTradingTime);
 
