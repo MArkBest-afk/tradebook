@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, ReactNode, useCallback, useEffect, useState, useMemo } from 'react';
+import { createContext, useContext, ReactNode, useCallback, useEffect, useState, useMemo, useRef } from 'react';
 import type { CompletedTrade } from '@/lib/types';
 import { useLocalStorage } from '@/hooks/use-local-storage';
 import { useToast } from '@/hooks/use-toast';
@@ -26,6 +26,16 @@ const TRADING_TIME_LIMIT_SECONDS = 6 * 60 * 60; // 6 hours in seconds
 
 let tradeCounter = 0;
 
+// Helper function to shuffle an array (Fisher-Yates shuffle)
+function shuffleArray(array: any[]) {
+    const newArr = [...array];
+    for (let i = newArr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [newArr[i], newArr[j]] = [newArr[j], newArr[i]];
+    }
+    return newArr;
+}
+
 export function TradingProvider({ children }: { children: ReactNode }) {
   const [balance, setBalance] = useLocalStorage<number>('trading-balance-v5', INITIAL_BALANCE);
   const [trades, setTrades] = useLocalStorage<CompletedTrade[]>('trading-trades-v5', INITIAL_TRADES);
@@ -37,6 +47,8 @@ export function TradingProvider({ children }: { children: ReactNode }) {
   const { toast } = useToast();
   const { t } = useLanguage();
   const { selectedBot } = useAppContext();
+  
+  const shuffledNamesRef = useRef(shuffleArray(names));
 
   const isTimeLimitReached = totalTradingTime >= TRADING_TIME_LIMIT_SECONDS;
 
@@ -62,6 +74,7 @@ export function TradingProvider({ children }: { children: ReactNode }) {
     setTrades(prevTrades => [trade, ...prevTrades]);
     setBalance(prevBalance => prevBalance + trade.profit);
     toast({
+        variant: 'default',
         title: t('trade_closed_title'),
         description: t('trade_closed_description')
           .replace('{profit}', `${trade.profit.toFixed(2)} €`)
@@ -158,6 +171,13 @@ export function TradingProvider({ children }: { children: ReactNode }) {
     }
   }, [isTrading, selectedBot, runBotTrade, sessionStartTime, totalTradingTime, stopTrading, showTimeLimitToast]);
 
+  const getUniqueName = useCallback(() => {
+    if (shuffledNamesRef.current.length === 0) {
+      shuffledNamesRef.current = shuffleArray(names);
+    }
+    return shuffledNamesRef.current.pop()!;
+  }, []);
+
   useEffect(() => {
     if (!isTrading) {
       return;
@@ -170,7 +190,7 @@ export function TradingProvider({ children }: { children: ReactNode }) {
         return;
       }
 
-      const randomName = names[Math.floor(Math.random() * names.length)];
+      const randomName = getUniqueName();
       const randomAmount = Math.floor(Math.random() * (399 - 53 + 1)) + 53;
       const amountString = new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(randomAmount);
       
@@ -180,8 +200,8 @@ export function TradingProvider({ children }: { children: ReactNode }) {
 
       toast({
         variant: 'info',
-        title: t('withdrawal_notification_title'),
-        description: <span className="font-bold">{descriptionText}</span>,
+        title: <span className="font-bold text-white">{t('withdrawal_notification_title')}</span>,
+        description: <span className="font-bold text-white">{descriptionText}</span>,
         duration: 5000,
       });
 
@@ -193,7 +213,7 @@ export function TradingProvider({ children }: { children: ReactNode }) {
     timeoutId = setTimeout(showRandomWithdrawal, firstTimeout);
 
     return () => clearTimeout(timeoutId);
-  }, [isTrading, t, toast]);
+  }, [isTrading, t, toast, getUniqueName]);
 
 
   const value = {
