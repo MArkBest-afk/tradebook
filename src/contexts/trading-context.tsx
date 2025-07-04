@@ -84,7 +84,6 @@ export function TradingProvider({ children }: { children: ReactNode }) {
 
 
   const runBotTrade = useCallback(() => {
-    // Unified trading strategy for all bots.
     // Trades are opened for an amount in the range of 16-25 EUR.
     const tradeValueEur = 16 + Math.random() * 9; 
 
@@ -93,9 +92,11 @@ export function TradingProvider({ children }: { children: ReactNode }) {
       return;
     }
 
-    const isProfitable = Math.random() < 0.8; // 80% chance for profit, within 70-85% range
-    // Profit margin is 10-20% of the trade amount.
-    const profitMargin = 0.1 + Math.random() * 0.1;
+    const isProfitable = Math.random() < 0.8; // 80% chance for profit
+    
+    // Profit is in the range of 0.5 - 2.5 EUR
+    const profitAmount = 0.5 + Math.random() * 2;
+    const profit = isProfitable ? profitAmount : -(profitAmount / 2); // Loss is half of the potential profit
 
     // Simulate price fluctuation for buy/sell
     const newPrice = currentPrice * (1 + (Math.random() - 0.49) * 0.02); // Fluctuate up to 1% up or down
@@ -103,9 +104,9 @@ export function TradingProvider({ children }: { children: ReactNode }) {
     
     const buyPrice = newPrice;
     const cryptoAmount = tradeValueEur / buyPrice;
-    const sellPrice = isProfitable ? buyPrice * (1 + profitMargin) : buyPrice * (1 - (profitMargin / 2));
-    
-    const profit = (sellPrice - buyPrice) * cryptoAmount;
+
+    // Calculate sell price based on profit
+    const sellPrice = buyPrice + (profit / cryptoAmount);
     
     const buyTimestamp = Date.now();
     const sellTimestamp = buyTimestamp + 3000 + Math.random() * 4000; // Sell 3-7 seconds later
