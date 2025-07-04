@@ -23,9 +23,9 @@ const INITIAL_TRADES: Trade[] = [];
 let tradeCounter = 0;
 
 export function TradingProvider({ children }: { children: ReactNode }) {
-  const [balance, setBalance] = useLocalStorage<number>('trading-balance-v3', INITIAL_BALANCE);
-  const [trades, setTrades] = useLocalStorage<Trade[]>('trading-trades-v3', INITIAL_TRADES);
-  const [isTrading, setIsTrading] = useLocalStorage<boolean>('is-trading-v3', false);
+  const [balance, setBalance] = useLocalStorage<number>('trading-balance-v4', INITIAL_BALANCE);
+  const [trades, setTrades] = useLocalStorage<Trade[]>('trading-trades-v4', INITIAL_TRADES);
+  const [isTrading, setIsTrading] = useLocalStorage<boolean>('is-trading-v4', false);
   const [currentPrice, setCurrentPrice] = useState(50000);
 
   const { toast } = useToast();

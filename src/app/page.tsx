@@ -2,7 +2,6 @@
 
 import React from "react"
 import { AccountOverview } from "@/components/dashboard/account-overview"
-import { AIAssistant } from "@/components/dashboard/ai-assistant"
 import { TradeHistory } from "@/components/dashboard/trade-history"
 import { useAppContext } from "@/contexts/app-context"
 import { Onboarding } from "@/components/onboarding"
@@ -41,7 +40,6 @@ function Dashboard() {
     <div className="max-w-xl mx-auto space-y-6">
       <AccountOverview />
       <TradingControls />
-      <AIAssistant />
       <TradeHistory />
     </div>
   )
