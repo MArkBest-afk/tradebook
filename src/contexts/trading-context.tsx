@@ -31,11 +31,12 @@ export function TradingProvider({ children }: { children: ReactNode }) {
 
   const executeTrade = useCallback((trade: Omit<Trade, 'id' | 'timestamp'>) => {
     const cost = trade.amount * trade.price;
+    const timestamp = Date.now();
 
     const newTrade: Trade = {
       ...trade,
-      id: `${trade.type}-${Date.now()}-${Math.random()}`,
-      timestamp: Date.now(),
+      id: `${trade.type}-${timestamp}-${trade.price}-${trade.amount}-${Math.random()}`,
+      timestamp: timestamp,
     };
 
     setBalance(prevBalance => {
@@ -109,7 +110,7 @@ export function TradingProvider({ children }: { children: ReactNode }) {
 
       return buyPrice;
     });
-  }, [selectedBot, executeTrade, setCurrentPrice]);
+  }, [selectedBot, executeTrade]);
 
   useEffect(() => {
     if (isTrading && selectedBot) {
