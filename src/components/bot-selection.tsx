@@ -8,9 +8,9 @@ import type { BotType } from "@/lib/types";
 import { Rocket, Shield, Scale } from "lucide-react";
 
 const botOptions = [
-    { type: 'cautious' as BotType, labelKey: 'cautious_bot', icon: Shield },
-    { type: 'balanced' as BotType, labelKey: 'balanced_bot', icon: Scale },
-    { type: 'high-yield' as BotType, labelKey: 'high_yield_bot', icon: Rocket },
+    { type: 'cautious' as BotType, labelKey: 'cautious_bot', descriptionKey: 'cautious_bot_description', icon: Shield },
+    { type: 'balanced' as BotType, labelKey: 'balanced_bot', descriptionKey: 'balanced_bot_description', icon: Scale },
+    { type: 'high-yield' as BotType, labelKey: 'high_yield_bot', descriptionKey: 'high_yield_bot_description', icon: Rocket },
 ]
 
 export function BotSelection() {
@@ -24,14 +24,17 @@ export function BotSelection() {
                     <CardTitle>{t('bot_selection_title')}</CardTitle>
                     <CardDescription>{t('bot_selection_description')}</CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-4">
+                <CardContent className="space-y-6">
                     {botOptions.map(bot => {
                         const Icon = bot.icon;
                         return (
-                            <Button key={bot.type} className="w-full justify-start h-14 text-lg" variant="outline" onClick={() => selectBot(bot.type)}>
-                                <Icon className="mr-4 h-6 w-6" />
-                                {t(bot.labelKey)}
-                            </Button>
+                            <div key={bot.type}>
+                                <Button className="w-full justify-start h-14 text-lg" variant="outline" onClick={() => selectBot(bot.type)}>
+                                    <Icon className="mr-4 h-6 w-6" />
+                                    {t(bot.labelKey)}
+                                </Button>
+                                <p className="text-sm text-muted-foreground mt-2 px-1 text-left">{t(bot.descriptionKey)}</p>
+                            </div>
                         )
                     })}
                 </CardContent>
