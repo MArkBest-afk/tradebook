@@ -34,7 +34,7 @@ export function TradingProvider({ children }: { children: ReactNode }) {
 
     const newTrade: Trade = {
       ...trade,
-      id: new Date().toISOString() + Math.random(),
+      id: `${trade.type}-${Date.now()}-${Math.random()}`,
       timestamp: Date.now(),
     };
 
