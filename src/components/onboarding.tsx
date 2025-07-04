@@ -5,23 +5,13 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, Di
 import { Button } from "@/components/ui/button";
 import { useAppContext } from "@/contexts/app-context";
 import { useLanguage } from "@/contexts/language-context";
-import { ArrowRight, Bot, DollarSign, BarChart } from "lucide-react";
+import { ArrowRight, DollarSign } from "lucide-react";
 
 const onboardingSteps = [
     {
         icon: DollarSign,
         titleKey: "onboarding_demo_account_title",
         descriptionKey: "onboarding_demo_account_text",
-    },
-    {
-        icon: BarChart,
-        titleKey: "onboarding_trade_panel_title",
-        descriptionKey: "onboarding_trade_panel_text",
-    },
-    {
-        icon: Bot,
-        titleKey: "onboarding_ai_assistant_title",
-        descriptionKey: "onboarding_ai_assistant_text",
     },
     {
         icon: ArrowRight,
