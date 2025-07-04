@@ -8,14 +8,18 @@ import { useLanguage } from "@/contexts/language-context"
 import { useTrading } from "@/contexts/trading-context"
 import { getMarketInsights, type MarketInsightsOutput } from "@/ai/flows/market-insights"
 import { Skeleton } from "../ui/skeleton"
+import { useAppContext } from "@/contexts/app-context"
 
 export function AIAssistant() {
   const { t } = useLanguage()
   const { trades } = useTrading()
+  const { selectedBot } = useAppContext()
   const [insight, setInsight] = useState<MarketInsightsOutput | null>(null)
   const [isLoading, setIsLoading] = useState(false)
 
   const fetchInsight = async () => {
+    if (!selectedBot) return;
+
     setIsLoading(true)
     setInsight(null)
     try {
@@ -28,6 +32,7 @@ export function AIAssistant() {
       const result = await getMarketInsights({
         marketData,
         pastTrades: pastTradesString,
+        selectedBot,
       })
       setInsight(result)
     } catch (error) {

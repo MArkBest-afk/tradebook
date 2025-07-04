@@ -13,7 +13,8 @@ import {z} from 'genkit';
 
 const MarketInsightsInputSchema = z.object({
   marketData: z.string().describe('The current market data.'),
-  pastTrades: z.string().describe('The user\'s past trading history.'),
+  pastTrades: z.string().describe("The user's past trading history."),
+  selectedBot: z.string().describe('The selected trading bot strategy: "cautious", "balanced", or "high-yield".'),
 });
 export type MarketInsightsInput = z.infer<typeof MarketInsightsInputSchema>;
 
@@ -34,6 +35,11 @@ const prompt = ai.definePrompt({
   prompt: `You are an AI trading assistant providing trade recommendations.
 
   Analyze the current market data and the user's past trades to provide an informed trade recommendation.
+  Your recommendation should align with the user's selected trading bot strategy: {{{selectedBot}}}.
+  - Cautious: Prioritize capital preservation, suggest smaller, safer trades.
+  - Balanced: A mix of growth and safety.
+  - High-yield: Aim for higher returns, accepting higher risk.
+
   Explain the reasoning behind your recommendation.
 
   Market Data: {{{marketData}}}

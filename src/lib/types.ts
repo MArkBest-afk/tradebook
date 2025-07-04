@@ -18,3 +18,5 @@ export const languages: { value: Language; label: string }[] = [
     { value: 'mo', label: 'Moldovenesc' },
     { value: 'sr', label: 'Српски' },
 ];
+
+export type BotType = 'cautious' | 'balanced' | 'high-yield';

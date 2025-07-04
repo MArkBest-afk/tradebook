@@ -13,7 +13,7 @@ interface TradingContextType {
 
 const TradingContext = createContext<TradingContextType | undefined>(undefined);
 
-const INITIAL_BALANCE = 100000;
+const INITIAL_BALANCE = 150;
 
 export function TradingProvider({ children }: { children: ReactNode }) {
   const [balance, setBalance] = useLocalStorage<number>('trading-balance', INITIAL_BALANCE);
