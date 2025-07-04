@@ -77,7 +77,6 @@ export function TradingProvider({ children }: { children: ReactNode }) {
     setTrades(prevTrades => [trade, ...prevTrades]);
     setBalance(prevBalance => prevBalance + trade.profit);
     toast({
-        position: 'top-right',
         variant: 'default',
         title: t('trade_closed_title'),
         description: t('trade_closed_description')
