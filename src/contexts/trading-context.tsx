@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, ReactNode, useCallback } from 'react';
+import { createContext, useContext, ReactNode, useCallback, useMemo } from 'react';
 import type { Trade } from '@/lib/types';
 import { useLocalStorage } from '@/hooks/use-local-storage';
 import { useToast } from '@/hooks/use-toast';
@@ -17,7 +17,8 @@ const INITIAL_BALANCE = 150;
 
 export function TradingProvider({ children }: { children: ReactNode }) {
   const [balance, setBalance] = useLocalStorage<number>('trading-balance', INITIAL_BALANCE);
-  const [trades, setTrades] = useLocalStorage<Trade[]>('trading-trades', []);
+  const initialTrades = useMemo(() => [], []);
+  const [trades, setTrades] = useLocalStorage<Trade[]>('trading-trades', initialTrades);
   const { toast } = useToast();
 
   const executeTrade = useCallback((trade: Omit<Trade, 'id' | 'timestamp'>) => {
