@@ -179,14 +179,15 @@ export function TradingProvider({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
-    if (!isTrading) {
+    if (!isTrading || !sessionStartTime) {
       return;
     }
 
     let timeoutId: NodeJS.Timeout;
 
     const showRandomWithdrawal = () => {
-      if (!isTrading) {
+      // Check again inside timeout in case trading stopped
+      if (!isTrading || !sessionStartTime) {
         return;
       }
 
@@ -199,21 +200,39 @@ export function TradingProvider({ children }: { children: ReactNode }) {
         .replace('{amount}', amountString);
 
       toast({
+        position: 'top-right',
         variant: 'info',
         title: <span className="font-bold text-white">{t('withdrawal_notification_title')}</span>,
         description: <span className="font-bold text-white">{descriptionText}</span>,
-        duration: 5000,
+        duration: 3000,
       });
 
-      const nextInterval = 25000 + Math.random() * 20000; // 25s to 45s
+      const elapsedSeconds = (Date.now() - sessionStartTime) / 1000;
+      let nextInterval;
+
+      if (elapsedSeconds < 300) { // First 5 minutes
+        nextInterval = 30000 + Math.random() * 5000; // 30-35 seconds
+      } else {
+        nextInterval = 25000 + Math.random() * 35000; // 25-60 seconds
+      }
+
       timeoutId = setTimeout(showRandomWithdrawal, nextInterval);
     };
 
-    const firstTimeout = 25000 + Math.random() * 20000; // 25s to 45s
-    timeoutId = setTimeout(showRandomWithdrawal, firstTimeout);
+    // Determine the first timeout interval
+    const calculateFirstInterval = () => {
+        const elapsedSeconds = (Date.now() - sessionStartTime) / 1000;
+        if (elapsedSeconds < 300) {
+            return 30000 + Math.random() * 5000; // 30-35s
+        } else {
+            return 25000 + Math.random() * 35000; // 25-60s
+        }
+    };
+    
+    timeoutId = setTimeout(showRandomWithdrawal, calculateFirstInterval());
 
     return () => clearTimeout(timeoutId);
-  }, [isTrading, t, toast, getUniqueName]);
+  }, [isTrading, t, toast, getUniqueName, sessionStartTime]);
 
 
   const value = {
