@@ -1,6 +1,6 @@
 "use client"
 
-import React from "react"
+import React, { useState } from "react"
 import { AccountOverview } from "@/components/dashboard/account-overview"
 import { TradeHistory } from "@/components/dashboard/trade-history"
 import { useAppContext } from "@/contexts/app-context"
@@ -12,6 +12,10 @@ import { useLanguage } from "@/contexts/language-context"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Loader } from "lucide-react"
+import { AIAssistant } from "@/components/dashboard/ai-assistant"
+import { TradingChart } from "@/components/dashboard/trading-chart"
+import { TradePanel } from "@/components/dashboard/trade-panel"
+import { Settings } from "@/components/settings"
 
 function TradingControls() {
   const { isTrading, startTrading, stopTrading, isTimeLimitReached } = useTrading();
@@ -48,11 +52,23 @@ function TradingControls() {
 }
 
 function Dashboard() {
+  const [currentPrice, setCurrentPrice] = useState(0);
+
+  const handlePriceUpdate = (price: number) => {
+    if (price) {
+        setCurrentPrice(price);
+    }
+  };
+  
   return (
-    <div className="max-w-xl mx-auto space-y-6">
+    <div className="w-full max-w-2xl mx-auto space-y-6">
       <AccountOverview />
       <TradingControls />
+      <AIAssistant />
+      <TradingChart onPriceUpdate={handlePriceUpdate} />
+      {currentPrice > 0 && <TradePanel currentPrice={currentPrice} />}
       <TradeHistory />
+      <Settings />
     </div>
   )
 }
@@ -65,11 +81,14 @@ export default function DashboardPage() {
 
   if (!isClient) {
     return (
-      <div className="max-w-xl mx-auto space-y-6">
-        <Skeleton className="h-[200px] w-full" />
-        <Skeleton className="h-[100px] w-full" />
-        <Skeleton className="h-[200px] w-full" />
-        <Skeleton className="h-[200px] w-full" />
+      <div className="w-full max-w-2xl mx-auto space-y-6">
+        <Skeleton className="h-[280px] w-full" />
+        <Skeleton className="h-[88px] w-full" />
+        <Skeleton className="h-[240px] w-full" />
+        <Skeleton className="h-[500px] w-full" />
+        <Skeleton className="h-[300px] w-full" />
+        <Skeleton className="h-[420px] w-full" />
+        <Skeleton className="h-[250px] w-full" />
       </div>
     );
   }
