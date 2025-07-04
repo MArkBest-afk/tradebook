@@ -14,8 +14,20 @@ import { Button } from "@/components/ui/button"
 import { Loader } from "lucide-react"
 
 function TradingControls() {
-  const { isTrading, startTrading, stopTrading } = useTrading();
+  const { isTrading, startTrading, stopTrading, isTimeLimitReached } = useTrading();
   const { t } = useLanguage();
+
+  if (isTimeLimitReached) {
+    return (
+      <Card>
+        <CardContent className="pt-6">
+          <Button disabled className="w-full bg-destructive/50 text-lg h-12">
+            {t('trading_locked')}
+          </Button>
+        </CardContent>
+      </Card>
+    );
+  }
 
   return (
     <Card>

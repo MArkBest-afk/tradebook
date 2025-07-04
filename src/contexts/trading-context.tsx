@@ -5,6 +5,7 @@ import type { CompletedTrade } from '@/lib/types';
 import { useLocalStorage } from '@/hooks/use-local-storage';
 import { useToast } from '@/hooks/use-toast';
 import { useAppContext } from './app-context';
+import { useLanguage } from './language-context';
 
 interface TradingContextType {
   balance: number;
@@ -13,12 +14,14 @@ interface TradingContextType {
   startTrading: () => void;
   stopTrading: () => void;
   dailyProfit: number;
+  isTimeLimitReached: boolean;
 }
 
 const TradingContext = createContext<TradingContextType | undefined>(undefined);
 
 const INITIAL_BALANCE = 150;
 const INITIAL_TRADES: CompletedTrade[] = [];
+const TRADING_TIME_LIMIT_SECONDS = 6 * 60 * 60; // 6 hours in seconds
 
 let tradeCounter = 0;
 
@@ -27,9 +30,14 @@ export function TradingProvider({ children }: { children: ReactNode }) {
   const [trades, setTrades] = useLocalStorage<CompletedTrade[]>('trading-trades-v5', INITIAL_TRADES);
   const [isTrading, setIsTrading] = useLocalStorage<boolean>('is-trading-v4', false);
   const [currentPrice, setCurrentPrice] = useState(50000);
+  const [totalTradingTime, setTotalTradingTime] = useLocalStorage<number>('trading-time-v2', 0);
+  const [sessionStartTime, setSessionStartTime] = useState<number | null>(null);
 
   const { toast } = useToast();
+  const { t } = useLanguage();
   const { selectedBot } = useAppContext();
+
+  const isTimeLimitReached = totalTradingTime >= TRADING_TIME_LIMIT_SECONDS;
 
   const dailyProfit = useMemo(() => {
     const now = Date.now();
@@ -40,10 +48,23 @@ export function TradingProvider({ children }: { children: ReactNode }) {
       .reduce((sum, trade) => sum + trade.profit, 0);
   }, [trades]);
 
+  const showTimeLimitToast = useCallback(() => {
+    toast({
+      title: t('trading_limit_reached_title'),
+      description: t('trading_limit_reached_description'),
+      duration: 10000,
+      variant: 'destructive',
+    });
+  }, [t, toast]);
+
   const addCompletedTrade = useCallback((trade: CompletedTrade) => {
     setTrades(prevTrades => [trade, ...prevTrades]);
     setBalance(prevBalance => prevBalance + trade.profit);
-  }, [setBalance, setTrades]);
+    toast({
+        title: 'Trade Closed',
+        description: `Profit of ${trade.profit.toFixed(2)} € from trading ${trade.symbol}`,
+    });
+  }, [setBalance, setTrades, toast]);
 
 
   const runBotTrade = useCallback(() => {
@@ -89,25 +110,53 @@ export function TradingProvider({ children }: { children: ReactNode }) {
     // Use a timeout to simulate the delay between buying and selling
     setTimeout(() => {
         addCompletedTrade(newTrade);
-        toast({
-            title: 'Trade Closed',
-            description: `Profit of ${profit.toFixed(2)} € from trading ${newTrade.symbol}`,
-        });
     }, sellTimestamp - buyTimestamp);
 
-  }, [selectedBot, addCompletedTrade, currentPrice, balance, toast]);
+  }, [selectedBot, addCompletedTrade, currentPrice, balance]);
+
+
+  const stopTrading = useCallback(() => {
+      if (sessionStartTime) {
+        const sessionDuration = (Date.now() - sessionStartTime) / 1000;
+        setTotalTradingTime(prevTime => prevTime + sessionDuration);
+        setSessionStartTime(null);
+      }
+      setIsTrading(false);
+  }, [sessionStartTime, setIsTrading, setTotalTradingTime]);
+  
+  const startTrading = () => {
+    if (isTimeLimitReached) {
+      showTimeLimitToast();
+      return;
+    }
+    setIsTrading(true);
+    setSessionStartTime(Date.now());
+  };
 
   useEffect(() => {
-    if (isTrading && selectedBot) {
-      const randomInterval = 20000 + Math.random() * 40000; // 20s to 60s
-      const intervalId = setInterval(runBotTrade, randomInterval);
+    // When the component loads, if it's already in a trading state, ensure sessionStartTime is set.
+    // This handles page reloads during an active trading session.
+    if (isTrading && !sessionStartTime) {
+        setSessionStartTime(Date.now());
+    }
+  }, [isTrading, sessionStartTime]);
+
+  useEffect(() => {
+    if (isTrading && selectedBot && sessionStartTime) {
+      const intervalId = setInterval(() => {
+        const elapsed = (Date.now() - sessionStartTime) / 1000;
+        if (totalTradingTime + elapsed >= TRADING_TIME_LIMIT_SECONDS) {
+            stopTrading();
+            showTimeLimitToast();
+            clearInterval(intervalId);
+        } else {
+            runBotTrade();
+        }
+      }, 20000 + Math.random() * 40000); // 20s to 60s
       return () => clearInterval(intervalId);
     }
-  }, [isTrading, selectedBot, runBotTrade]);
+  }, [isTrading, selectedBot, runBotTrade, sessionStartTime, totalTradingTime, stopTrading, showTimeLimitToast]);
 
-
-  const startTrading = () => setIsTrading(true);
-  const stopTrading = () => setIsTrading(false);
 
   const value = {
     balance,
@@ -116,6 +165,7 @@ export function TradingProvider({ children }: { children: ReactNode }) {
     startTrading,
     stopTrading,
     dailyProfit,
+    isTimeLimitReached,
   };
 
   return (

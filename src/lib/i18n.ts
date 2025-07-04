@@ -54,6 +54,9 @@ export const translations: Record<Language, Record<string, string>> = {
     'withdraw_funds_button': 'Withdraw Funds',
     'withdraw_funds_title': 'Withdrawal Information',
     'withdraw_funds_notification': 'Trading is conducted in real-time with real market data, but you are using a demo account. To withdraw funds, you must activate a real account by depositing a minimum of $150. Please contact your personal manager.',
+    'trading_limit_reached_title': 'Demo Trading Finished',
+    'trading_limit_reached_description': 'Unfortunately, access to demo trading has ended. Please contact a specialist to activate a real account and start earning.',
+    'trading_locked': 'Trading Locked',
   },
   ru: {
     'app.name': 'Facebook AI',
@@ -108,6 +111,9 @@ export const translations: Record<Language, Record<string, string>> = {
     'withdraw_funds_button': 'Вывод средств',
     'withdraw_funds_title': 'Информация о выводе',
     'withdraw_funds_notification': 'Торговля осуществляется в реальном времени по реальным рыночным данным, но вы используете демо-счет. Для вывода средств необходимо активировать реальный счёт, внеся минимум $150. Обратитесь к своему персональному менеджеру.',
+    'trading_limit_reached_title': 'Демо-торговля завершена',
+    'trading_limit_reached_description': 'К сожалению, доступ к демо-торговле завершён. Обратитесь к специалисту, чтобы активировать реальный счёт и начать зарабатывать.',
+    'trading_locked': 'Торговля заблокирована',
   },
   de: {
     'app.name': 'Facebook AI',
@@ -147,6 +153,9 @@ export const translations: Record<Language, Record<string, string>> = {
     'withdraw_funds_button': 'Geld abheben',
     'withdraw_funds_title': 'Auszahlungsinformationen',
     'withdraw_funds_notification': 'Der Handel wird in Echtzeit mit realen Marktdaten durchgeführt, aber Sie verwenden ein Demokonto. Um Geld abzuheben, müssen Sie ein echtes Konto durch eine Mindesteinzahlung von 150 $ aktivieren. Bitte kontaktieren Sie Ihren persönlichen Manager.',
+    'trading_limit_reached_title': 'Demo-Handel beendet',
+    'trading_limit_reached_description': 'Leider ist der Zugang zum Demo-Handel beendet. Bitte kontaktieren Sie einen Spezialisten, um ein echtes Konto zu aktivieren und mit dem Verdienen zu beginnen.',
+    'trading_locked': 'Handel gesperrt',
   },
   bg: {
     'app.name': 'Facebook AI',
@@ -186,6 +195,9 @@ export const translations: Record<Language, Record<string, string>> = {
     'withdraw_funds_button': 'Теглене на средства',
     'withdraw_funds_title': 'Информация за теглене',
     'withdraw_funds_notification': 'Търговията се извършва в реално време с реални пазарни данни, но вие използвате демо сметка. За да изтеглите средства, трябва да активирате реален акаунт, като депозирате минимум $150. Моля, свържете се с вашия личен мениджър.',
+    'trading_limit_reached_title': 'Демо търговията приключи',
+    'trading_limit_reached_description': 'За съжаление, достъпът до демо търговия приключи. Моля, свържете се със специалист, за да активирате реален акаунт и да започнете да печелите.',
+    'trading_locked': 'Търговията е заключена',
   },
   pl: {
     'app.name': 'Facebook AI',
@@ -225,6 +237,9 @@ export const translations: Record<Language, Record<string, string>> = {
     'withdraw_funds_button': 'Wypłać środki',
     'withdraw_funds_title': 'Informacje o wypłacie',
     'withdraw_funds_notification': 'Handel odbywa się w czasie rzeczywistym z wykorzystaniem rzeczywistych danych rynkowych, ale korzystasz z konta demo. Aby wypłacić środki, musisz aktywować prawdziwe konto, wpłacając co najmniej 150 $. Skontaktuj się ze swoim osobistym menedżerem.',
+    'trading_limit_reached_title': 'Handel demo zakończony',
+    'trading_limit_reached_description': 'Niestety, dostęp do handlu demo został zakończony. Skontaktuj się ze specjalistą, aby aktywować prawdziwe konto i zacząć zarabiać.',
+    'trading_locked': 'Handel zablokowany',
   },
   mo: {
     'app.name': 'Facebook AI',
@@ -264,6 +279,9 @@ export const translations: Record<Language, Record<string, string>> = {
     'withdraw_funds_button': 'Retrage fonduri',
     'withdraw_funds_title': 'Informații despre retragere',
     'withdraw_funds_notification': 'Tranzacționarea se desfășoară în timp real cu date reale de pe piață, dar utilizați un cont demo. Pentru a retrage fonduri, trebuie să activați un cont real depunând cel puțin 150 $. Vă rugăm să contactați managerul personal.',
+    'trading_limit_reached_title': 'Tranzacționarea demo s-a încheiat',
+    'trading_limit_reached_description': 'Din păcate, accesul la tranzacționarea demo s-a încheiat. Vă rugăm să contactați un specialist pentru a activa un cont real și a începe să câștigați.',
+    'trading_locked': 'Tranzacționare blocată',
   },
   sr: {
     'app.name': 'Facebook AI',
@@ -303,5 +321,8 @@ export const translations: Record<Language, Record<string, string>> = {
     'withdraw_funds_button': 'Подигни средства',
     'withdraw_funds_title': 'Информације о повлачењу',
     'withdraw_funds_notification': 'Трговање се врши у реалном времену са стварним тржишним подацима, али ви користите демо налог. Да бисте подигли средства, потребно је да активирате прави налог уплатом од најмање 150 долара. Молимо контактирајте свог личног менаџера.',
+    'trading_limit_reached_title': 'Demo trgovanje je završeno',
+    'trading_limit_reached_description': 'Nažalost, pristup demo trgovanju je završen. Molimo kontaktirajte stručnjaka da aktivirate pravi nalog i počnete da zarađujete.',
+    'trading_locked': 'Trgovanje zaključano',
   },
 };
