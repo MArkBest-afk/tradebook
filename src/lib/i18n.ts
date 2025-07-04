@@ -61,6 +61,9 @@ export const translations: Record<Language, Record<string, string>> = {
     'withdrawal_notification_description': '{name} has withdrawn {amount}.',
     'trade_closed_title': 'Trade Closed',
     'trade_closed_description': 'Profit of {profit} from trading {symbol}',
+    'open_time': 'Open Time',
+    'close_time': 'Close Time',
+    'profit': 'Profit',
   },
   ru: {
     'app.name': 'Facebook AI',
@@ -122,6 +125,9 @@ export const translations: Record<Language, Record<string, string>> = {
     'withdrawal_notification_description': '{name} вывел(а) {amount}.',
     'trade_closed_title': 'Сделка закрыта',
     'trade_closed_description': 'Прибыль {profit} от торговли {symbol}',
+    'open_time': 'Время открытия',
+    'close_time': 'Время закрытия',
+    'profit': 'Прибыль',
   },
   de: {
     'app.name': 'Facebook AI',
@@ -168,6 +174,9 @@ export const translations: Record<Language, Record<string, string>> = {
     'withdrawal_notification_description': '{name} hat {amount} abgehoben.',
     'trade_closed_title': 'Handel geschlossen',
     'trade_closed_description': 'Gewinn von {profit} aus dem Handel mit {symbol}',
+    'open_time': 'Öffnungszeit',
+    'close_time': 'Schlusszeit',
+    'profit': 'Gewinn',
   },
   bg: {
     'app.name': 'Facebook AI',
@@ -214,6 +223,9 @@ export const translations: Record<Language, Record<string, string>> = {
     'withdrawal_notification_description': '{name} изтегли {amount}.',
     'trade_closed_title': 'Сделката е затворена',
     'trade_closed_description': 'Печалба от {profit} от търговия с {symbol}',
+    'open_time': 'Време на отваряне',
+    'close_time': 'Време на затваряне',
+    'profit': 'Печалба',
   },
   pl: {
     'app.name': 'Facebook AI',
@@ -260,6 +272,9 @@ export const translations: Record<Language, Record<string, string>> = {
     'withdrawal_notification_description': '{name} wypłacił(a) {amount}.',
     'trade_closed_title': 'Transakcja zamknięta',
     'trade_closed_description': 'Zysk w wysokości {profit} z handlu na {symbol}',
+    'open_time': 'Czas otwarcia',
+    'close_time': 'Czas zamknięcia',
+    'profit': 'Zysk',
   },
   mo: {
     'app.name': 'Facebook AI',
@@ -306,6 +321,9 @@ export const translations: Record<Language, Record<string, string>> = {
     'withdrawal_notification_description': '{name} a retras {amount}.',
     'trade_closed_title': 'Tranzacție închisă',
     'trade_closed_description': 'Profit de {profit} din tranzacționarea {symbol}',
+    'open_time': 'Ora deschiderii',
+    'close_time': 'Ora închiderii',
+    'profit': 'Profit',
   },
   sr: {
     'app.name': 'Facebook AI',
@@ -352,5 +370,8 @@ export const translations: Record<Language, Record<string, string>> = {
     'withdrawal_notification_description': '{name} је подигао/ла {amount}.',
     'trade_closed_title': 'Trgovina zatvorena',
     'trade_closed_description': 'Profit od {profit} od trgovine {symbol}',
+    'open_time': 'Vreme otvaranja',
+    'close_time': 'Vreme zatvaranja',
+    'profit': 'Profit',
   },
 };

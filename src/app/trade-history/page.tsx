@@ -3,7 +3,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useLanguage } from "@/contexts/language-context";
 import { useTrading } from "@/contexts/trading-context";
-import { TrendingUp, TrendingDown } from "lucide-react";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 const formatCurrency = (value: number) => {
   return new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(value);
@@ -21,31 +21,30 @@ export default function TradeHistoryPage() {
       </CardHeader>
       <CardContent>
         {trades.length > 0 ? (
-          <div className="space-y-4">
-            {trades.map((trade) => (
-              <div key={trade.id} className="flex items-center gap-4 p-2 rounded-lg hover:bg-muted/50">
-                <div className={`p-3 rounded-full ${trade.profit >= 0 ? 'bg-green-100 dark:bg-green-900/50' : 'bg-red-100 dark:bg-red-900/50'}`}>
-                    {trade.profit >= 0 ? <TrendingUp className="h-5 w-5 text-green-600 dark:text-green-400" /> : <TrendingDown className="h-5 w-5 text-red-600 dark:text-red-400" />}
-                </div>
-                <div className="flex-grow">
-                    <p className="font-medium">
-                      {trade.symbol}
-                    </p>
-                    <p className={`text-sm font-semibold ${trade.profit >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                        {formatCurrency(trade.profit)}
-                    </p>
-                </div>
-                <div className="text-right">
-                    <p className="text-sm text-muted-foreground">
-                      {new Date(trade.sellTimestamp).toLocaleDateString()}
-                    </p>
-                    <p className="text-xs text-muted-foreground">
-                      {new Date(trade.buyTimestamp).toLocaleTimeString()} - {new Date(trade.sellTimestamp).toLocaleTimeString()}
-                    </p>
-                </div>
-              </div>
-            ))}
-          </div>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>{t('asset')}</TableHead>
+                <TableHead>{t('open_time')}</TableHead>
+                <TableHead>{t('close_time')}</TableHead>
+                <TableHead>{t('date')}</TableHead>
+                <TableHead className="text-right">{t('profit')}</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {trades.map((trade) => (
+                <TableRow key={trade.id}>
+                  <TableCell className="font-medium">{trade.symbol}</TableCell>
+                  <TableCell>{new Date(trade.buyTimestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}</TableCell>
+                  <TableCell>{new Date(trade.sellTimestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}</TableCell>
+                  <TableCell>{new Date(trade.sellTimestamp).toLocaleDateString()}</TableCell>
+                  <TableCell className={`text-right font-semibold ${trade.profit >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                    {formatCurrency(trade.profit)}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
         ) : (
           <p className="text-sm text-muted-foreground text-center py-8">{t('no_trades_yet')}</p>
         )}
