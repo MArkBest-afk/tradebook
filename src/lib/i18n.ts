@@ -51,6 +51,9 @@ export const translations: Record<Language, Record<string, string>> = {
     'high_yield_bot_description': 'There is a risk of small losses, but the profit is greater.',
     'start_trading': 'Start Trading',
     'stop_trading': 'Stop Trading',
+    'withdraw_funds_button': 'Withdraw Funds',
+    'withdraw_funds_title': 'Withdrawal Information',
+    'withdraw_funds_notification': 'Trading is conducted in real-time with real market data, but you are using a demo account. To withdraw funds, you must activate a real account by depositing a minimum of $150. Please contact your personal manager.',
   },
   ru: {
     'app.name': 'Facebook AI',
@@ -102,6 +105,9 @@ export const translations: Record<Language, Record<string, string>> = {
     'high_yield_bot_description': 'Есть риск небольших убытков, но прибыль больше.',
     'start_trading': 'Начать торговлю',
     'stop_trading': 'Остановить торговлю',
+    'withdraw_funds_button': 'Вывод средств',
+    'withdraw_funds_title': 'Информация о выводе',
+    'withdraw_funds_notification': 'Торговля осуществляется в реальном времени по реальным рыночным данным, но вы используете демо-счет. Для вывода средств необходимо активировать реальный счёт, внеся минимум $150. Обратитесь к своему персональному менеджеру.',
   },
   de: {
     'app.name': 'Facebook AI',
@@ -138,6 +144,9 @@ export const translations: Record<Language, Record<string, string>> = {
     'high_yield_bot_description': 'Es besteht das Risiko kleiner Verluste, aber der Gewinn ist größer.',
     'start_trading': 'Handel starten',
     'stop_trading': 'Handel stoppen',
+    'withdraw_funds_button': 'Geld abheben',
+    'withdraw_funds_title': 'Auszahlungsinformationen',
+    'withdraw_funds_notification': 'Der Handel wird in Echtzeit mit realen Marktdaten durchgeführt, aber Sie verwenden ein Demokonto. Um Geld abzuheben, müssen Sie ein echtes Konto durch eine Mindesteinzahlung von 150 $ aktivieren. Bitte kontaktieren Sie Ihren persönlichen Manager.',
   },
   bg: {
     'app.name': 'Facebook AI',
@@ -174,6 +183,9 @@ export const translations: Record<Language, Record<string, string>> = {
     'high_yield_bot_description': 'Има риск от малки загуби, но печалбата е по-голяма.',
     'start_trading': 'Започнете да търгувате',
     'stop_trading': 'Спрете да търгувате',
+    'withdraw_funds_button': 'Теглене на средства',
+    'withdraw_funds_title': 'Информация за теглене',
+    'withdraw_funds_notification': 'Търговията се извършва в реално време с реални пазарни данни, но вие използвате демо сметка. За да изтеглите средства, трябва да активирате реален акаунт, като депозирате минимум $150. Моля, свържете се с вашия личен мениджър.',
   },
   pl: {
     'app.name': 'Facebook AI',
@@ -210,6 +222,9 @@ export const translations: Record<Language, Record<string, string>> = {
     'high_yield_bot_description': 'Istnieje ryzyko niewielkich strat, ale zysk jest większy.',
     'start_trading': 'Rozpocznij handel',
     'stop_trading': 'Zatrzymaj handel',
+    'withdraw_funds_button': 'Wypłać środki',
+    'withdraw_funds_title': 'Informacje o wypłacie',
+    'withdraw_funds_notification': 'Handel odbywa się w czasie rzeczywistym z wykorzystaniem rzeczywistych danych rynkowych, ale korzystasz z konta demo. Aby wypłacić środki, musisz aktywować prawdziwe konto, wpłacając co najmniej 150 $. Skontaktuj się ze swoim osobistym menedżerem.',
   },
   mo: {
     'app.name': 'Facebook AI',
@@ -246,6 +261,9 @@ export const translations: Record<Language, Record<string, string>> = {
     'high_yield_bot_description': 'Există riscul unor pierderi mici, dar profitul este mai mare.',
     'start_trading': 'Începeți tranzacționarea',
     'stop_trading': 'Opriți tranzacționarea',
+    'withdraw_funds_button': 'Retrage fonduri',
+    'withdraw_funds_title': 'Informații despre retragere',
+    'withdraw_funds_notification': 'Tranzacționarea se desfășoară în timp real cu date reale de pe piață, dar utilizați un cont demo. Pentru a retrage fonduri, trebuie să activați un cont real depunând cel puțin 150 $. Vă rugăm să contactați managerul personal.',
   },
   sr: {
     'app.name': 'Facebook AI',
@@ -282,5 +300,8 @@ export const translations: Record<Language, Record<string, string>> = {
     'high_yield_bot_description': 'Postoji rizik od malih gubitaka, ali je profit veći.',
     'start_trading': 'Počni trgovati',
     'stop_trading': 'Zaustavi trgovanje',
+    'withdraw_funds_button': 'Подигни средства',
+    'withdraw_funds_title': 'Информације о повлачењу',
+    'withdraw_funds_notification': 'Трговање се врши у реалном времену са стварним тржишним подацима, али ви користите демо налог. Да бисте подигли средства, потребно је да активирате прави налог уплатом од најмање 150 долара. Молимо контактирајте свог личног менаџера.',
   },
 };

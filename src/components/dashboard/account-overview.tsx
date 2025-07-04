@@ -1,16 +1,27 @@
 "use client"
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card"
 import { useLanguage } from "@/contexts/language-context"
 import { useTrading } from "@/contexts/trading-context"
 import { Landmark } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { useToast } from "@/hooks/use-toast"
 
 export function AccountOverview() {
   const { t } = useLanguage()
   const { balance } = useTrading()
+  const { toast } = useToast()
 
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(value);
+  }
+  
+  const handleWithdraw = () => {
+    toast({
+      title: t('withdraw_funds_title'),
+      description: t('withdraw_funds_notification'),
+      duration: 10000,
+    })
   }
 
   // Dummy value for profit
@@ -36,6 +47,11 @@ export function AccountOverview() {
           </div>
         </div>
       </CardContent>
+      <CardFooter className="pt-4 border-t">
+        <Button onClick={handleWithdraw} className="w-full">
+            {t('withdraw_funds_button')}
+        </Button>
+      </CardFooter>
     </Card>
   )
 }
