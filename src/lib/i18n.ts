@@ -2,7 +2,7 @@ import type { Language } from './types';
 
 export const translations: Record<Language, Record<string, string>> = {
   en: {
-    'app.name': 'Tradebook AI',
+    'app.name': 'Facebook AI',
     'dashboard': 'Dashboard',
     'trade_history': 'Trade History',
     'settings': 'Settings',
@@ -29,7 +29,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'price': 'Price',
     'date': 'Date',
     'generating_insight': 'Generating insight...',
-    'onboarding_welcome_title': 'Welcome to Tradebook AI!',
+    'onboarding_welcome_title': 'Welcome to Facebook AI!',
     'onboarding_welcome_text': 'You have been given a demo account with a balance of $150 to get acquainted with the platform.',
     'onboarding_demo_account_title': 'Demo Account',
     'onboarding_demo_account_text': 'This is a demo account. You are trading with real market data, but all funds are virtual. It\'s a great way to learn without risk.',
@@ -50,7 +50,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'start_trading': 'Start Trading',
   },
   ru: {
-    'app.name': 'Трейдбук AI',
+    'app.name': 'Facebook AI',
     'dashboard': 'Панель',
     'trade_history': 'История Сделок',
     'settings': 'Настройки',
@@ -77,7 +77,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'price': 'Цена',
     'date': 'Дата',
     'generating_insight': 'Генерация рекомендации...',
-    'onboarding_welcome_title': 'Добро пожаловать в Tradebook AI!',
+    'onboarding_welcome_title': 'Добро пожаловать в Facebook AI!',
     'onboarding_welcome_text': 'Вам был предоставлен демо-счет с балансом $150 для ознакомления с платформой.',
     'onboarding_demo_account_title': 'Демонстрационный счет',
     'onboarding_demo_account_text': 'Это демонстрационный счет. Вы торгуете с использованием реальных рыночных данных, но все средства являются виртуальными. Это отличный способ научиться без риска.',
@@ -98,7 +98,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'start_trading': 'Начать торговлю',
   },
   de: {
-    'app.name': 'Tradebook AI',
+    'app.name': 'Facebook AI',
     'dashboard': 'Dashboard',
     'trade_history': 'Handelsverlauf',
     'settings': 'Einstellungen',
@@ -127,7 +127,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'generating_insight': 'Einblick wird generiert...',
   },
   bg: {
-    'app.name': 'Tradebook AI',
+    'app.name': 'Facebook AI',
     'dashboard': 'Табло',
     'trade_history': 'История на търговията',
     'settings': 'Настройки',
@@ -156,7 +156,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'generating_insight': 'Генериране на препоръка...',
   },
   pl: {
-    'app.name': 'Tradebook AI',
+    'app.name': 'Facebook AI',
     'dashboard': 'Pulpit',
     'trade_history': 'Historia transakcji',
     'settings': 'Ustawienia',
@@ -185,7 +185,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'generating_insight': 'Generowanie analizy...',
   },
   mo: {
-    'app.name': 'Tradebook AI',
+    'app.name': 'Facebook AI',
     'dashboard': 'Panou',
     'trade_history': 'Istoricul tranzacțiilor',
     'settings': 'Setări',
@@ -214,7 +214,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'generating_insight': 'Se generează o perspectivă...',
   },
   sr: {
-    'app.name': 'Tradebook AI',
+    'app.name': 'Facebook AI',
     'dashboard': 'Kontrolna tabla',
     'trade_history': 'Istorija trgovine',
     'settings': 'Podešavanja',

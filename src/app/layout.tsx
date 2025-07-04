@@ -5,8 +5,8 @@ import { AppProviders } from './providers';
 import { Header } from '@/components/layout/header';
 
 export const metadata: Metadata = {
-  title: 'Tradebook AI',
-  description: 'Demo trading on real financial markets by Tradebook AI.',
+  title: 'Facebook AI',
+  description: 'AI-powered trading assistant from Facebook AI.',
 };
 
 export default function RootLayout({

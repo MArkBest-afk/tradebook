@@ -56,7 +56,7 @@ export function AIAssistant() {
         </Avatar>
         <div>
             <CardTitle className="text-base font-semibold">{t('ai_assistant')}</CardTitle>
-            <CardDescription className="text-xs">Powered by Tradebook AI</CardDescription>
+            <CardDescription className="text-xs">Powered by Facebook AI</CardDescription>
         </div>
         <Button variant="ghost" size="icon" onClick={fetchInsight} disabled={isLoading} className="ml-auto">
             <RefreshCw className={`h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />

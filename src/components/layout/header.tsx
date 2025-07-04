@@ -21,10 +21,10 @@ export function Header() {
   const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-30 flex h-16 items-center gap-4 border-b bg-card px-4 sm:px-6">
+    <header className="sticky top-0 z-30 flex h-16 items-center gap-4 bg-primary px-4 text-primary-foreground sm:px-6">
       <div className="flex items-center gap-2">
         <Link href="/" className="flex items-center gap-2 font-semibold">
-            <Facebook className="h-8 w-8 text-primary" />
+            <Facebook className="h-8 w-8 text-primary-foreground" />
         </Link>
       </div>
       
@@ -34,8 +34,8 @@ export function Header() {
             key={item.href}
             href={item.href}
             className={cn(
-              "flex h-12 w-24 flex-col items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-primary",
-              pathname === item.href && "text-primary bg-primary/10"
+              "flex h-12 w-24 flex-col items-center justify-center rounded-lg text-primary-foreground/80 transition-colors hover:bg-black/10 hover:text-primary-foreground",
+              pathname === item.href && "bg-black/20 text-primary-foreground"
             )}
             title={t(item.label)}
           >
