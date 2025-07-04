@@ -6,6 +6,7 @@ import { useLocalStorage } from '@/hooks/use-local-storage';
 import { useToast } from '@/hooks/use-toast';
 import { useAppContext } from './app-context';
 import { useLanguage } from './language-context';
+import { names } from '@/lib/data';
 
 interface TradingContextType {
   balance: number;
@@ -68,8 +69,6 @@ export function TradingProvider({ children }: { children: ReactNode }) {
 
 
   const runBotTrade = useCallback(() => {
-    if (!selectedBot) return;
-
     // Unified trading strategy for all bots.
     // Trades are opened for an amount in the range of 16-25 EUR.
     const tradeValueEur = 16 + Math.random() * 9; 
@@ -112,7 +111,7 @@ export function TradingProvider({ children }: { children: ReactNode }) {
         addCompletedTrade(newTrade);
     }, sellTimestamp - buyTimestamp);
 
-  }, [selectedBot, addCompletedTrade, currentPrice, balance]);
+  }, [addCompletedTrade, currentPrice, balance]);
 
 
   const stopTrading = useCallback(() => {
@@ -156,6 +155,42 @@ export function TradingProvider({ children }: { children: ReactNode }) {
       return () => clearInterval(intervalId);
     }
   }, [isTrading, selectedBot, runBotTrade, sessionStartTime, totalTradingTime, stopTrading, showTimeLimitToast]);
+
+  useEffect(() => {
+    if (!isTrading) {
+      return;
+    }
+
+    let timeoutId: NodeJS.Timeout;
+
+    const showRandomWithdrawal = () => {
+      if (!isTrading) {
+        return;
+      }
+
+      const randomName = names[Math.floor(Math.random() * names.length)];
+      const randomAmount = Math.floor(Math.random() * (399 - 53 + 1)) + 53;
+      const amountString = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(randomAmount);
+      
+      const description = t('withdrawal_notification_description')
+        .replace('{name}', randomName)
+        .replace('{amount}', amountString);
+
+      toast({
+        title: t('withdrawal_notification_title'),
+        description: description,
+        duration: 5000,
+      });
+
+      const nextInterval = 45000 + Math.random() * 45000; // 45s to 90s
+      timeoutId = setTimeout(showRandomWithdrawal, nextInterval);
+    };
+
+    const firstTimeout = 45000 + Math.random() * 45000;
+    timeoutId = setTimeout(showRandomWithdrawal, firstTimeout);
+
+    return () => clearTimeout(timeoutId);
+  }, [isTrading, t, toast]);
 
 
   const value = {
