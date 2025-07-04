@@ -3,12 +3,13 @@
 import { useState } from "react"
 import { Bot, RefreshCw } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { useLanguage } from "@/contexts/language-context"
 import { useTrading } from "@/contexts/trading-context"
 import { getMarketInsights, type MarketInsightsOutput } from "@/ai/flows/market-insights"
 import { Skeleton } from "../ui/skeleton"
 import { useAppContext } from "@/contexts/app-context"
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
 
 export function AIAssistant() {
   const { t } = useLanguage()
@@ -48,19 +49,18 @@ export function AIAssistant() {
 
   return (
     <Card>
-      <CardHeader>
-        <div className="flex items-start justify-between">
-            <div>
-                <CardTitle className="flex items-center gap-2">
-                    <Bot className="h-5 w-5" />
-                    {t('ai_assistant')}
-                </CardTitle>
-                <CardDescription>AI-powered trade recommendations</CardDescription>
-            </div>
-             <Button variant="ghost" size="icon" onClick={fetchInsight} disabled={isLoading}>
-                <RefreshCw className={`h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />
-            </Button>
+      <CardHeader className="flex flex-row items-center space-x-4 pb-4">
+        <Avatar>
+            <AvatarImage src="https://placehold.co/40x40" alt="AI Assistant" data-ai-hint="robot face" />
+            <AvatarFallback>AI</AvatarFallback>
+        </Avatar>
+        <div>
+            <CardTitle className="text-base font-semibold">{t('ai_assistant')}</CardTitle>
+            <CardDescription className="text-xs">Powered by Tradebook AI</CardDescription>
         </div>
+        <Button variant="ghost" size="icon" onClick={fetchInsight} disabled={isLoading} className="ml-auto">
+            <RefreshCw className={`h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />
+        </Button>
       </CardHeader>
       <CardContent className="min-h-[160px]">
         {isLoading && (
@@ -74,11 +74,11 @@ export function AIAssistant() {
         {insight && !isLoading && (
           <div className="space-y-4">
             <div>
-              <h4 className="font-semibold">Recommendation:</h4>
-              <p className="text-sm text-primary">{insight.recommendation}</p>
+              <h4 className="font-semibold text-primary/90">Recommendation:</h4>
+              <p className="text-sm">{insight.recommendation}</p>
             </div>
             <div>
-              <h4 className="font-semibold">Reasoning:</h4>
+              <h4 className="font-semibold text-primary/90">Reasoning:</h4>
               <p className="text-sm text-muted-foreground">{insight.reasoning}</p>
             </div>
           </div>

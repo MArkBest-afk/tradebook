@@ -1,40 +1,50 @@
 "use client"
 
-import { Facebook, PanelLeft } from "lucide-react"
+import { Facebook, LayoutDashboard, History, Settings } from "lucide-react"
 import Link from "next/link"
+import { usePathname } from "next/navigation"
 
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { UserNav } from "./user-nav"
 import { LanguageSwitcher } from "../language-switcher"
-import { AppSidebar } from "./sidebar"
 import { useLanguage } from "@/contexts/language-context"
+import { cn } from "@/lib/utils"
+
+const navItems = [
+  { href: "/", icon: LayoutDashboard, label: "dashboard" },
+  { href: "/trade-history", icon: History, label: "trade_history" },
+  { href: "/settings", icon: Settings, label: "settings" },
+]
 
 export function Header() {
   const { t } = useLanguage();
+  const pathname = usePathname();
+
   return (
-    <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
-      <Sheet>
-        <SheetTrigger asChild>
-          <Button size="icon" variant="outline" className="sm:hidden">
-            <PanelLeft className="h-5 w-5" />
-            <span className="sr-only">Toggle Menu</span>
-          </Button>
-        </SheetTrigger>
-        <SheetContent side="left" className="sm:max-w-xs">
-          <AppSidebar />
-        </SheetContent>
-      </Sheet>
-      <div className="relative ml-auto flex-1 md:grow-0">
+    <header className="sticky top-0 z-30 flex h-16 items-center gap-4 border-b bg-card px-4 sm:px-6">
+      <div className="flex items-center gap-2">
         <Link href="/" className="flex items-center gap-2 font-semibold">
-            <Facebook className="h-6 w-6 text-primary" />
-            <span className="">{t('app.name')}</span>
+            <Facebook className="h-8 w-8 text-primary" />
         </Link>
       </div>
-      <div className="relative ml-auto flex-1 md:grow-0">
-        {/* Placeholder for future search */}
-      </div>
+      
+      <nav className="flex-1 flex justify-center items-center gap-1 sm:gap-4">
+        {navItems.map((item) => (
+          <Link
+            key={item.href}
+            href={item.href}
+            className={cn(
+              "flex h-12 w-24 flex-col items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-primary",
+              pathname === item.href && "text-primary bg-primary/10"
+            )}
+            title={t(item.label)}
+          >
+            <item.icon className="h-6 w-6" />
+            <span className="sr-only">{t(item.label)}</span>
+          </Link>
+        ))}
+      </nav>
+
       <div className="flex items-center gap-2">
         <LanguageSwitcher />
         <UserNav />
