@@ -29,7 +29,7 @@ export default function TradeHistoryPage() {
                 </div>
                 <div className="flex-grow">
                     <p className="font-medium">
-                      <span className={`capitalize font-semibold ${trade.type === 'buy' ? 'text-green-600' : 'text-red-600'}`}>{t(trade.type)}</span> {trade.amount.toFixed(2)} of {trade.symbol}
+                      <span className={`capitalize font-semibold ${trade.type === 'buy' ? 'text-green-600' : 'text-red-600'}`}>{t(trade.type)}</span> {trade.amount.toFixed(6)} of {trade.symbol}
                     </p>
                     <p className="text-sm text-muted-foreground">
                         at {formatCurrency(trade.price)}

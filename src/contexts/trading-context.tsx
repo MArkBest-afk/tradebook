@@ -33,87 +33,90 @@ export function TradingProvider({ children }: { children: ReactNode }) {
 
   const executeTrade = useCallback((trade: Omit<Trade, 'id' | 'timestamp'>) => {
     const cost = trade.amount * trade.price;
-    const timestamp = Date.now();
-    tradeCounter += 1;
 
+    if (trade.type === 'buy' && balance < cost) {
+      toast({
+        title: 'Error',
+        description: 'Not enough balance to execute trade.',
+        variant: 'destructive',
+      });
+      return;
+    }
+    
+    tradeCounter++;
     const newTrade: Trade = {
       ...trade,
-      id: `${timestamp}-${tradeCounter}`,
-      timestamp: timestamp,
+      id: `${Date.now()}-${tradeCounter}`,
+      timestamp: Date.now(),
     };
 
-    setBalance(prevBalance => {
-      if (trade.type === 'buy' && prevBalance < cost) {
-        toast({
-          title: 'Error',
-          description: 'Not enough balance to execute trade.',
-          variant: 'destructive',
-        });
-        return prevBalance;
-      }
-      
-      setTrades(prevTrades => [newTrade, ...prevTrades]);
+    setTrades(prevTrades => [newTrade, ...prevTrades]);
+    setBalance(prevBalance => trade.type === 'buy' ? prevBalance - cost : prevBalance + cost);
 
-      if (trade.type === 'sell') {
-         toast({
-          title: 'Trade Closed',
-          description: `Sold ${trade.amount.toFixed(2)} ${trade.symbol} at €${trade.price.toFixed(2)}`,
-        });
-      }
+    if (trade.type === 'sell') {
+      toast({
+        title: 'Trade Closed',
+        description: `Sold ${trade.amount.toFixed(6)} ${trade.symbol} at €${trade.price.toFixed(2)}`,
+      });
+    } else if (trade.type === 'buy') {
+      toast({
+        title: 'Trade Opened',
+        description: `Bought ${trade.amount.toFixed(6)} ${trade.symbol} at €${trade.price.toFixed(2)}`,
+      });
+    }
+  }, [balance, setBalance, setTrades, toast]);
 
-      return trade.type === 'buy' ? prevBalance - cost : prevBalance + cost;
-    });
-  }, [setBalance, setTrades, toast]);
 
   const runBotTrade = useCallback(() => {
     if (!selectedBot) return;
 
-    let minAmount: number, maxAmount: number;
+    let tradeValueEur: number;
 
     switch (selectedBot) {
       case 'cautious':
-        minAmount = 10; maxAmount = 15;
+        tradeValueEur = 10 + Math.random() * 5; // 10-15
         break;
       case 'balanced':
-        minAmount = 16; maxAmount = 25;
+        tradeValueEur = 16 + Math.random() * 9; // 16-25
         break;
       case 'high-yield':
-        minAmount = 26; maxAmount = 45;
+        tradeValueEur = 26 + Math.random() * 19; // 26-45
         break;
       default:
         return;
     }
 
-    const tradeAmount = minAmount + Math.random() * (maxAmount - minAmount);
     const isProfitable = Math.random() < 0.8; // 80% chance for profit, within 70-85% range
     const profitMargin = 0.1 + Math.random() * 0.1; // 10-20%
 
-    setCurrentPrice(prevPrice => {
-      const buyPrice = prevPrice * (1 + (Math.random() - 0.5) * 0.01); // Fluctuate price slightly
-      const sellPrice = isProfitable ? buyPrice * (1 + profitMargin) : buyPrice * (1 - profitMargin);
-      
-      const baseTrade = {
-        symbol: 'BTC/EUR',
-        amount: tradeAmount,
-      };
+    // Simulate price fluctuation for buy/sell
+    const newPrice = currentPrice * (1 + (Math.random() - 0.49) * 0.02); // Fluctuate up to 1% up or down
+    setCurrentPrice(newPrice);
+    
+    const buyPrice = newPrice;
+    const cryptoAmount = tradeValueEur / buyPrice;
 
+    const sellPrice = isProfitable ? buyPrice * (1 + profitMargin) : buyPrice * (1 - (profitMargin / 2));
+    
+    const baseTrade = {
+      symbol: 'BTC/EUR',
+      amount: cryptoAmount,
+    };
+
+    executeTrade({
+      ...baseTrade,
+      type: 'buy',
+      price: buyPrice,
+    });
+
+    setTimeout(() => {
       executeTrade({
         ...baseTrade,
-        type: 'buy',
-        price: buyPrice,
+        type: 'sell',
+        price: sellPrice,
       });
-
-      setTimeout(() => {
-        executeTrade({
-          ...baseTrade,
-          type: 'sell',
-          price: sellPrice,
-        });
-      }, 3000 + Math.random() * 4000);
-
-      return buyPrice;
-    });
-  }, [selectedBot, executeTrade]);
+    }, 3000 + Math.random() * 4000);
+  }, [selectedBot, executeTrade, currentPrice]);
 
   useEffect(() => {
     if (isTrading && selectedBot) {
