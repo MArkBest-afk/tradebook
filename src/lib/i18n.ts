@@ -58,7 +58,9 @@ export const translations: Record<Language, Record<string, string>> = {
     'trading_limit_reached_description': 'Unfortunately, access to demo trading has ended. Please contact a specialist to activate a real account and start earning.',
     'trading_locked': 'Trading Locked',
     'withdrawal_notification_title': 'Withdrawal',
-    'withdrawal_notification_description': '{name} has withdrawn {amount}.'
+    'withdrawal_notification_description': '{name} has withdrawn {amount}.',
+    'trade_closed_title': 'Trade Closed',
+    'trade_closed_description': 'Profit of {profit} from trading {symbol}',
   },
   ru: {
     'app.name': 'Facebook AI',
@@ -117,7 +119,9 @@ export const translations: Record<Language, Record<string, string>> = {
     'trading_limit_reached_description': 'К сожалению, доступ к демо-торговле завершён. Обратитесь к специалисту, чтобы активировать реальный счёт и начать зарабатывать.',
     'trading_locked': 'Торговля заблокирована',
     'withdrawal_notification_title': 'Вывод средств',
-    'withdrawal_notification_description': '{name} вывел(а) {amount}.'
+    'withdrawal_notification_description': '{name} вывел(а) {amount}.',
+    'trade_closed_title': 'Сделка закрыта',
+    'trade_closed_description': 'Прибыль {profit} от торговли {symbol}',
   },
   de: {
     'app.name': 'Facebook AI',
@@ -161,7 +165,9 @@ export const translations: Record<Language, Record<string, string>> = {
     'trading_limit_reached_description': 'Leider ist der Zugang zum Demo-Handel beendet. Bitte kontaktieren Sie einen Spezialisten, um ein echtes Konto zu aktivieren und mit dem Verdienen zu beginnen.',
     'trading_locked': 'Handel gesperrt',
     'withdrawal_notification_title': 'Auszahlung',
-    'withdrawal_notification_description': '{name} hat {amount} abgehoben.'
+    'withdrawal_notification_description': '{name} hat {amount} abgehoben.',
+    'trade_closed_title': 'Handel geschlossen',
+    'trade_closed_description': 'Gewinn von {profit} aus dem Handel mit {symbol}',
   },
   bg: {
     'app.name': 'Facebook AI',
@@ -205,7 +211,9 @@ export const translations: Record<Language, Record<string, string>> = {
     'trading_limit_reached_description': 'За съжаление, достъпът до демо търговия приключи. Моля, свържете се със специалист, за да активирате реален акаунт и да започнете да печелите.',
     'trading_locked': 'Търговията е заключена',
     'withdrawal_notification_title': 'Изтегляне',
-    'withdrawal_notification_description': '{name} изтегли {amount}.'
+    'withdrawal_notification_description': '{name} изтегли {amount}.',
+    'trade_closed_title': 'Сделката е затворена',
+    'trade_closed_description': 'Печалба от {profit} от търговия с {symbol}',
   },
   pl: {
     'app.name': 'Facebook AI',
@@ -249,7 +257,9 @@ export const translations: Record<Language, Record<string, string>> = {
     'trading_limit_reached_description': 'Niestety, dostęp do handlu demo został zakończony. Skontaktuj się ze specjalistą, aby aktywować prawdziwe konto i zacząć zarabiać.',
     'trading_locked': 'Handel zablokowany',
     'withdrawal_notification_title': 'Wypłata',
-    'withdrawal_notification_description': '{name} wypłacił(a) {amount}.'
+    'withdrawal_notification_description': '{name} wypłacił(a) {amount}.',
+    'trade_closed_title': 'Transakcja zamknięta',
+    'trade_closed_description': 'Zysk w wysokości {profit} z handlu na {symbol}',
   },
   mo: {
     'app.name': 'Facebook AI',
@@ -293,7 +303,9 @@ export const translations: Record<Language, Record<string, string>> = {
     'trading_limit_reached_description': 'Din păcate, accesul la tranzacționarea demo s-a încheiat. Vă rugăm să contactați un specialist pentru a activa un cont real și a începe să câștigați.',
     'trading_locked': 'Tranzacționare blocată',
     'withdrawal_notification_title': 'Retragere',
-    'withdrawal_notification_description': '{name} a retras {amount}.'
+    'withdrawal_notification_description': '{name} a retras {amount}.',
+    'trade_closed_title': 'Tranzacție închisă',
+    'trade_closed_description': 'Profit de {profit} din tranzacționarea {symbol}',
   },
   sr: {
     'app.name': 'Facebook AI',
@@ -337,6 +349,8 @@ export const translations: Record<Language, Record<string, string>> = {
     'trading_limit_reached_description': 'Nažalost, pristup demo trgovanju je završen. Molimo kontaktirajte stručnjaka da aktivirate pravi nalog i počnete da zarađujete.',
     'trading_locked': 'Trgovanje zaključano',
     'withdrawal_notification_title': 'Повлачење',
-    'withdrawal_notification_description': '{name} је подигао/ла {amount}.'
+    'withdrawal_notification_description': '{name} је подигао/ла {amount}.',
+    'trade_closed_title': 'Trgovina zatvorena',
+    'trade_closed_description': 'Profit od {profit} od trgovine {symbol}',
   },
 };

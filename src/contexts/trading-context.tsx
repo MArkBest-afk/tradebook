@@ -62,10 +62,12 @@ export function TradingProvider({ children }: { children: ReactNode }) {
     setTrades(prevTrades => [trade, ...prevTrades]);
     setBalance(prevBalance => prevBalance + trade.profit);
     toast({
-        title: 'Trade Closed',
-        description: `Profit of ${trade.profit.toFixed(2)} € from trading ${trade.symbol}`,
+        title: t('trade_closed_title'),
+        description: t('trade_closed_description')
+          .replace('{profit}', `${trade.profit.toFixed(2)} €`)
+          .replace('{symbol}', trade.symbol),
     });
-  }, [setBalance, setTrades, toast]);
+  }, [setBalance, setTrades, toast, t]);
 
 
   const runBotTrade = useCallback(() => {
@@ -170,7 +172,7 @@ export function TradingProvider({ children }: { children: ReactNode }) {
 
       const randomName = names[Math.floor(Math.random() * names.length)];
       const randomAmount = Math.floor(Math.random() * (399 - 53 + 1)) + 53;
-      const amountString = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(randomAmount);
+      const amountString = new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(randomAmount);
       
       const description = t('withdrawal_notification_description')
         .replace('{name}', randomName)
