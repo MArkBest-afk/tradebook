@@ -13,13 +13,14 @@ import {
 } from "@/components/ui/dropdown-menu"
 
 export function LanguageSwitcher() {
-  const { setLanguage } = useLanguage()
+  const { language, setLanguage } = useLanguage()
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon">
-          <Globe className="h-[1.2rem] w-[1.2rem]" />
+        <Button variant="ghost" size="sm" className="gap-1.5">
+          <Globe className="h-5 w-5" />
+          <span className="uppercase">{language}</span>
           <span className="sr-only">Change language</span>
         </Button>
       </DropdownMenuTrigger>
