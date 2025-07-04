@@ -28,20 +28,21 @@ export function TradeHistory() {
           <div className="space-y-4">
             {recentTrades.map((trade) => (
               <div key={trade.id} className="flex items-center gap-4">
-                <div className={`p-2 rounded-full ${trade.type === 'buy' ? 'bg-green-100 dark:bg-green-900/50' : 'bg-red-100 dark:bg-red-900/50'}`}>
-                    {trade.type === 'buy' ? <TrendingUp className="h-5 w-5 text-green-600 dark:text-green-400" /> : <TrendingDown className="h-5 w-5 text-red-600 dark:text-red-400" />}
+                <div className={`p-2 rounded-full ${trade.profit >= 0 ? 'bg-green-100 dark:bg-green-900/50' : 'bg-red-100 dark:bg-red-900/50'}`}>
+                    {trade.profit >= 0 ? <TrendingUp className="h-5 w-5 text-green-600 dark:text-green-400" /> : <TrendingDown className="h-5 w-5 text-red-600 dark:text-red-400" />}
                 </div>
                 <div className="flex-grow">
                     <p className="font-medium">
-                        <span className={`capitalize font-semibold ${trade.type === 'buy' ? 'text-green-600' : 'text-red-600'}`}>{t(trade.type)}</span> {trade.amount.toFixed(6)} of {trade.symbol}
+                        {trade.symbol}
                     </p>
-                    <p className="text-sm text-muted-foreground">
-                        at {formatCurrency(trade.price)}
+                    <p className={`text-sm font-semibold ${trade.profit >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                        {formatCurrency(trade.profit)}
                     </p>
                 </div>
-                <p className="text-sm text-muted-foreground">
-                  {new Date(trade.timestamp).toLocaleTimeString()}
-                </p>
+                <div className="text-right text-sm text-muted-foreground">
+                  <p>{new Date(trade.buyTimestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
+                  <p>{new Date(trade.sellTimestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
+                </div>
               </div>
             ))}
           </div>

@@ -24,23 +24,23 @@ export default function TradeHistoryPage() {
           <div className="space-y-4">
             {trades.map((trade) => (
               <div key={trade.id} className="flex items-center gap-4 p-2 rounded-lg hover:bg-muted/50">
-                <div className={`p-3 rounded-full ${trade.type === 'buy' ? 'bg-green-100 dark:bg-green-900/50' : 'bg-red-100 dark:bg-red-900/50'}`}>
-                    {trade.type === 'buy' ? <TrendingUp className="h-5 w-5 text-green-600 dark:text-green-400" /> : <TrendingDown className="h-5 w-5 text-red-600 dark:text-red-400" />}
+                <div className={`p-3 rounded-full ${trade.profit >= 0 ? 'bg-green-100 dark:bg-green-900/50' : 'bg-red-100 dark:bg-red-900/50'}`}>
+                    {trade.profit >= 0 ? <TrendingUp className="h-5 w-5 text-green-600 dark:text-green-400" /> : <TrendingDown className="h-5 w-5 text-red-600 dark:text-red-400" />}
                 </div>
                 <div className="flex-grow">
                     <p className="font-medium">
-                      <span className={`capitalize font-semibold ${trade.type === 'buy' ? 'text-green-600' : 'text-red-600'}`}>{t(trade.type)}</span> {trade.amount.toFixed(6)} of {trade.symbol}
+                      {trade.symbol}
                     </p>
-                    <p className="text-sm text-muted-foreground">
-                        at {formatCurrency(trade.price)}
+                    <p className={`text-sm font-semibold ${trade.profit >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                        {formatCurrency(trade.profit)}
                     </p>
                 </div>
                 <div className="text-right">
                     <p className="text-sm text-muted-foreground">
-                      {new Date(trade.timestamp).toLocaleDateString()}
+                      {new Date(trade.sellTimestamp).toLocaleDateString()}
                     </p>
                     <p className="text-xs text-muted-foreground">
-                      {new Date(trade.timestamp).toLocaleTimeString()}
+                      {new Date(trade.buyTimestamp).toLocaleTimeString()} - {new Date(trade.sellTimestamp).toLocaleTimeString()}
                     </p>
                 </div>
               </div>

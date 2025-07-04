@@ -1,15 +1,14 @@
 "use client";
 
 import { createContext, useContext, ReactNode, useCallback, useEffect, useState } from 'react';
-import type { Trade } from '@/lib/types';
+import type { CompletedTrade } from '@/lib/types';
 import { useLocalStorage } from '@/hooks/use-local-storage';
 import { useToast } from '@/hooks/use-toast';
 import { useAppContext } from './app-context';
 
 interface TradingContextType {
   balance: number;
-  trades: Trade[];
-  executeTrade: (trade: Omit<Trade, 'id' | 'timestamp'>) => void;
+  trades: CompletedTrade[];
   isTrading: boolean;
   startTrading: () => void;
   stopTrading: () => void;
@@ -18,31 +17,22 @@ interface TradingContextType {
 const TradingContext = createContext<TradingContextType | undefined>(undefined);
 
 const INITIAL_BALANCE = 150;
-const INITIAL_TRADES: Trade[] = [];
+const INITIAL_TRADES: CompletedTrade[] = [];
 
 let tradeCounter = 0;
 
 export function TradingProvider({ children }: { children: ReactNode }) {
-  const [balance, setBalance] = useLocalStorage<number>('trading-balance-v4', INITIAL_BALANCE);
-  const [trades, setTrades] = useLocalStorage<Trade[]>('trading-trades-v4', INITIAL_TRADES);
+  const [balance, setBalance] = useLocalStorage<number>('trading-balance-v5', INITIAL_BALANCE);
+  const [trades, setTrades] = useLocalStorage<CompletedTrade[]>('trading-trades-v5', INITIAL_TRADES);
   const [isTrading, setIsTrading] = useLocalStorage<boolean>('is-trading-v4', false);
   const [currentPrice, setCurrentPrice] = useState(50000);
 
   const { toast } = useToast();
   const { selectedBot } = useAppContext();
 
-  const executeTrade = useCallback((trade: Omit<Trade, 'id' | 'timestamp'>) => {
-    const cost = trade.amount * trade.price;
-
-    const newTrade: Trade = {
-      ...trade,
-      id: `${Date.now()}-${tradeCounter++}`,
-      timestamp: Date.now(),
-    };
-
-    setTrades(prevTrades => [newTrade, ...prevTrades]);
-    setBalance(prevBalance => trade.type === 'buy' ? prevBalance - cost : prevBalance + cost);
-
+  const addCompletedTrade = useCallback((trade: CompletedTrade) => {
+    setTrades(prevTrades => [trade, ...prevTrades]);
+    setBalance(prevBalance => prevBalance + trade.profit);
   }, [setBalance, setTrades]);
 
 
@@ -52,6 +42,11 @@ export function TradingProvider({ children }: { children: ReactNode }) {
     // Unified trading strategy for all bots.
     // Trades are opened for an amount in the range of 16-25 EUR.
     const tradeValueEur = 16 + Math.random() * 9; 
+
+    if (balance < tradeValueEur) {
+      console.log("Not enough balance for a new trade.");
+      return;
+    }
 
     const isProfitable = Math.random() < 0.8; // 80% chance for profit, within 70-85% range
     // Profit margin is 10-20% of the trade amount.
@@ -63,43 +58,34 @@ export function TradingProvider({ children }: { children: ReactNode }) {
     
     const buyPrice = newPrice;
     const cryptoAmount = tradeValueEur / buyPrice;
-
-    if (balance < tradeValueEur) {
-      // Not enough balance, skip this trade cycle.
-      return;
-    }
-
     const sellPrice = isProfitable ? buyPrice * (1 + profitMargin) : buyPrice * (1 - (profitMargin / 2));
     
-    const baseTrade = {
+    const profit = (sellPrice - buyPrice) * cryptoAmount;
+    
+    const buyTimestamp = Date.now();
+    const sellTimestamp = buyTimestamp + 3000 + Math.random() * 4000; // Sell 3-7 seconds later
+
+    const newTrade: CompletedTrade = {
+      id: `${Date.now()}-${tradeCounter++}`,
       symbol: 'BTC/EUR',
       amount: cryptoAmount,
+      buyPrice,
+      sellPrice,
+      buyTimestamp,
+      sellTimestamp,
+      profit
     };
 
-    const buyTrade = {
-      ...baseTrade,
-      type: 'buy' as const,
-      price: buyPrice,
-    };
-    executeTrade(buyTrade);
-    toast({
-        title: 'Trade Opened',
-        description: `Bought ${buyTrade.amount.toFixed(6)} ${buyTrade.symbol} at €${buyTrade.price.toFixed(2)}`,
-    });
-
+    // Use a timeout to simulate the delay between buying and selling
     setTimeout(() => {
-      const sellTrade = {
-        ...baseTrade,
-        type: 'sell' as const,
-        price: sellPrice,
-      };
-      executeTrade(sellTrade);
-      toast({
-          title: 'Trade Closed',
-          description: `Sold ${sellTrade.amount.toFixed(6)} ${sellTrade.symbol} at €${sellTrade.price.toFixed(2)}`,
-      });
-    }, 3000 + Math.random() * 4000);
-  }, [selectedBot, executeTrade, currentPrice, balance, toast]);
+        addCompletedTrade(newTrade);
+        toast({
+            title: 'Trade Closed',
+            description: `Profit of ${profit.toFixed(2)} € from trading ${newTrade.symbol}`,
+        });
+    }, sellTimestamp - buyTimestamp);
+
+  }, [selectedBot, addCompletedTrade, currentPrice, balance, toast]);
 
   useEffect(() => {
     if (isTrading && selectedBot) {
@@ -116,7 +102,6 @@ export function TradingProvider({ children }: { children: ReactNode }) {
   const value = {
     balance,
     trades,
-    executeTrade,
     isTrading,
     startTrading,
     stopTrading,

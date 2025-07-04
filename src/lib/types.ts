@@ -1,10 +1,12 @@
-export type Trade = {
+export type CompletedTrade = {
   id: string;
   symbol: string;
-  type: 'buy' | 'sell';
-  amount: number;
-  price: number;
-  timestamp: number;
+  amount: number; // The amount of crypto traded
+  buyPrice: number;
+  sellPrice: number;
+  buyTimestamp: number;
+  sellTimestamp: number;
+  profit: number; // The profit/loss in EUR
 };
 
 export type Language = 'en' | 'ru' | 'de' | 'bg' | 'pl' | 'mo' | 'sr';
