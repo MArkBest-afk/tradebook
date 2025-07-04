@@ -5,7 +5,6 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 
 import { Button } from "@/components/ui/button"
-import { UserNav } from "./user-nav"
 import { LanguageSwitcher } from "../language-switcher"
 import { useLanguage } from "@/contexts/language-context"
 import { cn } from "@/lib/utils"
@@ -47,7 +46,6 @@ export function Header() {
 
       <div className="flex items-center gap-2">
         <LanguageSwitcher />
-        <UserNav />
       </div>
     </header>
   )
