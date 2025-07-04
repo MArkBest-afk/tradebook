@@ -175,22 +175,23 @@ export function TradingProvider({ children }: { children: ReactNode }) {
       const randomAmount = Math.floor(Math.random() * (399 - 53 + 1)) + 53;
       const amountString = new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(randomAmount);
       
-      const description = t('withdrawal_notification_description')
+      const descriptionText = t('withdrawal_notification_description')
         .replace('{name}', randomName)
         .replace('{amount}', amountString);
 
       toast({
+        variant: 'info',
         title: t('withdrawal_notification_title'),
-        description: description,
+        description: <span className="font-bold">{descriptionText}</span>,
         duration: 5000,
-        icon: <PartyPopper className="absolute top-4 right-10 h-6 w-6 text-amber-400" />
+        icon: <PartyPopper className="absolute top-4 right-10 h-6 w-6 text-sky-300" />
       });
 
-      const nextInterval = 45000 + Math.random() * 25000; // 45s to 70s
+      const nextInterval = 25000 + Math.random() * 20000; // 25s to 45s
       timeoutId = setTimeout(showRandomWithdrawal, nextInterval);
     };
 
-    const firstTimeout = 45000 + Math.random() * 25000; // 45s to 70s
+    const firstTimeout = 25000 + Math.random() * 20000; // 25s to 45s
     timeoutId = setTimeout(showRandomWithdrawal, firstTimeout);
 
     return () => clearTimeout(timeoutId);
