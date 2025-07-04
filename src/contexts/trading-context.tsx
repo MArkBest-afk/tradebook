@@ -16,9 +16,9 @@ const TradingContext = createContext<TradingContextType | undefined>(undefined);
 const INITIAL_BALANCE = 150;
 
 export function TradingProvider({ children }: { children: ReactNode }) {
-  const [balance, setBalance] = useLocalStorage<number>('trading-balance', INITIAL_BALANCE);
+  const [balance, setBalance] = useLocalStorage<number>('trading-balance-v2', INITIAL_BALANCE);
   const initialTrades = useMemo(() => [], []);
-  const [trades, setTrades] = useLocalStorage<Trade[]>('trading-trades', initialTrades);
+  const [trades, setTrades] = useLocalStorage<Trade[]>('trading-trades-v2', initialTrades);
   const { toast } = useToast();
 
   const executeTrade = useCallback((trade: Omit<Trade, 'id' | 'timestamp'>) => {
