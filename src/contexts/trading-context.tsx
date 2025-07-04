@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, ReactNode, useCallback, useEffect, useState } from 'react';
+import { createContext, useContext, ReactNode, useCallback, useEffect, useState, useMemo } from 'react';
 import type { CompletedTrade } from '@/lib/types';
 import { useLocalStorage } from '@/hooks/use-local-storage';
 import { useToast } from '@/hooks/use-toast';
@@ -12,6 +12,7 @@ interface TradingContextType {
   isTrading: boolean;
   startTrading: () => void;
   stopTrading: () => void;
+  dailyProfit: number;
 }
 
 const TradingContext = createContext<TradingContextType | undefined>(undefined);
@@ -29,6 +30,15 @@ export function TradingProvider({ children }: { children: ReactNode }) {
 
   const { toast } = useToast();
   const { selectedBot } = useAppContext();
+
+  const dailyProfit = useMemo(() => {
+    const now = Date.now();
+    const twentyFourHoursAgo = now - 24 * 60 * 60 * 1000;
+    
+    return trades
+      .filter(trade => trade.sellTimestamp > twentyFourHoursAgo)
+      .reduce((sum, trade) => sum + trade.profit, 0);
+  }, [trades]);
 
   const addCompletedTrade = useCallback((trade: CompletedTrade) => {
     setTrades(prevTrades => [trade, ...prevTrades]);
@@ -105,6 +115,7 @@ export function TradingProvider({ children }: { children: ReactNode }) {
     isTrading,
     startTrading,
     stopTrading,
+    dailyProfit,
   };
 
   return (

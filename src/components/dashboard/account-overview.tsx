@@ -9,7 +9,7 @@ import { useToast } from "@/hooks/use-toast"
 
 export function AccountOverview() {
   const { t } = useLanguage()
-  const { balance } = useTrading()
+  const { balance, dailyProfit } = useTrading()
   const { toast } = useToast()
 
   const formatCurrency = (value: number) => {
@@ -23,9 +23,6 @@ export function AccountOverview() {
       duration: 10000,
     })
   }
-
-  // Dummy value for profit
-  const profit24h = 12.75; 
 
   return (
     <Card>
@@ -41,8 +38,8 @@ export function AccountOverview() {
           </div>
           <div>
             <p className="text-xs text-muted-foreground">{t('profit_24h')}</p>
-            <p className={`text-lg font-semibold ${profit24h >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-              {formatCurrency(profit24h)}
+            <p className={`text-lg font-semibold ${dailyProfit >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+              {formatCurrency(dailyProfit)}
             </p>
           </div>
         </div>
