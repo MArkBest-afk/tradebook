@@ -16,6 +16,7 @@ interface TradingContextType {
   stopTrading: () => void;
   dailyProfit: number;
   isTimeLimitReached: boolean;
+  remainingTime: number;
 }
 
 const TradingContext = createContext<TradingContextType | undefined>(undefined);
@@ -43,6 +44,8 @@ export function TradingProvider({ children }: { children: ReactNode }) {
   const [currentPrice, setCurrentPrice] = useState(50000);
   const [totalTradingTime, setTotalTradingTime] = useLocalStorage<number>('trading-time-v2', 0);
   const [sessionStartTime, setSessionStartTime] = useState<number | null>(null);
+  const [remainingTime, setRemainingTime] = useState(TRADING_TIME_LIMIT_SECONDS - totalTradingTime);
+
 
   const { toast } = useToast();
   const { t } = useLanguage();
@@ -74,6 +77,7 @@ export function TradingProvider({ children }: { children: ReactNode }) {
     setTrades(prevTrades => [trade, ...prevTrades]);
     setBalance(prevBalance => prevBalance + trade.profit);
     toast({
+        position: 'top-right',
         variant: 'default',
         title: t('trade_closed_title'),
         description: t('trade_closed_description')
@@ -157,20 +161,50 @@ export function TradingProvider({ children }: { children: ReactNode }) {
   }, [isTrading, sessionStartTime]);
 
   useEffect(() => {
+    let interval: NodeJS.Timeout | undefined;
     if (isTrading && selectedBot && sessionStartTime) {
-      const intervalId = setInterval(() => {
+      interval = setInterval(() => {
         const elapsed = (Date.now() - sessionStartTime) / 1000;
         if (totalTradingTime + elapsed >= TRADING_TIME_LIMIT_SECONDS) {
             stopTrading();
             showTimeLimitToast();
-            clearInterval(intervalId);
         } else {
             runBotTrade();
         }
       }, 20000 + Math.random() * 40000); // 20s to 60s
-      return () => clearInterval(intervalId);
     }
+    return () => {
+      if (interval) clearInterval(interval)
+    };
   }, [isTrading, selectedBot, runBotTrade, sessionStartTime, totalTradingTime, stopTrading, showTimeLimitToast]);
+
+  // Effect for the countdown timer
+  useEffect(() => {
+    let timerInterval: NodeJS.Timeout | undefined;
+
+    const updateRemainingTime = () => {
+      if (isTrading && sessionStartTime) {
+        const sessionDuration = (Date.now() - sessionStartTime) / 1000;
+        const newRemaining = TRADING_TIME_LIMIT_SECONDS - (totalTradingTime + sessionDuration);
+        setRemainingTime(Math.max(0, newRemaining));
+      } else {
+        const newRemaining = TRADING_TIME_LIMIT_SECONDS - totalTradingTime;
+        setRemainingTime(Math.max(0, newRemaining));
+      }
+    };
+    
+    if (isTrading) {
+      timerInterval = setInterval(updateRemainingTime, 1000);
+    } else {
+      updateRemainingTime();
+    }
+    
+    return () => {
+      if (timerInterval) {
+        clearInterval(timerInterval);
+      }
+    };
+  }, [isTrading, sessionStartTime, totalTradingTime]);
 
   const getUniqueName = useCallback(() => {
     if (shuffledNamesRef.current.length === 0) {
@@ -244,6 +278,7 @@ export function TradingProvider({ children }: { children: ReactNode }) {
     stopTrading,
     dailyProfit,
     isTimeLimitReached,
+    remainingTime,
   };
 
   return (
