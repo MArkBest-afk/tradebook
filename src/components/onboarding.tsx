@@ -76,7 +76,7 @@ export function Onboarding() {
                     ))}
                 </div>
 
-                <DialogFooter className="sm:justify-between">
+                <DialogFooter className={step > 0 ? "sm:justify-between" : "sm:justify-end"}>
                     {step > 0 && (
                         <Button variant="outline" onClick={handleBack}>{t('previous_step')}</Button>
                     )}
