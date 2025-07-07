@@ -75,7 +75,7 @@ export function Onboarding() {
                 <div className="py-4 text-center">
                     {step > 0 ? (
                        <>
-                         <h3 className="font-semibold text-lg mb-2">{t(currentStep.titleKey)}</h3>
+                         {t(currentStep.titleKey) && <h3 className="font-semibold text-lg mb-2">{t(currentStep.titleKey)}</h3>}
                          <p className="text-sm text-muted-foreground">{t(currentStep.descriptionKey)}</p>
                        </>
                     ) : (
