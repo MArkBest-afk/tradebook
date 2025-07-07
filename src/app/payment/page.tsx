@@ -36,7 +36,7 @@ export default function PaymentPage() {
               className="w-full h-20 justify-start text-lg p-4"
               onClick={() => handlePayment('Visa')}
             >
-              <Image src="https://placehold.co/100x60" width={80} height={48} alt="Visa" className="mr-4 rounded" data-ai-hint="visa logo" />
+              <Image src="/visa-svgrepo-com.svg" width={80} height={48} alt="Visa" className="mr-4" />
               {t('visa')}
             </Button>
             <Button
@@ -44,7 +44,7 @@ export default function PaymentPage() {
               className="w-full h-20 justify-start text-lg p-4"
               onClick={() => handlePayment('Mastercard')}
             >
-              <Image src="https://placehold.co/100x60" width={80} height={48} alt="Mastercard" className="mr-4 rounded" data-ai-hint="mastercard logo" />
+              <Image src="/mastercard-svgrepo-com.svg" width={80} height={48} alt="Mastercard" className="mr-4" />
               {t('mastercard')}
             </Button>
           </div>
