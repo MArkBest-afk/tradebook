@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useRef, useEffect } from "react";
@@ -39,21 +40,27 @@ export function AiChatWidget() {
     e.preventDefault();
     if (!input.trim() || isLoading) return;
 
+    // 1. Prepare the new user message and the history for the API call
     const userMessage: ChatMessage = { role: "user", content: input };
-    setMessages((prev) => [...prev, userMessage]);
+    const historyForAI = [...messages, userMessage];
+
+    // 2. Update the UI to show the user's message immediately
+    setMessages(historyForAI);
     setInput("");
     setIsLoading(true);
 
     try {
-      const newHistory = [...messages, userMessage];
-      const aiResponse = await askChatbot(newHistory, language);
-      setMessages((prev) => [...prev, { role: "assistant", content: aiResponse }]);
+      // 3. Call the AI with the complete history
+      const aiResponse = await askChatbot(historyForAI, language);
+      const assistantMessage: ChatMessage = { role: 'assistant', content: aiResponse };
+
+      // 4. Update the UI with the AI's response
+      setMessages((prev) => [...prev, assistantMessage]);
+
     } catch (error) {
       console.error("Chatbot error:", error);
-      setMessages((prev) => [
-        ...prev,
-        { role: "assistant", content: "Sorry, I'm having trouble connecting. Please try again later." },
-      ]);
+      const errorMessage: ChatMessage = { role: 'assistant', content: "Sorry, I'm having trouble connecting. Please try again later." };
+      setMessages((prev) => [...prev, errorMessage]);
     } finally {
       setIsLoading(false);
     }
