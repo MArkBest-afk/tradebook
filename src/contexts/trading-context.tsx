@@ -6,7 +6,7 @@ import { useLocalStorage } from '@/hooks/use-local-storage';
 import { useToast } from '@/hooks/use-toast';
 import { useAppContext } from './app-context';
 import { useLanguage } from './language-context';
-import { names } from '@/lib/data';
+import { names, tradableAssets } from '@/lib/data';
 
 interface TradingContextType {
   balance: number;
@@ -107,17 +107,21 @@ export function TradingProvider({ children }: { children: ReactNode }) {
       return;
     }
 
+    const asset = tradableAssets[Math.floor(Math.random() * tradableAssets.length)];
+    const { symbol, basePrice, fluctuation } = asset;
+
     toast({
       variant: 'default',
       title: t('trade_opened_title'),
-      description: t('trade_opened_description').replace('{symbol}', 'BTC/EUR'),
+      description: t('trade_opened_description').replace('{symbol}', symbol),
     });
 
     const isProfitable = Math.random() < 0.8;
     const profitAmount = 0.5 + Math.random() * 2;
     const profit = isProfitable ? profitAmount : -(profitAmount / 2);
 
-    const buyPrice = 50000 * (1 + (Math.random() - 0.49) * 0.05);
+    const priceVariation = 1 + (Math.random() - 0.5) * 2 * fluctuation;
+    const buyPrice = basePrice * priceVariation;
     const cryptoAmount = tradeValueEur / buyPrice;
     const sellPrice = buyPrice + (profit / cryptoAmount);
     
@@ -126,7 +130,7 @@ export function TradingProvider({ children }: { children: ReactNode }) {
 
     const newTrade: CompletedTrade = {
       id: `${Date.now()}-${tradeCounter++}`,
-      symbol: 'BTC/EUR',
+      symbol: symbol,
       amount: cryptoAmount,
       buyPrice,
       sellPrice,
@@ -187,18 +191,23 @@ export function TradingProvider({ children }: { children: ReactNode }) {
             const tradeValueEur = 16 + Math.random() * 9;
             if (tempBalance < tradeValueEur) continue;
 
+            const asset = tradableAssets[Math.floor(Math.random() * tradableAssets.length)];
+            const { symbol, basePrice, fluctuation } = asset;
+
             const isProfitable = Math.random() < 0.8;
             const profitAmount = 0.5 + Math.random() * 2;
             const profit = isProfitable ? profitAmount : -(profitAmount / 2);
 
-            const buyPrice = 50000 * (1 + (Math.random() - 0.49) * 0.05);
+            const priceVariation = 1 + (Math.random() - 0.5) * 2 * fluctuation;
+            const buyPrice = basePrice * priceVariation;
+            
             const cryptoAmount = tradeValueEur / buyPrice;
             const sellPrice = buyPrice + (profit / cryptoAmount);
             const timestamp = lastSeenTimestamp + ((i + 1) * 40 * 1000);
 
             newOfflineTrades.push({
               id: `offline-${timestamp}-${i}`,
-              symbol: 'BTC/EUR',
+              symbol: symbol,
               amount: cryptoAmount,
               buyPrice,
               sellPrice,
