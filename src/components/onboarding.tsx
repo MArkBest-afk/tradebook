@@ -5,7 +5,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, Di
 import { Button } from "@/components/ui/button";
 import { useAppContext } from "@/contexts/app-context";
 import { useLanguage } from "@/contexts/language-context";
-import { ArrowRight, DollarSign, Clock, Globe, PartyPopper } from "lucide-react";
+import { ArrowRight, Clock, Globe, PartyPopper } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { languages, Language } from "@/lib/types";
 
@@ -24,11 +24,6 @@ export function Onboarding() {
             icon: PartyPopper,
             titleKey: "onboarding_welcome_step_title",
             descriptionKey: "onboarding_welcome_step_description",
-        },
-        {
-            icon: DollarSign,
-            titleKey: "onboarding_demo_account_title",
-            descriptionKey: "onboarding_demo_account_text",
         },
         {
             icon: Clock,
@@ -67,16 +62,23 @@ export function Onboarding() {
                     <div className="flex justify-center items-center h-12 w-12 rounded-full bg-primary/10 mx-auto mb-4">
                         <Icon className="h-6 w-6 text-primary" />
                     </div>
-                    <DialogTitle className="text-center">{t('onboarding_welcome_title')}</DialogTitle>
-                    <DialogDescription className="text-center">
-                        {t('onboarding_welcome_text')}
-                    </DialogDescription>
+                    <DialogTitle className="text-center">
+                       {step === 0 ? t('onboarding_language_title') : t('onboarding_welcome_title')}
+                    </DialogTitle>
+                    { step < 2 &&
+                        <DialogDescription className="text-center">
+                            {step === 0 ? t('onboarding_language_text') : t('onboarding_welcome_text')}
+                        </DialogDescription>
+                    }
                 </DialogHeader>
 
                 <div className="py-4 text-center">
-                    <h3 className="font-semibold text-lg mb-2">{t(currentStep.titleKey)}</h3>
-                    <p className="text-sm text-muted-foreground">{t(currentStep.descriptionKey)}</p>
-                    {step === 0 && (
+                    {step > 0 ? (
+                       <>
+                         <h3 className="font-semibold text-lg mb-2">{t(currentStep.titleKey)}</h3>
+                         <p className="text-sm text-muted-foreground">{t(currentStep.descriptionKey)}</p>
+                       </>
+                    ) : (
                         <div className="mt-4 flex justify-center">
                              <Select value={language} onValueChange={(value) => setLanguage(value as Language)}>
                                 <SelectTrigger className="w-[280px]">
