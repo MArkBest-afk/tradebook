@@ -25,8 +25,23 @@ const shuffleAndPick = (arr: string[], count: number): string[] => {
     return shuffled.slice(0, count);
 };
 
+// A subset of names considered Slavic for this requirement
+const slavicNames = [
+    'Anna', 'Elena', 'Emil', 'Emilia', 'Eva', 'Julia', 'Mila', 'Sofia', 'Victoria', 'Yana'
+];
+
 const generateLeaderboardData = (): LeaderboardEntry[] => {
-    const topNames = shuffleAndPick(names, 10);
+    // 1. Pick 3 unique Slavic names
+    const pickedSlavicNames = shuffleAndPick(slavicNames, 3);
+
+    // 2. Get the rest of the names, excluding all Slavic names to ensure uniqueness
+    const otherNames = names.filter(name => !slavicNames.includes(name));
+    
+    // 3. Pick 7 other names
+    const pickedOtherNames = shuffleAndPick(otherNames, 7);
+
+    // 4. Combine and shuffle the final list of 10 names
+    const topNames = [...pickedSlavicNames, ...pickedOtherNames].sort(() => 0.5 - Math.random());
     
     const maxAmount = 1000 + Math.random() * (3972 - 1000);
     const minAmount = 512 + Math.random() * (814 - 512);
