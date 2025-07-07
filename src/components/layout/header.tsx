@@ -1,7 +1,6 @@
-
 "use client"
 
-import { Facebook, Trophy, ArrowLeft, HelpCircle } from "lucide-react"
+import { Trophy, ArrowLeft, HelpCircle } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 
@@ -14,9 +13,9 @@ export function Header() {
   const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-30 grid h-16 grid-cols-3 items-center bg-primary px-4 text-primary-foreground sm:px-6">
+    <header className="sticky top-0 z-30 grid h-16 grid-cols-[auto_1fr_auto] items-center gap-x-4 bg-primary px-4 text-primary-foreground sm:px-6">
       {/* Left section */}
-      <div className="flex items-center justify-start gap-2">
+      <div className="flex items-center justify-start">
         {pathname !== '/' ? (
           <Link href="/" passHref>
             <Button variant="ghost" className="text-primary-foreground hover:bg-primary/80 hover:text-primary-foreground">
@@ -25,7 +24,7 @@ export function Header() {
             </Button>
           </Link>
         ) : (
-           <Link href="/" className="truncate text-xl font-bold">
+           <Link href="/" className="text-xl font-bold whitespace-nowrap">
              <span>{t('app.name')}</span>
            </Link>
         )}
@@ -34,7 +33,7 @@ export function Header() {
       {/* Center section (app name) */}
       <div className="text-center">
         {pathname !== '/' && (
-          <Link href="/" className="truncate text-xl font-bold">
+          <Link href="/" className="text-xl font-bold whitespace-nowrap">
             <span>{t('app.name')}</span>
           </Link>
         )}
