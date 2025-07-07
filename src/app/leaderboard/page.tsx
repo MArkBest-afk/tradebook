@@ -6,7 +6,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useLanguage } from "@/contexts/language-context";
 import { names } from '@/lib/data';
-import { useLocalStorage } from '@/hooks/use-local-storage';
 import { Skeleton } from '@/components/ui/skeleton';
 
 type LeaderboardEntry = {
@@ -55,21 +54,39 @@ export default function LeaderboardPage() {
     const { t } = useLanguage();
     const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [cachedData, setCachedData] = useLocalStorage<CachedLeaderboard | null>('leaderboard-cache-v1', null);
 
     useEffect(() => {
+        const cacheKey = 'leaderboard-cache-v1';
         const now = Date.now();
         const oneDay = 24 * 60 * 60 * 1000;
 
-        if (cachedData && (now - cachedData.timestamp < oneDay)) {
-            setLeaderboard(cachedData.data);
-        } else {
-            const newData = generateLeaderboardData();
-            setLeaderboard(newData);
-            setCachedData({ timestamp: now, data: newData });
+        try {
+            const cachedItem = localStorage.getItem(cacheKey);
+            if (cachedItem) {
+                const cachedData: CachedLeaderboard = JSON.parse(cachedItem);
+                if (now - cachedData.timestamp < oneDay) {
+                    setLeaderboard(cachedData.data);
+                    setIsLoading(false);
+                    return; // Exit early if valid cache is found
+                }
+            }
+        } catch (error) {
+            console.error("Failed to read from localStorage", error);
         }
+
+        // If no valid cache, generate new data
+        const newData = generateLeaderboardData();
+        const newCachedData: CachedLeaderboard = { timestamp: now, data: newData };
+        
+        try {
+            localStorage.setItem(cacheKey, JSON.stringify(newCachedData));
+        } catch (error) {
+            console.error("Failed to write to localStorage", error);
+        }
+        
+        setLeaderboard(newData);
         setIsLoading(false);
-    }, [cachedData, setCachedData]);
+    }, []); // Empty dependency array ensures this runs only once on the client
 
     if (isLoading) {
         return (
