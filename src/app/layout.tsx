@@ -5,7 +5,7 @@ import { AppProviders } from './providers';
 import { Header } from '@/components/layout/header';
 
 export const metadata: Metadata = {
-  title: 'Facebook AI',
+  title: 'Tradebot FacebookAI',
   description: 'AI-powered trading assistant from Facebook AI.',
 };
 
