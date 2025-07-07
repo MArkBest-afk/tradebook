@@ -1,40 +1,30 @@
 "use client";
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 
 export function useLocalStorage<T>(key: string, initialValue: T): [T, (value: T | ((val: T) => T)) => void] {
-  const [storedValue, setStoredValue] = useState<T>(initialValue);
-
-  useEffect(() => {
+  const [storedValue, setStoredValue] = useState<T>(() => {
+    if (typeof window === "undefined") {
+      return initialValue;
+    }
     try {
       const item = window.localStorage.getItem(key);
-      if (item) {
-        setStoredValue(JSON.parse(item));
-      } else {
-        window.localStorage.setItem(key, JSON.stringify(initialValue));
-        setStoredValue(initialValue);
-      }
+      return item ? JSON.parse(item) : initialValue;
     } catch (error) {
       console.log(error);
-      setStoredValue(initialValue);
+      return initialValue;
     }
-  }, [key, initialValue]);
+  });
 
-  const setValue = useCallback(
-    (value: T | ((val: T) => T)) => {
+  useEffect(() => {
+    if (typeof window !== "undefined") {
       try {
-        // The functional update form of useState is used here to ensure we have the latest state.
-        setStoredValue((current) => {
-          const valueToStore = value instanceof Function ? value(current) : value;
-          window.localStorage.setItem(key, JSON.stringify(valueToStore));
-          return valueToStore;
-        });
+        window.localStorage.setItem(key, JSON.stringify(storedValue));
       } catch (error) {
         console.log(error);
       }
-    },
-    [key] // No dependency on storedValue, so setValue is stable.
-  );
+    }
+  }, [key, storedValue]);
 
-  return [storedValue, setValue];
+  return [storedValue, setStoredValue];
 }
