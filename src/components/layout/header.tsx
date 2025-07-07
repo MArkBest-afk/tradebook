@@ -40,9 +40,11 @@ export function Header() {
 
       {/* Right section */}
       <div className="flex flex-1 items-center justify-end gap-1">
-        <Button variant="ghost" size="icon" className="text-primary-foreground hover:bg-primary/80 hover:text-primary-foreground">
-          <HelpCircle className="h-5 w-5" />
-        </Button>
+        <Link href="/faq" passHref>
+          <Button variant="ghost" size="icon" className="text-primary-foreground hover:bg-primary/80 hover:text-primary-foreground">
+            <HelpCircle className="h-5 w-5" />
+          </Button>
+        </Link>
         <Link href="/leaderboard" passHref>
           <Button variant="ghost" size="icon" className="text-primary-foreground hover:bg-primary/80 hover:text-primary-foreground">
             <Trophy className="h-5 w-5" />
