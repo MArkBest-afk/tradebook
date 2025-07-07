@@ -25,17 +25,19 @@ export function Header() {
             </Button>
           </Link>
         ) : (
-          <Link href="/" className="flex items-center gap-2 font-semibold">
-              <Facebook className="h-8 w-8 text-primary-foreground" />
-          </Link>
+           <Link href="/" className="truncate text-xl font-bold">
+             <span>{t('app.name')}</span>
+           </Link>
         )}
       </div>
       
       {/* Center section (app name) */}
       <div className="text-center">
-        <Link href="/" className="truncate text-xl font-bold">
-          <span>{t('app.name')}</span>
-        </Link>
+        {pathname !== '/' && (
+          <Link href="/" className="truncate text-xl font-bold">
+            <span>{t('app.name')}</span>
+          </Link>
+        )}
       </div>
 
       {/* Right section */}
