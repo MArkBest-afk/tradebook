@@ -79,13 +79,19 @@ export async function askChatbot(
   const langKnowledge = knowledgeBase[language] || knowledgeBase.en;
   const langName = languageNames[language] || languageNames.en;
 
+  // This filter is crucial for stability. It ensures we don't send malformed data to the AI.
   const cleanHistory = history.filter(
-    m => m && typeof m.content === 'string' && m.content.trim() !== ''
+    m =>
+      m &&
+      typeof m.role === 'string' &&
+      (m.role === 'user' || m.role === 'assistant') &&
+      typeof m.content === 'string' &&
+      m.content.trim() !== ''
   );
 
   try {
     const response = await ai.generate({
-      model: ai.model,
+      model: ai.model, // Explicitly use the model defined in genkit.ts
       history: [
         {
           role: 'system',
@@ -108,6 +114,7 @@ export async function askChatbot(
       ],
     });
 
+    // Safely extract the text from the response.
     return (
       response.text ??
       "I'm sorry, I couldn't process that. Please try rephrasing your question."
