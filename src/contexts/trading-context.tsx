@@ -23,7 +23,7 @@ const TradingContext = createContext<TradingContextType | undefined>(undefined);
 
 const INITIAL_BALANCE = 150;
 const INITIAL_TRADES: CompletedTrade[] = [];
-const TRADING_TIME_LIMIT_SECONDS = 60; // 1 minute for testing
+const TRADING_TIME_LIMIT_SECONDS = 6 * 60 * 60; // 6 hours in seconds
 
 let tradeCounter = 0;
 
@@ -62,7 +62,7 @@ export function TradingProvider({ children }: { children: ReactNode }) {
   
   const shuffledNamesRef = useRef(shuffleArray(names));
 
-  const isTimeLimitReached = useMemo(() => demoEndTime !== null && Date.now() >= demoEndTime, [demoEndTime, remainingTime]);
+  const isTimeLimitReached = useMemo(() => demoEndTime !== null && Date.now() >= demoEndTime, [demoEndTime]);
 
   const dailyProfit = useMemo(() => {
     const now = Date.now();
@@ -90,7 +90,7 @@ export function TradingProvider({ children }: { children: ReactNode }) {
     setTrades(prevTrades => [trade, ...prevTrades]);
     setBalance(prevBalance => prevBalance + trade.profit);
     toast({
-        variant: 'default',
+        variant: 'info',
         title: t('trade_closed_title'),
         description: t('trade_closed_description')
           .replace('{profit}', `${trade.profit.toFixed(2)} €`)
@@ -130,7 +130,9 @@ export function TradingProvider({ children }: { children: ReactNode }) {
     };
 
     setTimeout(() => {
+      if (isTradingRef.current) {
         addCompletedTrade(newTrade);
+      }
     }, sellTimestamp - buyTimestamp);
   }, [addCompletedTrade]);
 
@@ -347,3 +349,5 @@ export function useTrading() {
   }
   return context;
 }
+
+    
