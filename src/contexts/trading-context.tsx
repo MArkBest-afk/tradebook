@@ -107,6 +107,12 @@ export function TradingProvider({ children }: { children: ReactNode }) {
       return;
     }
 
+    toast({
+      variant: 'default',
+      title: t('trade_opened_title'),
+      description: t('trade_opened_description').replace('{symbol}', 'BTC/EUR'),
+    });
+
     const isProfitable = Math.random() < 0.8;
     const profitAmount = 0.5 + Math.random() * 2;
     const profit = isProfitable ? profitAmount : -(profitAmount / 2);
@@ -134,7 +140,7 @@ export function TradingProvider({ children }: { children: ReactNode }) {
         addCompletedTrade(newTrade);
       }
     }, sellTimestamp - buyTimestamp);
-  }, [addCompletedTrade]);
+  }, [addCompletedTrade, t, toast]);
 
 
   const startTrading = () => {
@@ -349,5 +355,3 @@ export function useTrading() {
   }
   return context;
 }
-
-    
