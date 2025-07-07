@@ -19,9 +19,9 @@ export function Header() {
         </Link>
       </div>
       
-      <div className="absolute left-1/2 -translate-x-1/2 text-xl font-bold">
+      <Link href="/" className="absolute left-1/2 -translate-x-1/2 text-xl font-bold">
         <span>{t('app.name')}</span>
-      </div>
+      </Link>
 
       <div className="flex items-center gap-2">
         <Link href="/leaderboard" passHref>
