@@ -5,7 +5,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, Di
 import { Button } from "@/components/ui/button";
 import { useAppContext } from "@/contexts/app-context";
 import { useLanguage } from "@/contexts/language-context";
-import { ArrowRight, DollarSign, Clock, Globe } from "lucide-react";
+import { ArrowRight, DollarSign, Clock, Globe, PartyPopper } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { languages, Language } from "@/lib/types";
 
@@ -19,6 +19,11 @@ export function Onboarding() {
             icon: Globe,
             titleKey: "onboarding_language_title",
             descriptionKey: "onboarding_language_text",
+        },
+        {
+            icon: PartyPopper,
+            titleKey: "onboarding_welcome_step_title",
+            descriptionKey: "onboarding_welcome_step_description",
         },
         {
             icon: DollarSign,
