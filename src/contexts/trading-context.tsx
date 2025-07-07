@@ -46,6 +46,17 @@ export function TradingProvider({ children }: { children: ReactNode }) {
   const [sessionStartTime, setSessionStartTime] = useState<number | null>(null);
   const [remainingTime, setRemainingTime] = useState(TRADING_TIME_LIMIT_SECONDS - totalTradingTime);
 
+  const balanceRef = useRef(balance);
+  const currentPriceRef = useRef(currentPrice);
+
+  useEffect(() => {
+    balanceRef.current = balance;
+  }, [balance]);
+
+  useEffect(() => {
+    currentPriceRef.current = currentPrice;
+  }, [currentPrice]);
+
 
   const { toast } = useToast();
   const { t } = useLanguage();
@@ -90,7 +101,7 @@ export function TradingProvider({ children }: { children: ReactNode }) {
     // Trades are opened for an amount in the range of 16-25 EUR.
     const tradeValueEur = 16 + Math.random() * 9; 
 
-    if (balance < tradeValueEur) {
+    if (balanceRef.current < tradeValueEur) {
       console.log("Not enough balance for a new trade.");
       return;
     }
@@ -102,7 +113,7 @@ export function TradingProvider({ children }: { children: ReactNode }) {
     const profit = isProfitable ? profitAmount : -(profitAmount / 2); // Loss is half of the potential profit
 
     // Simulate price fluctuation for buy/sell
-    const newPrice = currentPrice * (1 + (Math.random() - 0.49) * 0.02); // Fluctuate up to 1% up or down
+    const newPrice = currentPriceRef.current * (1 + (Math.random() - 0.49) * 0.02); // Fluctuate up to 1% up or down
     setCurrentPrice(newPrice);
     
     const buyPrice = newPrice;
@@ -130,7 +141,7 @@ export function TradingProvider({ children }: { children: ReactNode }) {
         addCompletedTrade(newTrade);
     }, sellTimestamp - buyTimestamp);
 
-  }, [addCompletedTrade, currentPrice, balance]);
+  }, [addCompletedTrade]);
 
 
   const stopTrading = useCallback(() => {
@@ -162,6 +173,9 @@ export function TradingProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     let interval: NodeJS.Timeout | undefined;
     if (isTrading && selectedBot && sessionStartTime) {
+      // Run the first trade immediately
+      runBotTrade();
+      
       interval = setInterval(() => {
         const elapsed = (Date.now() - sessionStartTime) / 1000;
         if (totalTradingTime + elapsed >= TRADING_TIME_LIMIT_SECONDS) {
@@ -173,7 +187,7 @@ export function TradingProvider({ children }: { children: ReactNode }) {
       }, 20000 + Math.random() * 40000); // 20s to 60s
     }
     return () => {
-      if (interval) clearInterval(interval)
+      if (interval) clearInterval(interval);
     };
   }, [isTrading, selectedBot, runBotTrade, sessionStartTime, totalTradingTime, stopTrading, showTimeLimitToast]);
 
