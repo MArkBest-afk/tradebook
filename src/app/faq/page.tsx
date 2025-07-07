@@ -9,28 +9,11 @@ import {
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useLanguage } from "@/contexts/language-context";
 
-const faqItems = [
-  {
-    questionKey: "faq_q1_question",
-    answerKey: "faq_q1_answer",
-  },
-  {
-    questionKey: "faq_q2_question",
-    answerKey: "faq_q2_answer",
-  },
-  {
-    questionKey: "faq_q3_question",
-    answerKey: "faq_q3_answer",
-  },
-  {
-    questionKey: "faq_q4_question",
-    answerKey: "faq_q4_answer",
-  },
-  {
-    questionKey: "faq_q5_question",
-    answerKey: "faq_q5_answer",
-  },
-];
+const faqItems = Array.from({ length: 14 }, (_, i) => ({
+  questionKey: `faq_q${i + 1}_question`,
+  answerKey: `faq_q${i + 1}_answer`,
+}));
+
 
 export default function FaqPage() {
   const { t } = useLanguage();
@@ -45,8 +28,10 @@ export default function FaqPage() {
         <Accordion type="single" collapsible className="w-full">
           {faqItems.map((item, index) => (
             <AccordionItem key={index} value={`item-${index}`}>
-              <AccordionTrigger>{t(item.questionKey)}</AccordionTrigger>
-              <AccordionContent>{t(item.answerKey)}</AccordionContent>
+              <AccordionTrigger className="text-left">{t(item.questionKey)}</AccordionTrigger>
+              <AccordionContent className="whitespace-pre-wrap text-muted-foreground">
+                {t(item.answerKey)}
+              </AccordionContent>
             </AccordionItem>
           ))}
         </Accordion>
