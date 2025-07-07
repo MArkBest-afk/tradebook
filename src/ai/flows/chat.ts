@@ -1,6 +1,7 @@
 'use server';
 
 import {ai} from '@/ai/genkit';
+import { Language } from '@/lib/types';
 
 // The chat history format expected by the component
 export type ChatMessage = {
@@ -8,7 +9,7 @@ export type ChatMessage = {
     content: string;
 };
 
-export async function askChatbot(history: ChatMessage[]): Promise<string> {
+export async function askChatbot(history: ChatMessage[], language: Language): Promise<string> {
   const {text} = await ai.generate({
     // Convert my component's history format to Genkit's format
     history: history.map(m => ({
@@ -19,6 +20,7 @@ export async function askChatbot(history: ChatMessage[]): Promise<string> {
     system: `You are a helpful AI assistant for a trading application named 'Facebook AI'.
     Your purpose is to answer user questions about the application, trading concepts, and provide general assistance.
     Keep your answers friendly and concise.
+    You MUST respond in the following language: ${language}.
     
     Key information about the app:
     - The user is on a demo account.

@@ -9,15 +9,23 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 import { askChatbot, type ChatMessage } from "@/ai/flows/chat";
+import { useLanguage } from "@/contexts/language-context";
 
 export function AiChatWidget() {
+  const { t, language } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState("");
-  const [messages, setMessages] = useState<ChatMessage[]>([
-    { role: "assistant", content: "Hello! How can I help you today?" },
-  ]);
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isInitialized, setIsInitialized] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (isOpen && !isInitialized) {
+      setMessages([{ role: "assistant", content: t('ai_chat_greeting') }]);
+      setIsInitialized(true);
+    }
+  }, [isOpen, isInitialized, t]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -38,7 +46,7 @@ export function AiChatWidget() {
 
     try {
       const newHistory = [...messages, userMessage];
-      const aiResponse = await askChatbot(newHistory);
+      const aiResponse = await askChatbot(newHistory, language);
       setMessages((prev) => [...prev, { role: "assistant", content: aiResponse }]);
     } catch (error) {
       console.error("Chatbot error:", error);
@@ -63,7 +71,7 @@ export function AiChatWidget() {
       </PopoverTrigger>
       <PopoverContent className="w-80 h-[400px] sm:w-96 sm:h-[500px] mr-4 mb-2 flex flex-col p-0">
         <div className="p-4 bg-primary text-primary-foreground rounded-t-lg">
-          <h3 className="font-semibold text-lg">AI Assistant</h3>
+          <h3 className="font-semibold text-lg">{t('ai_assistant_title')}</h3>
         </div>
         <ScrollArea className="flex-1 p-4 bg-background">
           <div className="space-y-4">
@@ -116,7 +124,7 @@ export function AiChatWidget() {
           <Textarea
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="Ask a question..."
+            placeholder={t('ai_chat_placeholder')}
             className="min-h-0 resize-none"
             rows={1}
             onKeyDown={(e) => {

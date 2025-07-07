@@ -82,6 +82,9 @@ export const translations: Record<Language, Record<string, string>> = {
     'back': 'Back',
     'welcome_back_title': 'Welcome Back!',
     'offline_earnings_report': 'It seems the page was closed accidentally. While you were away for {minutes} minutes, the bot earned {amount}.',
+    'ai_assistant_title': 'AI Assistant',
+    'ai_chat_greeting': 'Hello! How can I help you today?',
+    'ai_chat_placeholder': 'Ask a question...',
   },
   ru: {
     'app.name': 'Facebook AI',
@@ -163,6 +166,9 @@ export const translations: Record<Language, Record<string, string>> = {
     'back': 'Назад',
     'welcome_back_title': 'С возвращением!',
     'offline_earnings_report': 'Похоже, страница была случайно закрыта. Пока вас не было {minutes} минут, бот заработал {amount}.',
+    'ai_assistant_title': 'AI Ассистент',
+    'ai_chat_greeting': 'Здравствуйте! Чем я могу вам помочь сегодня?',
+    'ai_chat_placeholder': 'Задайте вопрос...',
   },
   de: {
     'app.name': 'Facebook AI',
@@ -244,6 +250,9 @@ export const translations: Record<Language, Record<string, string>> = {
     'back': 'Zurück',
     'welcome_back_title': 'Willkommen zurück!',
     'offline_earnings_report': 'Es scheint, die Seite wurde versehentlich geschlossen. Während Sie {minutes} Minuten abwesend waren, hat der Bot {amount} verdient.',
+    'ai_assistant_title': 'KI-Assistent',
+    'ai_chat_greeting': 'Hallo! Wie kann ich Ihnen heute helfen?',
+    'ai_chat_placeholder': 'Stellen Sie eine Frage...',
   },
   bg: {
     'app.name': 'Facebook AI',
@@ -325,6 +334,9 @@ export const translations: Record<Language, Record<string, string>> = {
     'back': 'Назад',
     'welcome_back_title': 'Добре дошли отново!',
     'offline_earnings_report': 'Изглежда, че страницата е била затворена случайно. Докато ви нямаше {minutes} минути, ботът спечели {amount}.',
+    'ai_assistant_title': 'AI Асистент',
+    'ai_chat_greeting': 'Здравейте! С какво мога да ви помогна днес?',
+    'ai_chat_placeholder': 'Задайте въпрос...',
   },
   pl: {
     'app.name': 'Facebook AI',
@@ -406,6 +418,9 @@ export const translations: Record<Language, Record<string, string>> = {
     'back': 'Wstecz',
     'welcome_back_title': 'Witaj z powrotem!',
     'offline_earnings_report': 'Wygląda na to, że strona została przypadkowo zamknięta. Podczas Twojej nieobecności przez {minutes} minut, bot zarobił {amount}.',
+    'ai_assistant_title': 'Asystent AI',
+    'ai_chat_greeting': 'Witaj! Jak mogę Ci dzisiaj pomóc?',
+    'ai_chat_placeholder': 'Zadaj pytanie...',
   },
   mo: {
     'app.name': 'Facebook AI',
@@ -487,6 +502,9 @@ export const translations: Record<Language, Record<string, string>> = {
     'back': 'Înapoi',
     'welcome_back_title': 'Bun venit înapoi!',
     'offline_earnings_report': 'Se pare că pagina a fost închisă accidental. În timp ce ați lipsit {minutes} minute, botul a câștigat {amount}.',
+    'ai_assistant_title': 'Asistent AI',
+    'ai_chat_greeting': 'Bună! Cu ce te pot ajuta astăzi?',
+    'ai_chat_placeholder': 'Pune o întrebare...',
   },
   sr: {
     'app.name': 'Facebook AI',
@@ -568,5 +586,8 @@ export const translations: Record<Language, Record<string, string>> = {
     'back': 'Назад',
     'welcome_back_title': 'Добродошли назад!',
     'offline_earnings_report': 'Изгледа да је страница случајно затворена. Док сте били одсутни {minutes} минута, бот је зарадио {amount}.',
+    'ai_assistant_title': 'AI Asistent',
+    'ai_chat_greeting': 'Zdravo! Kako vam danas mogu pomoći?',
+    'ai_chat_placeholder': 'Postavite pitanje...',
   },
 };
