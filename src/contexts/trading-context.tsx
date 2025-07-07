@@ -235,7 +235,6 @@ export function TradingProvider({ children }: { children: ReactNode }) {
       interval = setInterval(() => {
         if (Date.now() >= demoEndTime) {
           stopTrading();
-          showTimeLimitToast();
         } else {
           runBotTrade();
         }
@@ -244,7 +243,7 @@ export function TradingProvider({ children }: { children: ReactNode }) {
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, [isTrading, demoEndTime, runBotTrade, stopTrading, showTimeLimitToast]);
+  }, [isTrading, demoEndTime, runBotTrade, stopTrading]);
 
 
   // Countdown timer effect
@@ -256,11 +255,19 @@ export function TradingProvider({ children }: { children: ReactNode }) {
             setRemainingTime(TRADING_TIME_LIMIT_SECONDS);
             return;
         }
-        const newRemaining = Math.max(0, Math.floor((demoEndTime - Date.now()) / 1000));
+        const now = Date.now();
+        const newRemaining = Math.max(0, Math.floor((demoEndTime - now) / 1000));
         setRemainingTime(newRemaining);
 
-        if (newRemaining <= 0 && isTradingRef.current) {
-            stopTrading();
+        if (newRemaining <= 0) {
+            if (isTradingRef.current) {
+                stopTrading();
+            }
+            // Fire toast only when timer just hits 0, not on subsequent reloads
+            const timeSinceExpiry = now - demoEndTime;
+            if (timeSinceExpiry >= 0 && timeSinceExpiry < 2000) { // Check if expired within the last 2 seconds
+                showTimeLimitToast();
+            }
         }
     };
     
@@ -270,7 +277,7 @@ export function TradingProvider({ children }: { children: ReactNode }) {
     return () => {
       if (timerInterval) clearInterval(timerInterval);
     };
-  }, [demoEndTime, stopTrading]);
+  }, [demoEndTime, stopTrading, showTimeLimitToast]);
 
 
   const getUniqueName = useCallback(() => {
