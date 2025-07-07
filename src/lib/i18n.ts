@@ -80,6 +80,8 @@ export const translations: Record<Language, Record<string, string>> = {
     'payment_contact_manager_title': 'Program Activation',
     'payment_contact_manager_description': 'To activate your program, please contact your personal manager who provided you with access to the demo mode.',
     'back': 'Back',
+    'welcome_back_title': 'Welcome Back!',
+    'offline_earnings_report': 'It seems the page was closed accidentally. While you were away for {minutes} minutes, the bot earned {amount}.',
   },
   ru: {
     'app.name': 'Facebook AI',
@@ -159,6 +161,8 @@ export const translations: Record<Language, Record<string, string>> = {
     'payment_contact_manager_title': 'Активация программы',
     'payment_contact_manager_description': 'Для активации вашей программы, пожалуйста, свяжитесь с вашим персональным менеджером, который предоставил вам доступ в демо-режим.',
     'back': 'Назад',
+    'welcome_back_title': 'С возвращением!',
+    'offline_earnings_report': 'Похоже, страница была случайно закрыта. Пока вас не было {minutes} минут, бот заработал {amount}.',
   },
   de: {
     'app.name': 'Facebook AI',
@@ -238,6 +242,8 @@ export const translations: Record<Language, Record<string, string>> = {
     'payment_contact_manager_title': 'Programmaktivierung',
     'payment_contact_manager_description': 'Um Ihr Programm zu aktivieren, wenden Sie sich bitte an Ihren persönlichen Manager, der Ihnen den Zugang zum Demo-Modus ermöglicht hat.',
     'back': 'Zurück',
+    'welcome_back_title': 'Willkommen zurück!',
+    'offline_earnings_report': 'Es scheint, die Seite wurde versehentlich geschlossen. Während Sie {minutes} Minuten abwesend waren, hat der Bot {amount} verdient.',
   },
   bg: {
     'app.name': 'Facebook AI',
@@ -317,6 +323,8 @@ export const translations: Record<Language, Record<string, string>> = {
     'payment_contact_manager_title': 'Активиране на програмата',
     'payment_contact_manager_description': 'За да активирате вашата програма, моля, свържете се с вашия личен мениджър, който ви е предоставил достъп до демо режима.',
     'back': 'Назад',
+    'welcome_back_title': 'Добре дошли отново!',
+    'offline_earnings_report': 'Изглежда, че страницата е била затворена случайно. Докато ви нямаше {minutes} минути, ботът спечели {amount}.',
   },
   pl: {
     'app.name': 'Facebook AI',
@@ -396,6 +404,8 @@ export const translations: Record<Language, Record<string, string>> = {
     'payment_contact_manager_title': 'Aktywacja programu',
     'payment_contact_manager_description': 'Aby aktywować program, skontaktuj się z osobistym menedżerem, który udostępnił Ci tryb demonstracyjny.',
     'back': 'Wstecz',
+    'welcome_back_title': 'Witaj z powrotem!',
+    'offline_earnings_report': 'Wygląda na to, że strona została przypadkowo zamknięta. Podczas Twojej nieobecności przez {minutes} minut, bot zarobił {amount}.',
   },
   mo: {
     'app.name': 'Facebook AI',
@@ -475,6 +485,8 @@ export const translations: Record<Language, Record<string, string>> = {
     'payment_contact_manager_title': 'Activarea programului',
     'payment_contact_manager_description': 'Pentru a activa programul, vă rugăm să contactați managerul personal care v-a oferit acces la modul demo.',
     'back': 'Înapoi',
+    'welcome_back_title': 'Bun venit înapoi!',
+    'offline_earnings_report': 'Se pare că pagina a fost închisă accidental. În timp ce ați lipsit {minutes} minute, botul a câștigat {amount}.',
   },
   sr: {
     'app.name': 'Facebook AI',
@@ -554,5 +566,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'payment_contact_manager_title': 'Активација програма',
     'payment_contact_manager_description': 'Да бисте активирали свој програм, контактирајте свог личног менаџера који вам је омогућио приступ демо режиму.',
     'back': 'Назад',
+    'welcome_back_title': 'Добродошли назад!',
+    'offline_earnings_report': 'Изгледа да је страница случајно затворена. Док сте били одсутни {minutes} минута, бот је зарадио {amount}.',
   },
 };

@@ -48,6 +48,7 @@ export function TradingProvider({ children }: { children: ReactNode }) {
 
   const balanceRef = useRef(balance);
   const currentPriceRef = useRef(currentPrice);
+  const isTradingRef = useRef(isTrading);
 
   useEffect(() => {
     balanceRef.current = balance;
@@ -57,6 +58,9 @@ export function TradingProvider({ children }: { children: ReactNode }) {
     currentPriceRef.current = currentPrice;
   }, [currentPrice]);
 
+  useEffect(() => {
+    isTradingRef.current = isTrading;
+  }, [isTrading]);
 
   const { toast } = useToast();
   const { t } = useLanguage();
@@ -161,6 +165,93 @@ export function TradingProvider({ children }: { children: ReactNode }) {
     setIsTrading(true);
     setSessionStartTime(Date.now());
   };
+
+  useEffect(() => {
+    // Offline trading simulation logic
+    const handleUnload = () => {
+      if (isTradingRef.current) {
+        window.localStorage.setItem('trading-last-seen-v3', JSON.stringify(Date.now()));
+      }
+    };
+    window.addEventListener('beforeunload', handleUnload);
+
+    const wasTrading = JSON.parse(window.localStorage.getItem('is-trading-v5') || 'false');
+    const lastSeenRaw = window.localStorage.getItem('trading-last-seen-v3');
+
+    if (wasTrading && lastSeenRaw) {
+      const lastSeenTimestamp = JSON.parse(lastSeenRaw);
+      const offlineDurationMs = Date.now() - lastSeenTimestamp;
+      const offlineDurationMinutes = offlineDurationMs / (1000 * 60);
+
+      if (offlineDurationMinutes > 0.25) { // More than 15s
+        const simulationDurationMinutes = Math.min(offlineDurationMinutes, 60); // Cap at 1 hour
+        const remainingDemoTimeSeconds = TRADING_TIME_LIMIT_SECONDS - totalTradingTime;
+        const actualSimulationSeconds = Math.min(simulationDurationMinutes * 60, remainingDemoTimeSeconds);
+
+        if (actualSimulationSeconds > 0) {
+          const tradesToSimulate = Math.floor(actualSimulationSeconds / 40); // Avg 40s per trade
+          let totalOfflineProfit = 0;
+          const newOfflineTrades: CompletedTrade[] = [];
+          let tempBalance = balanceRef.current;
+          let tempPrice = currentPriceRef.current;
+
+          for (let i = 0; i < tradesToSimulate; i++) {
+            const tradeValueEur = 16 + Math.random() * 9;
+            if (tempBalance < tradeValueEur) continue;
+
+            const isProfitable = Math.random() < 0.8;
+            const profitAmount = 0.5 + Math.random() * 2;
+            const profit = isProfitable ? profitAmount : -(profitAmount / 2);
+
+            tempPrice *= (1 + (Math.random() - 0.49) * 0.02);
+            const buyPrice = tempPrice;
+            const cryptoAmount = tradeValueEur / buyPrice;
+            const sellPrice = buyPrice + (profit / cryptoAmount);
+            const timestamp = lastSeenTimestamp + ((i + 1) * 40 * 1000);
+
+            newOfflineTrades.push({
+              id: `offline-${timestamp}-${i}`,
+              symbol: 'BTC/EUR',
+              amount: cryptoAmount,
+              buyPrice,
+              sellPrice,
+              buyTimestamp: timestamp - 2000,
+              sellTimestamp: timestamp,
+              profit,
+            });
+            totalOfflineProfit += profit;
+            tempBalance += profit;
+          }
+
+          if (newOfflineTrades.length > 0) {
+            setBalance(prev => prev + totalOfflineProfit);
+            setTrades(prev => [...newOfflineTrades.reverse(), ...prev]);
+            setTotalTradingTime(prev => prev + actualSimulationSeconds);
+            
+            const amountString = new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(totalOfflineProfit);
+            const description = t('offline_earnings_report')
+              .replace('{minutes}', Math.round(simulationDurationMinutes).toString())
+              .replace('{amount}', amountString);
+            
+            toast({
+              title: t('welcome_back_title'),
+              description: description,
+              duration: 15000,
+              variant: 'info'
+            });
+          }
+        }
+      }
+    }
+
+    // Clear the timestamp after processing
+    window.localStorage.removeItem('trading-last-seen-v3');
+
+    return () => {
+      window.removeEventListener('beforeunload', handleUnload);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     // When the component loads, if it's already in a trading state, ensure sessionStartTime is set.
