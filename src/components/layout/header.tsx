@@ -14,9 +14,9 @@ export function Header() {
   const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-30 flex h-16 items-center justify-between bg-primary px-4 text-primary-foreground sm:px-6">
+    <header className="sticky top-0 z-30 grid h-16 grid-cols-3 items-center bg-primary px-4 text-primary-foreground sm:px-6">
       {/* Left section */}
-      <div className="flex flex-1 items-center gap-2">
+      <div className="flex items-center justify-start gap-2">
         {pathname !== '/' ? (
           <Link href="/" passHref>
             <Button variant="ghost" className="text-primary-foreground hover:bg-primary/80 hover:text-primary-foreground">
@@ -32,14 +32,14 @@ export function Header() {
       </div>
       
       {/* Center section (app name) */}
-      <div className="flex-shrink-0">
-        <Link href="/" className="text-xl font-bold">
+      <div className="text-center">
+        <Link href="/" className="truncate text-xl font-bold">
           <span>{t('app.name')}</span>
         </Link>
       </div>
 
       {/* Right section */}
-      <div className="flex flex-1 items-center justify-end gap-1">
+      <div className="flex items-center justify-end gap-1">
         <Link href="/faq" passHref>
           <Button variant="ghost" size="icon" className="rounded-full text-primary-foreground hover:bg-white/20 transition-colors">
             <HelpCircle className="h-5 w-5" />
