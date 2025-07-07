@@ -10,8 +10,8 @@ export type ChatMessage = {
 };
 
 export async function askChatbot(history: ChatMessage[], language: Language): Promise<string> {
-  // Filter out any messages that might be malformed to prevent errors.
-  const cleanHistory = history.filter(m => m && typeof m.content === 'string');
+  // Filter out any messages that might be malformed or empty to prevent errors.
+  const cleanHistory = history.filter(m => m && typeof m.content === 'string' && m.content.trim() !== '');
 
   const {text} = await ai.generate({
     // Convert my component's history format to Genkit's format
