@@ -11,5 +11,5 @@ export const names = [
     'Michael', 'Maya', 'Nathan', 'Mia', 'Nicholas', 'Mila', 'Noah', 'Natalie', 
     'Oliver', 'Olivia', 'Oscar', 'Rose', 'Patrick', 'Sarah', 'Paul', 'Sofia', 
     'Peter', 'Sophia', 'Samuel', 'Stella', 'Sebastian', 'Victoria', 'Thomas', 'Violet', 
-    'William', 'Zoe', 'Zachary', 'Yana'
+    'William', 'Zoe', 'Zachary', 'Yana', 'Ivan', 'Alexandr'
 ];
