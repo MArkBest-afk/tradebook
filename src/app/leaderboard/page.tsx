@@ -24,33 +24,48 @@ const shuffleAndPick = (arr: string[], count: number): string[] => {
     return shuffled.slice(0, count);
 };
 
+// Helper to shuffle an array
+const shuffleArray = (arr: any[]) => [...arr].sort(() => 0.5 - Math.random());
+
+
 const generateLeaderboardData = (): LeaderboardEntry[] => {
     // 1. Define mandatory names
     const mandatoryNames = ['Ivan', 'Maria', 'Alexandr'];
 
-    // 2. Get the rest of the names, excluding the mandatory ones to ensure uniqueness
+    // 2. Get the rest of the names, excluding mandatory ones to ensure uniqueness
     const otherNames = names.filter(name => !mandatoryNames.includes(name));
     
     // 3. Pick 7 other names
     const pickedOtherNames = shuffleAndPick(otherNames, 7);
 
-    // 4. Combine and shuffle the final list of 10 names
-    const topNames = [...mandatoryNames, ...pickedOtherNames].sort(() => 0.5 - Math.random());
-    
-    const maxAmount = 1000 + Math.random() * (3972 - 1000);
-    const minAmount = 512 + Math.random() * (814 - 512);
+    // 4. Create two groups of people: mandatory and others
+    const topGroup = shuffleArray(mandatoryNames);
+    const otherGroup = shuffleArray(pickedOtherNames);
 
-    const amounts = [maxAmount, minAmount];
-    for (let i = 0; i < 8; i++) {
-        amounts.push(minAmount + Math.random() * (maxAmount - minAmount));
+    // 5. Generate amounts: 3 high values for the top group, 7 lower for others
+    const topAmounts = [
+        2500 + Math.random() * (3972 - 2500),
+        1500 + Math.random() * (2499 - 1500),
+        1000 + Math.random() * (1499 - 1000),
+    ].sort((a,b) => b-a);
+
+    const otherAmounts: number[] = [];
+    for (let i = 0; i < 7; i++) {
+        otherAmounts.push(512 + Math.random() * (999 - 512));
     }
+    otherAmounts.sort((a,b) => b-a);
+    
+    // 6. Combine names with amounts
+    const topThree = topGroup.map((name, index) => ({ name, amount: topAmounts[index] }));
+    const bottomSeven = otherGroup.map((name, index) => ({ name, amount: otherAmounts[index] }));
+    
+    // 7. Combine both groups and sort by amount to assign ranks
+    const leaderboardData = [...topThree, ...bottomSeven].sort((a, b) => b.amount - a.amount);
 
-    amounts.sort((a, b) => b - a);
-
-    return topNames.map((name, index) => ({
+    return leaderboardData.map((entry, index) => ({
         rank: index + 1,
-        name: name,
-        amount: parseFloat(amounts[index].toFixed(2)),
+        name: entry.name,
+        amount: parseFloat(entry.amount.toFixed(2)),
     }));
 };
 
