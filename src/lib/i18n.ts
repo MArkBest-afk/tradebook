@@ -1,3 +1,4 @@
+
 import type { Language } from './types';
 
 export const translations: Record<Language, Record<string, string>> = {
@@ -66,6 +67,10 @@ export const translations: Record<Language, Record<string, string>> = {
     'close_time': 'Close Time',
     'profit': 'Profit',
     'demo_account': 'DEMO Account',
+    'leaderboard_title': 'Withdrawal Leaderboard (24h)',
+    'leaderboard_description': 'Top 10 users by withdrawal amount in the last 24 hours.',
+    'name': 'Name',
+    'withdrawal_amount': 'Withdrawal Amount',
   },
   ru: {
     'app.name': 'Facebook AI',
@@ -132,6 +137,10 @@ export const translations: Record<Language, Record<string, string>> = {
     'close_time': 'Время закрытия',
     'profit': 'Прибыль',
     'demo_account': 'ДЕМО счет',
+    'leaderboard_title': 'Рейтинг выводов средств за 24 часа',
+    'leaderboard_description': 'Топ-10 пользователей по сумме вывода за последние 24 часа.',
+    'name': 'Имя',
+    'withdrawal_amount': 'Сумма вывода',
   },
   de: {
     'app.name': 'Facebook AI',
@@ -198,6 +207,10 @@ export const translations: Record<Language, Record<string, string>> = {
     'close_time': 'Schlusszeit',
     'profit': 'Gewinn',
     'demo_account': 'DEMO-Konto',
+    'leaderboard_title': 'Auszahlungs-Bestenliste (24h)',
+    'leaderboard_description': 'Top 10 Benutzer nach Auszahlungsbetrag in den letzten 24 Stunden.',
+    'name': 'Name',
+    'withdrawal_amount': 'Auszahlungsbetrag',
   },
   bg: {
     'app.name': 'Facebook AI',
@@ -264,6 +277,10 @@ export const translations: Record<Language, Record<string, string>> = {
     'close_time': 'Време на затваряне',
     'profit': 'Печалба',
     'demo_account': 'ДЕМО сметка',
+    'leaderboard_title': 'Класация на тегленията (24ч)',
+    'leaderboard_description': 'Топ 10 потребители по сума на теглене за последните 24 часа.',
+    'name': 'Име',
+    'withdrawal_amount': 'Сума на теглене',
   },
   pl: {
     'app.name': 'Facebook AI',
@@ -330,6 +347,10 @@ export const translations: Record<Language, Record<string, string>> = {
     'close_time': 'Czas zamknięcia',
     'profit': 'Zysk',
     'demo_account': 'Konto DEMO',
+    'leaderboard_title': 'Ranking wypłat (24h)',
+    'leaderboard_description': 'Top 10 użytkowników według kwoty wypłat w ciągu ostatnich 24 godzin.',
+    'name': 'Imię',
+    'withdrawal_amount': 'Kwota wypłaty',
   },
   mo: {
     'app.name': 'Facebook AI',
@@ -396,6 +417,10 @@ export const translations: Record<Language, Record<string, string>> = {
     'close_time': 'Ora închiderii',
     'profit': 'Profit',
     'demo_account': 'Cont DEMO',
+    'leaderboard_title': 'Clasamentul retragerilor (24h)',
+    'leaderboard_description': 'Top 10 utilizatori după suma retrasă în ultimele 24 de ore.',
+    'name': 'Nume',
+    'withdrawal_amount': 'Suma retrasă',
   },
   sr: {
     'app.name': 'Facebook AI',
@@ -462,5 +487,9 @@ export const translations: Record<Language, Record<string, string>> = {
     'close_time': 'Vreme zatvaranja',
     'profit': 'Profit',
     'demo_account': 'ДЕМО налог',
+    'leaderboard_title': 'Rang lista povlačenja (24h)',
+    'leaderboard_description': 'Top 10 korisnika po iznosu povlačenja u poslednja 24 sata.',
+    'name': 'Ime',
+    'withdrawal_amount': 'Iznos povlačenja',
   },
 };

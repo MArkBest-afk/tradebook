@@ -1,10 +1,12 @@
+
 "use client"
 
-import { Facebook } from "lucide-react"
+import { Facebook, Trophy } from "lucide-react"
 import Link from "next/link"
 
 import { LanguageSwitcher } from "../language-switcher"
 import { useLanguage } from "@/contexts/language-context"
+import { Button } from "../ui/button"
 
 export function Header() {
   const { t } = useLanguage();
@@ -22,6 +24,11 @@ export function Header() {
       </div>
 
       <div className="flex items-center gap-2">
+        <Link href="/leaderboard" passHref>
+          <Button variant="ghost" size="icon" className="text-primary-foreground hover:bg-primary/80 hover:text-primary-foreground">
+            <Trophy className="h-5 w-5" />
+          </Button>
+        </Link>
         <LanguageSwitcher />
       </div>
     </header>
