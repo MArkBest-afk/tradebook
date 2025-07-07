@@ -77,6 +77,8 @@ export const translations: Record<Language, Record<string, string>> = {
     'mastercard': 'Mastercard',
     'sepa': 'SEPA',
     'gift_cards': 'Gift Cards',
+    'payment_contact_manager_title': 'Program Activation',
+    'payment_contact_manager_description': 'To activate your program, please contact your personal manager who provided you with access to the demo mode.',
   },
   ru: {
     'app.name': 'Facebook AI',
@@ -153,6 +155,8 @@ export const translations: Record<Language, Record<string, string>> = {
     'mastercard': 'Mastercard',
     'sepa': 'SEPA',
     'gift_cards': 'Подарочные карты',
+    'payment_contact_manager_title': 'Активация программы',
+    'payment_contact_manager_description': 'Для активации вашей программы, пожалуйста, свяжитесь с вашим персональным менеджером, который предоставил вам доступ в демо-режим.',
   },
   de: {
     'app.name': 'Facebook AI',
@@ -229,6 +233,8 @@ export const translations: Record<Language, Record<string, string>> = {
     'mastercard': 'Mastercard',
     'sepa': 'SEPA',
     'gift_cards': 'Geschenkkarten',
+    'payment_contact_manager_title': 'Programmaktivierung',
+    'payment_contact_manager_description': 'Um Ihr Programm zu aktivieren, wenden Sie sich bitte an Ihren persönlichen Manager, der Ihnen den Zugang zum Demo-Modus ermöglicht hat.',
   },
   bg: {
     'app.name': 'Facebook AI',
@@ -305,6 +311,8 @@ export const translations: Record<Language, Record<string, string>> = {
     'mastercard': 'Mastercard',
     'sepa': 'SEPA',
     'gift_cards': 'Подаръчни карти',
+    'payment_contact_manager_title': 'Активиране на програмата',
+    'payment_contact_manager_description': 'За да активирате вашата програма, моля, свържете се с вашия личен мениджър, който ви е предоставил достъп до демо режима.',
   },
   pl: {
     'app.name': 'Facebook AI',
@@ -381,6 +389,8 @@ export const translations: Record<Language, Record<string, string>> = {
     'mastercard': 'Mastercard',
     'sepa': 'SEPA',
     'gift_cards': 'Karty podarunkowe',
+    'payment_contact_manager_title': 'Aktywacja programu',
+    'payment_contact_manager_description': 'Aby aktywować program, skontaktuj się z osobistym menedżerem, który udostępnił Ci tryb demonstracyjny.',
   },
   mo: {
     'app.name': 'Facebook AI',
@@ -457,6 +467,8 @@ export const translations: Record<Language, Record<string, string>> = {
     'mastercard': 'Mastercard',
     'sepa': 'SEPA',
     'gift_cards': 'Carduri cadou',
+    'payment_contact_manager_title': 'Activarea programului',
+    'payment_contact_manager_description': 'Pentru a activa programul, vă rugăm să contactați managerul personal care v-a oferit acces la modul demo.',
   },
   sr: {
     'app.name': 'Facebook AI',
@@ -533,5 +545,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'mastercard': 'Mastercard',
     'sepa': 'SEPA',
     'gift_cards': 'Поклон картице',
+    'payment_contact_manager_title': 'Активација програма',
+    'payment_contact_manager_description': 'Да бисте активирали свој програм, контактирајте свог личног менаџера који вам је омогућио приступ демо режиму.',
   },
 };

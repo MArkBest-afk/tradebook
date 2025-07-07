@@ -12,10 +12,10 @@ export default function PaymentPage() {
   const { toast } = useToast();
 
   const handlePayment = (method: string) => {
-    // In a real app, this would redirect to a payment gateway.
     toast({
-      title: "Redirection",
-      description: `Redirecting to ${method} payment gateway...`,
+      title: t('payment_contact_manager_title'),
+      description: t('payment_contact_manager_description'),
+      duration: 10000,
     });
   };
 
