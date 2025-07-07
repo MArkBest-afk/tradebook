@@ -7,6 +7,7 @@ import { Landmark } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useToast } from "@/hooks/use-toast"
 import { Separator } from "../ui/separator"
+import Link from "next/link"
 
 export function AccountOverview() {
   const { t } = useLanguage()
@@ -71,9 +72,11 @@ export function AccountOverview() {
         <Button onClick={handleWithdraw} className="w-full bg-emerald-600 hover:bg-emerald-700 text-lg h-12">
             {t('withdraw_funds_button')}
         </Button>
-        <Button onClick={handleWithdraw} variant="outline" className="w-full text-lg h-12">
-            {t('switch_to_real_account_button')}
-        </Button>
+        <Link href="/payment" passHref className="w-full">
+          <Button variant="outline" className="w-full text-lg h-12">
+              {t('switch_to_real_account_button')}
+          </Button>
+        </Link>
       </CardFooter>
     </Card>
   )
