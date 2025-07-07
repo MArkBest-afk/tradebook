@@ -57,7 +57,7 @@ const marketInsightsFlow = ai.defineFlow(
     outputSchema: MarketInsightsOutputSchema,
   },
   async input => {
-    const {output} = await prompt(input);
+    const {output} = await prompt(input, { model: ai.model });
     return output!;
   }
 );

@@ -85,6 +85,7 @@ export async function askChatbot(
 
   try {
     const response = await ai.generate({
+      model: ai.model,
       history: [
         {
           role: 'system',
