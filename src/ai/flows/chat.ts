@@ -1,87 +1,127 @@
 'use server';
 
-import { Language } from '@/lib/types';
+import {ai} from '@/ai/genkit';
+import {Language} from '@/lib/types';
 
 // The chat history format expected by the component
 export type ChatMessage = {
-    role: 'user' | 'assistant';
-    content: string;
+  role: 'user' | 'assistant';
+  content: string;
 };
 
-// Simplified translations for the chat flow
-const responses: Record<Language, Record<string, string>> = {
-    en: {
-        greeting: "Hello! How can I help you today?",
-        fallback: "I can answer questions about the Facebook AI trading app. For example, you can ask about the demo account, trading bots, or how to withdraw funds.",
-        withdraw: "To withdraw funds or switch to a real account, you must contact your personal manager. They will guide you through the process.",
-        bots: "The app has three trading bots: Cautious (for safer, smaller trades), Balanced (a mix of growth and safety), and High-yield (higher risk for higher returns). You can select one before you start trading.",
-        limit: "Your demo account has a 6-hour time limit for trading. After this time, you will need to contact your personal manager to switch to a real account."
-    },
-    ru: {
-        greeting: "Здравствуйте! Чем я могу вам помочь сегодня?",
-        fallback: "Я могу ответить на вопросы о торговом приложении Facebook AI. Например, вы можете спросить о демо-счете, торговых ботах или о том, как вывести средства.",
-        withdraw: "Для вывода средств или перехода на реальный счет необходимо связаться с вашим личным менеджером. Он поможет вам пройти этот процесс.",
-        bots: "В приложении есть три торговых бота: Осторожный (для более безопасных и мелких сделок), Сбалансированный (сочетание роста и безопасности) и Высокодоходный (более высокий риск для более высокой прибыли). Вы можете выбрать одного из них перед началом торговли.",
-        limit: "Ваш демо-счет имеет 6-часовой лимит на торговлю. По истечении этого времени вам нужно будет связаться с вашим личным менеджером, чтобы перейти на реальный счет."
-    },
-    de: {
-        greeting: "Hallo! Wie kann ich Ihnen heute helfen?",
-        fallback: "Ich kann Fragen zur Facebook AI-Handels-App beantworten. Sie können zum Beispiel nach dem Demokonto, den Handelsrobotern oder der Auszahlung von Geldern fragen.",
-        withdraw: "Um Geld abzuheben oder zu einem echten Konto zu wechseln, müssen Sie sich an Ihren persönlichen Manager wenden. Er wird Sie durch den Prozess führen.",
-        bots: "Die App verfügt über drei Handelsroboter: Vorsichtig (für sicherere, kleinere Trades), Ausgewogen (eine Mischung aus Wachstum und Sicherheit) und Hochrendite (höheres Risiko für höhere Renditen). Sie können einen auswählen, bevor Sie mit dem Handel beginnen.",
-        limit: "Ihr Demokonto hat ein 6-Stunden-Zeitlimit für den Handel. Nach dieser Zeit müssen Sie sich an Ihren persönlichen Manager wenden, um zu einem echten Konto zu wechseln."
-    },
-    bg: {
-        greeting: "Здравейте! С какво мога да ви помогна днес?",
-        fallback: "Мога да отговарям на въпроси относно приложението за търговия на Facebook AI. Например, можете да попитате за демо сметката, търговските ботове или как да изтеглите средства.",
-        withdraw: "За да изтеглите средства или да преминете към реален акаунт, трябва да се свържете с личния си мениджър. Той ще ви преведе през процеса.",
-        bots: "Приложението има три търговски бота: Предпазлив (за по-безопасни, по-малки сделки), Балансиран (смес от растеж и безопасност) и Високодоходен (по-висок риск за по-високи доходи). Можете да изберете един, преди да започнете да търгувате.",
-        limit: "Вашата демо сметка има 6-часов лимит за търговия. След това време ще трябва да се свържете с личния си мениджър, за да преминете към реален акаунт."
-    },
-    pl: {
-        greeting: "Witaj! Jak mogę Ci dzisiaj pomóc?",
-        fallback: "Mogę odpowiedzieć na pytania dotyczące aplikacji handlowej Facebook AI. Możesz na przykład zapytać o konto demo, boty handlowe lub jak wypłacić środki.",
-        withdraw: "Aby wypłacić środki lub przejść na konto rzeczywiste, musisz skontaktować się ze swoim osobistym menedżerem. Poprowadzi Cię on przez ten proces.",
-        bots: "Aplikacja ma trzy boty handlowe: Ostrożny (dla bezpieczniejszych, mniejszych transakcji), Zrównoważony (połączenie wzrostu i bezpieczeństwa) oraz Wysokodochodowy (większe ryzyko dla większych zysków). Możesz wybrać jednego przed rozpoczęciem handlu.",
-        limit: "Twoje konto demo ma 6-godzinny limit na handel. Po tym czasie będziesz musiał skontaktować się ze swoim osobistym menedżerem, aby przejść na konto rzeczywiste."
-    },
-    mo: {
-        greeting: "Bună! Cu ce te pot ajuta astăzi?",
-        fallback: "Pot răspunde la întrebări despre aplicația de tranzacționare Facebook AI. De exemplu, puteți întreba despre contul demo, boții de tranzacționare sau cum să retrageți fonduri.",
-        withdraw: "Pentru a retrage fonduri sau a trece la un cont real, trebuie să contactați managerul personal. Acesta vă va ghida prin proces.",
-        bots: "Aplicația are trei boți de tranzacționare: Precaut (pentru tranzacții mai sigure, mai mici), Echilibrat (un amestec de creștere și siguranță) și cu Randament Ridicat (risc mai mare pentru randamente mai mari). Puteți selecta unul înainte de a începe tranzacționarea.",
-        limit: "Contul dvs. demo are o limită de timp de 6 ore pentru tranzacționare. După acest timp, va trebui să contactați managerul personal pentru a trece la un cont real."
-    },
-    sr: {
-        greeting: "Zdravo! Kako vam danas mogu pomoći?",
-        fallback: "Mogu da odgovaram na pitanja o aplikaciji za trgovanje Facebook AI. Na primer, možete pitati o demo nalogu, trgovačkim botovima ili kako da podignete sredstva.",
-        withdraw: "Da biste podigli sredstva ili prešli na pravi nalog, morate kontaktirati svog ličnog menadžera. On će vas voditi kroz proces.",
-        bots: "Aplikacija ima tri trgovačka bota: Oprezni (za sigurnije, manje trgovine), Uravnoteženi (mešavina rasta i sigurnosti) i Visokog prinosa (veći rizik za veće prinose). Možete izabrati jednog pre nego što počnete da trgujete.",
-        limit: "Vaš demo nalog ima vremensko ograničenje od 6 sati za trgovanje. Nakon tog vremena, moraćete da kontaktirate svog ličnog menadžera da biste prešli na pravi nalog."
-    }
+// This is the core information the AI will use to answer questions.
+const knowledgeBase = {
+  en: `
+    - The user has a demo account with a starting balance of €150.
+    - The demo account has a 6-hour time limit for trading. After this, they must contact a personal manager to switch to a real account.
+    - To withdraw funds or switch to a real account, the user MUST contact their personal manager. This is the only way. The manager guides them through the process, including the minimum deposit of €150 to activate the real account.
+    - The app offers three trading bots: "Cautious" (for safer, smaller trades), "Balanced" (a mix of growth and safety), and "High-yield" (higher risk for higher returns). The user selects a bot before starting to trade.
+    - The platform is called "Facebook AI".
+  `,
+  ru: `
+    - У пользователя есть демо-счет с начальным балансом 150 евро.
+    - Демо-счет имеет 6-часовой лимит на торговлю. После этого необходимо связаться с личным менеджером для перехода на реальный счет.
+    - Для вывода средств или перехода на реальный счет пользователь ОБЯЗАН связаться со своим личным менеджером. Это единственный способ. Менеджер проведет его через весь процесс, включая минимальный депозит в 150 евро для активации реального счета.
+    - В приложении есть три торговых робота: "Осторожный" (для более безопасных и мелких сделок), "Сбалансированный" (сочетание роста и безопасности) и "Высокодоходный" (более высокий риск для более высокой прибыли). Пользователь выбирает робота перед началом торговли.
+    - Платформа называется "Facebook AI".
+  `,
+  de: `
+    - Der Benutzer hat ein Demokonto mit einem Startguthaben von 150 €.
+    - Das Demokonto hat ein 6-Stunden-Zeitlimit für den Handel. Danach muss er sich an einen persönlichen Manager wenden, um auf ein echtes Konto umzusteigen.
+    - Um Geld abzuheben oder auf ein echtes Konto zu wechseln, MUSS der Benutzer seinen persönlichen Manager kontaktieren. Dies ist der einzige Weg. Der Manager führt ihn durch den Prozess, einschließlich der Mindesteinzahlung von 150 €, um das echte Konto zu aktivieren.
+    - Die App bietet drei Handelsroboter: "Vorsichtig" (für sicherere, kleinere Trades), "Ausgewogen" (eine Mischung aus Wachstum und Sicherheit) und "Hochrendite" (höheres Risiko für höhere Renditen). Der Benutzer wählt einen Bot aus, bevor er mit dem Handel beginnt.
+    - Die Plattform heißt "Facebook AI".
+  `,
+  bg: `
+    - Потребителят има демо сметка с начален баланс от 150 евро.
+    - Демо сметката има 6-часов лимит за търговия. След това той трябва да се свърже с личен мениджър, за да премине към реална сметка.
+    - За да изтегли средства или да премине към реална сметка, потребителят ТРЯБВА да се свърже със своя личен мениджър. Това е единственият начин. Мениджърът ще го преведе през процеса, включително минималния депозит от 150 евро за активиране на реалната сметка.
+    - Приложението предлага три търговски бота: "Предпазлив" (за по-безопасни, по-малки сделки), "Балансиран" (смес от растеж и безопасност) и "Високодоходен" (по-висок риск за по-високи доходи). Потребителят избира бот, преди да започне да търгува.
+    - Платформата се нарича "Facebook AI".
+  `,
+  pl: `
+    - Użytkownik ma konto demo z początkowym saldem 150 €.
+    - Konto demo ma 6-godzinny limit na handel. Po tym czasie musi skontaktować się z osobistym menedżerem, aby przejść na konto rzeczywiste.
+    - Aby wypłacić środki lub przejść na konto rzeczywiste, użytkownik MUSI skontaktować się ze swoim osobistym menedżerem. To jedyny sposób. Menedżer przeprowadzi go przez ten proces, wliczając w to minimalny depozyt w wysokości 150 €, aby aktywować konto rzeczywiste.
+    - Aplikacja oferuje trzy boty handlowe: "Ostrożny" (dla bezpieczniejszych, mniejszych transakcji), "Zrównoważony" (mieszanka wzrostu i bezpieczeństwa) oraz "Wysokodochodowy" (wyższe ryzyko dla wyższych zysków). Użytkownik wybiera bota przed rozpoczęciem handlu.
+    - Platforma nazywa się "Facebook AI".
+  `,
+  mo: `
+    - Utilizatorul are un cont demo cu un sold inițial de 150 €.
+    - Contul demo are o limită de timp de 6 ore pentru tranzacționare. După aceasta, trebuie să contacteze un manager personal pentru a trece la un cont real.
+    - Pentru a retrage fonduri sau a trece la un cont real, utilizatorul TREBUIE să contacteze managerul său personal. Acesta este singurul mod. Managerul îl va ghida prin proces, inclusiv depozitul minim de 150 € pentru a activa contul real.
+    - Aplicația oferă trei boți de tranzacționare: "Precaut" (pentru tranzacții mai sigure, mai mici), "Echilibrat" (un amestec de creștere și siguranță) și "Randament ridicat" (risc mai mare pentru randamente mai mari). Utilizatorul selectează un bot înainte de a începe tranzacționarea.
+    - Platforma se numește "Facebook AI".
+  `,
+  sr: `
+    - Корисник има демо налог са почетним стањем од 150 €.
+    - Демо налог има временско ограничење од 6 сати за трговање. Након тога, мора контактирати личног менаџера да би прешао на прави налог.
+    - Да би подигао средства или прешао на прави налог, корисник МОРА контактирати свог личног менаџера. То је једини начин. Менаџер ће га водити кроз процес, укључујући минимални депозит од 150 € за активирање правог налога.
+    - Апликација нуди три трговачка бота: "Опрезни" (за сигурније, мање трговине), "Уравнотежени" (мешавина раста и сигурности) и "Високог приноса" (већи ризик за веће приносе). Корисник бира бота пре почетка трговања.
+    - Платформа се зове "Facebook AI".
+  `,
 };
 
+const languageNames: Record<Language, string> = {
+  en: 'English',
+  ru: 'Russian',
+  de: 'German',
+  bg: 'Bulgarian',
+  pl: 'Polish',
+  mo: 'Moldovan/Romanian',
+  sr: 'Serbian',
+};
 
-export async function askChatbot(history: ChatMessage[], language: Language): Promise<string> {
-    const userMessages = history.filter(m => m.role === 'user');
-    const lastUserMessage = userMessages[userMessages.length - 1]?.content.toLowerCase() || '';
+export async function askChatbot(
+  history: ChatMessage[],
+  language: Language
+): Promise<string> {
+  const langKnowledge = knowledgeBase[language] || knowledgeBase.en;
+  const langName = languageNames[language] || languageNames.en;
 
-    const langResponses = responses[language] || responses.en;
+  const cleanHistory = history.filter(
+    m => m && typeof m.content === 'string' && m.content.trim() !== ''
+  );
 
-    // Simulate network delay
-    await new Promise(resolve => setTimeout(resolve, 500 + Math.random() * 500));
+  try {
+    const response = await ai.generate({
+      history: [
+        {
+          role: 'system',
+          content: `You are a friendly and professional support agent for a trading application called "Facebook AI". Your goal is to answer user questions based *only* on the information provided below and gently guide them towards contacting their personal manager for financial transactions.
 
-    if (lastUserMessage.includes('withdraw') || lastUserMessage.includes('money') || lastUserMessage.includes('real') || lastUserMessage.includes('deposit') || lastUserMessage.includes('вывод') || lastUserMessage.includes('деньги') || lastUserMessage.includes('реальный') || lastUserMessage.includes('депозит') || lastUserMessage.includes('пополнить') || lastUserMessage.includes('счет')) {
-        return langResponses.withdraw;
-    }
-    
-    if (lastUserMessage.includes('bot') || lastUserMessage.includes('bots') || lastUserMessage.includes('robot') || lastUserMessage.includes('бот') || lastUserMessage.includes('робот')) {
-        return langResponses.bots;
-    }
+            **Crucial Rules:**
+            1.  **ALWAYS respond in ${langName}.**
+            2.  **NEVER** provide financial advice or make up information not present in the knowledge base.
+            3.  If the user asks about withdrawing money, switching to a real account, or making a deposit, your ONLY answer should be to advise them to contact their personal manager. Do not explain how to do it yourself.
+            4.  Keep your answers concise and helpful.
 
-    if (lastUserMessage.includes('time') || lastUserMessage.includes('limit') || lastUserMessage.includes('demo') || lastUserMessage.includes('время') || lastUserMessage.includes('лимит') || lastUserMessage.includes('демо')) {
-        return langResponses.limit;
-    }
+            **Knowledge Base:**
+            ${langKnowledge}
+            `,
+        },
+        ...cleanHistory.map(m => ({
+          role: m.role === 'assistant' ? 'model' : 'user',
+          content: m.content,
+        })),
+      ],
+    });
 
-    return langResponses.fallback;
+    return (
+      response.text ??
+      "I'm sorry, I couldn't process that. Please try rephrasing your question."
+    );
+  } catch (error) {
+    console.error('AI chat error:', error);
+    const errorMessages = {
+      en: 'There was an error connecting to the AI service. Please try again in a moment.',
+      ru: 'Произошла ошибка при подключении к сервису AI. Пожалуйста, повторите попытку через минуту.',
+      de: 'Beim Verbinden mit dem KI-Dienst ist ein Fehler aufgetreten. Bitte versuchen Sie es in einem Moment erneut.',
+      bg: 'Възникна грешка при свързването с услугата за изкуствен интелект. Моля, опитайте отново след малко.',
+      pl: 'Wystąpił błąd podczas łączenia z usługą AI. Spróbuj ponownie za chwilę.',
+      mo: 'A apărut o eroare la conectarea la serviciul AI. Vă rugăm să încercați din nou într-un moment.',
+      sr: 'Дошло је до грешке приликом повезивања са АИ сервисом. Молимо покушајте поново за тренутак.',
+    };
+    return errorMessages[language] || errorMessages.en;
+  }
 }
