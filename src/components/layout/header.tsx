@@ -18,8 +18,9 @@ export function Header() {
       <div className="flex items-center gap-2">
         {pathname !== '/' ? (
           <Link href="/" passHref>
-            <Button variant="ghost" size="icon" className="text-primary-foreground hover:bg-primary/80 hover:text-primary-foreground">
-              <ArrowLeft className="h-6 w-6" />
+            <Button variant="ghost" className="text-primary-foreground hover:bg-primary/80 hover:text-primary-foreground">
+              <ArrowLeft className="h-5 w-5" />
+              <span>{t('back')}</span>
             </Button>
           </Link>
         ) : (
