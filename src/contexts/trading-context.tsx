@@ -40,23 +40,17 @@ function shuffleArray(array: any[]) {
 export function TradingProvider({ children }: { children: ReactNode }) {
   const [balance, setBalance] = useLocalStorage<number>('trading-balance-v6', INITIAL_BALANCE);
   const [trades, setTrades] = useLocalStorage<CompletedTrade[]>('trading-trades-v6', INITIAL_TRADES);
-  const [isTrading, setIsTrading] = useLocalStorage<boolean>('is-trading-v5', false);
-  const [currentPrice, setCurrentPrice] = useState(50000);
-  const [totalTradingTime, setTotalTradingTime] = useLocalStorage<number>('trading-time-v3', 0);
-  const [sessionStartTime, setSessionStartTime] = useState<number | null>(null);
-  const [remainingTime, setRemainingTime] = useState(TRADING_TIME_LIMIT_SECONDS - totalTradingTime);
+  const [isTrading, setIsTrading] = useLocalStorage<boolean>('is-trading-v6', false);
+  
+  const [demoEndTime, setDemoEndTime] = useLocalStorage<number | null>('demo-end-time-v1', null);
+  const [remainingTime, setRemainingTime] = useState(TRADING_TIME_LIMIT_SECONDS);
 
   const balanceRef = useRef(balance);
-  const currentPriceRef = useRef(currentPrice);
   const isTradingRef = useRef(isTrading);
 
   useEffect(() => {
     balanceRef.current = balance;
   }, [balance]);
-
-  useEffect(() => {
-    currentPriceRef.current = currentPrice;
-  }, [currentPrice]);
 
   useEffect(() => {
     isTradingRef.current = isTrading;
@@ -68,7 +62,7 @@ export function TradingProvider({ children }: { children: ReactNode }) {
   
   const shuffledNamesRef = useRef(shuffleArray(names));
 
-  const isTimeLimitReached = totalTradingTime >= TRADING_TIME_LIMIT_SECONDS;
+  const isTimeLimitReached = useMemo(() => demoEndTime !== null && Date.now() >= demoEndTime, [demoEndTime, remainingTime]);
 
   const dailyProfit = useMemo(() => {
     const now = Date.now();
@@ -87,6 +81,10 @@ export function TradingProvider({ children }: { children: ReactNode }) {
       variant: 'destructive',
     });
   }, [t, toast]);
+  
+  const stopTrading = useCallback(() => {
+    setIsTrading(false);
+  }, [setIsTrading]);
 
   const addCompletedTrade = useCallback((trade: CompletedTrade) => {
     setTrades(prevTrades => [trade, ...prevTrades]);
@@ -102,7 +100,6 @@ export function TradingProvider({ children }: { children: ReactNode }) {
 
 
   const runBotTrade = useCallback(() => {
-    // Trades are opened for an amount in the range of 16-25 EUR.
     const tradeValueEur = 16 + Math.random() * 9; 
 
     if (balanceRef.current < tradeValueEur) {
@@ -110,24 +107,16 @@ export function TradingProvider({ children }: { children: ReactNode }) {
       return;
     }
 
-    const isProfitable = Math.random() < 0.8; // 80% chance for profit
-    
-    // Profit is in the range of 0.5 - 2.5 EUR
+    const isProfitable = Math.random() < 0.8;
     const profitAmount = 0.5 + Math.random() * 2;
-    const profit = isProfitable ? profitAmount : -(profitAmount / 2); // Loss is half of the potential profit
+    const profit = isProfitable ? profitAmount : -(profitAmount / 2);
 
-    // Simulate price fluctuation for buy/sell
-    const newPrice = currentPriceRef.current * (1 + (Math.random() - 0.49) * 0.02); // Fluctuate up to 1% up or down
-    setCurrentPrice(newPrice);
-    
-    const buyPrice = newPrice;
+    const buyPrice = 50000 * (1 + (Math.random() - 0.49) * 0.05);
     const cryptoAmount = tradeValueEur / buyPrice;
-
-    // Calculate sell price based on profit
     const sellPrice = buyPrice + (profit / cryptoAmount);
     
     const buyTimestamp = Date.now();
-    const sellTimestamp = buyTimestamp + 3000 + Math.random() * 4000; // Sell 3-7 seconds later
+    const sellTimestamp = buyTimestamp + 3000 + Math.random() * 4000;
 
     const newTrade: CompletedTrade = {
       id: `${Date.now()}-${tradeCounter++}`,
@@ -140,60 +129,51 @@ export function TradingProvider({ children }: { children: ReactNode }) {
       profit
     };
 
-    // Use a timeout to simulate the delay between buying and selling
     setTimeout(() => {
         addCompletedTrade(newTrade);
     }, sellTimestamp - buyTimestamp);
-
   }, [addCompletedTrade]);
 
 
-  const stopTrading = useCallback(() => {
-      if (sessionStartTime) {
-        const sessionDuration = (Date.now() - sessionStartTime) / 1000;
-        setTotalTradingTime(prevTime => prevTime + sessionDuration);
-        setSessionStartTime(null);
-      }
-      setIsTrading(false);
-  }, [sessionStartTime, setIsTrading, setTotalTradingTime]);
-  
   const startTrading = () => {
-    if (isTimeLimitReached) {
+    if (demoEndTime && Date.now() >= demoEndTime) {
       showTimeLimitToast();
       return;
     }
+    
+    if (!demoEndTime) {
+      setDemoEndTime(Date.now() + TRADING_TIME_LIMIT_SECONDS * 1000);
+    }
     setIsTrading(true);
-    setSessionStartTime(Date.now());
   };
 
+  // Offline trading simulation logic
   useEffect(() => {
-    // Offline trading simulation logic
     const handleUnload = () => {
       if (isTradingRef.current) {
-        window.localStorage.setItem('trading-last-seen-v3', JSON.stringify(Date.now()));
+        window.localStorage.setItem('trading-last-seen-v4', JSON.stringify(Date.now()));
       }
     };
     window.addEventListener('beforeunload', handleUnload);
 
-    const wasTrading = JSON.parse(window.localStorage.getItem('is-trading-v5') || 'false');
-    const lastSeenRaw = window.localStorage.getItem('trading-last-seen-v3');
+    const wasTrading = JSON.parse(window.localStorage.getItem('is-trading-v6') || 'false');
+    const lastSeenRaw = window.localStorage.getItem('trading-last-seen-v4');
 
-    if (wasTrading && lastSeenRaw) {
+    if (wasTrading && lastSeenRaw && demoEndTime) {
       const lastSeenTimestamp = JSON.parse(lastSeenRaw);
-      const offlineDurationMs = Date.now() - lastSeenTimestamp;
-      const offlineDurationMinutes = offlineDurationMs / (1000 * 60);
+      
+      const effectiveEndTime = Math.min(Date.now(), demoEndTime);
+      const offlineDurationMs = effectiveEndTime - lastSeenTimestamp;
 
-      if (offlineDurationMinutes > 0.25) { // More than 15s
-        const simulationDurationMinutes = Math.min(offlineDurationMinutes, 60); // Cap at 1 hour
-        const remainingDemoTimeSeconds = TRADING_TIME_LIMIT_SECONDS - totalTradingTime;
-        const actualSimulationSeconds = Math.min(simulationDurationMinutes * 60, remainingDemoTimeSeconds);
+      if (offlineDurationMs > 15000) { // More than 15s
+        const simulationDurationMinutes = Math.min(offlineDurationMs / (1000 * 60), 60); // Cap at 1 hour
+        const actualSimulationSeconds = simulationDurationMinutes * 60;
 
         if (actualSimulationSeconds > 0) {
           const tradesToSimulate = Math.floor(actualSimulationSeconds / 40); // Avg 40s per trade
           let totalOfflineProfit = 0;
           const newOfflineTrades: CompletedTrade[] = [];
           let tempBalance = balanceRef.current;
-          let tempPrice = currentPriceRef.current;
 
           for (let i = 0; i < tradesToSimulate; i++) {
             const tradeValueEur = 16 + Math.random() * 9;
@@ -203,8 +183,7 @@ export function TradingProvider({ children }: { children: ReactNode }) {
             const profitAmount = 0.5 + Math.random() * 2;
             const profit = isProfitable ? profitAmount : -(profitAmount / 2);
 
-            tempPrice *= (1 + (Math.random() - 0.49) * 0.02);
-            const buyPrice = tempPrice;
+            const buyPrice = 50000 * (1 + (Math.random() - 0.49) * 0.05);
             const cryptoAmount = tradeValueEur / buyPrice;
             const sellPrice = buyPrice + (profit / cryptoAmount);
             const timestamp = lastSeenTimestamp + ((i + 1) * 40 * 1000);
@@ -226,7 +205,6 @@ export function TradingProvider({ children }: { children: ReactNode }) {
           if (newOfflineTrades.length > 0) {
             setBalance(prev => prev + totalOfflineProfit);
             setTrades(prev => [...newOfflineTrades.reverse(), ...prev]);
-            setTotalTradingTime(prev => prev + actualSimulationSeconds);
             
             const amountString = new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(totalOfflineProfit);
             const description = t('offline_earnings_report')
@@ -243,72 +221,57 @@ export function TradingProvider({ children }: { children: ReactNode }) {
         }
       }
     }
-
-    // Clear the timestamp after processing
-    window.localStorage.removeItem('trading-last-seen-v3');
-
-    return () => {
-      window.removeEventListener('beforeunload', handleUnload);
-    };
+    window.localStorage.removeItem('trading-last-seen-v4');
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [demoEndTime]);
 
-  useEffect(() => {
-    // When the component loads, if it's already in a trading state, ensure sessionStartTime is set.
-    // This handles page reloads during an active trading session.
-    if (isTrading && !sessionStartTime) {
-        setSessionStartTime(Date.now());
-    }
-  }, [isTrading, sessionStartTime]);
 
+  // Bot trading effect
   useEffect(() => {
     let interval: NodeJS.Timeout | undefined;
-    if (isTrading && selectedBot && sessionStartTime) {
-      // Run the first trade immediately
-      runBotTrade();
+    if (isTrading && demoEndTime && Date.now() < demoEndTime) {
+      runBotTrade(); // Run first trade immediately
       
       interval = setInterval(() => {
-        const elapsed = (Date.now() - sessionStartTime) / 1000;
-        if (totalTradingTime + elapsed >= TRADING_TIME_LIMIT_SECONDS) {
-            stopTrading();
-            showTimeLimitToast();
+        if (Date.now() >= demoEndTime) {
+          stopTrading();
+          showTimeLimitToast();
         } else {
-            runBotTrade();
+          runBotTrade();
         }
       }, 20000 + Math.random() * 40000); // 20s to 60s
     }
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, [isTrading, selectedBot, runBotTrade, sessionStartTime, totalTradingTime, stopTrading, showTimeLimitToast]);
+  }, [isTrading, demoEndTime, runBotTrade, stopTrading, showTimeLimitToast]);
 
-  // Effect for the countdown timer
+
+  // Countdown timer effect
   useEffect(() => {
     let timerInterval: NodeJS.Timeout | undefined;
 
     const updateRemainingTime = () => {
-      if (isTrading && sessionStartTime) {
-        const sessionDuration = (Date.now() - sessionStartTime) / 1000;
-        const newRemaining = TRADING_TIME_LIMIT_SECONDS - (totalTradingTime + sessionDuration);
-        setRemainingTime(Math.max(0, newRemaining));
-      } else {
-        const newRemaining = TRADING_TIME_LIMIT_SECONDS - totalTradingTime;
-        setRemainingTime(Math.max(0, newRemaining));
-      }
+        if (!demoEndTime) {
+            setRemainingTime(TRADING_TIME_LIMIT_SECONDS);
+            return;
+        }
+        const newRemaining = Math.max(0, Math.floor((demoEndTime - Date.now()) / 1000));
+        setRemainingTime(newRemaining);
+
+        if (newRemaining <= 0 && isTradingRef.current) {
+            stopTrading();
+        }
     };
     
-    if (isTrading) {
-      timerInterval = setInterval(updateRemainingTime, 1000);
-    } else {
-      updateRemainingTime();
-    }
+    timerInterval = setInterval(updateRemainingTime, 1000);
+    updateRemainingTime(); // Initial call
     
     return () => {
-      if (timerInterval) {
-        clearInterval(timerInterval);
-      }
+      if (timerInterval) clearInterval(timerInterval);
     };
-  }, [isTrading, sessionStartTime, totalTradingTime]);
+  }, [demoEndTime, stopTrading]);
+
 
   const getUniqueName = useCallback(() => {
     if (shuffledNamesRef.current.length === 0) {
@@ -317,18 +280,14 @@ export function TradingProvider({ children }: { children: ReactNode }) {
     return shuffledNamesRef.current.pop()!;
   }, []);
 
+  // Withdrawal notification effect
   useEffect(() => {
-    if (!isTrading || !sessionStartTime) {
-      return;
-    }
+    if (!isTrading) return;
 
     let timeoutId: NodeJS.Timeout;
 
     const showRandomWithdrawal = () => {
-      // Check again inside timeout in case trading stopped
-      if (!isTrading || !sessionStartTime) {
-        return;
-      }
+      if (!isTradingRef.current) return;
 
       const randomName = getUniqueName();
       const randomAmount = Math.floor(Math.random() * (399 - 53 + 1)) + 53;
@@ -346,32 +305,14 @@ export function TradingProvider({ children }: { children: ReactNode }) {
         duration: 3000,
       });
 
-      const elapsedSeconds = (Date.now() - sessionStartTime) / 1000;
-      let nextInterval;
-
-      if (elapsedSeconds < 300) { // First 5 minutes
-        nextInterval = 30000 + Math.random() * 5000; // 30-35 seconds
-      } else {
-        nextInterval = 25000 + Math.random() * 35000; // 25-60 seconds
-      }
-
+      const nextInterval = 25000 + Math.random() * 35000;
       timeoutId = setTimeout(showRandomWithdrawal, nextInterval);
     };
 
-    // Determine the first timeout interval
-    const calculateFirstInterval = () => {
-        const elapsedSeconds = (Date.now() - sessionStartTime) / 1000;
-        if (elapsedSeconds < 300) {
-            return 30000 + Math.random() * 5000; // 30-35s
-        } else {
-            return 25000 + Math.random() * 35000; // 25-60s
-        }
-    };
-    
-    timeoutId = setTimeout(showRandomWithdrawal, calculateFirstInterval());
+    timeoutId = setTimeout(showRandomWithdrawal, 15000 + Math.random() * 10000);
 
     return () => clearTimeout(timeoutId);
-  }, [isTrading, t, toast, getUniqueName, sessionStartTime]);
+  }, [isTrading, t, toast, getUniqueName]);
 
 
   const value = {
