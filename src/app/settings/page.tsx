@@ -11,7 +11,7 @@ export default function SettingsPage() {
   const { t, language, setLanguage } = useLanguage();
 
   return (
-    <Card>
+    <Card className="max-w-md mx-auto">
       <CardHeader>
         <CardTitle>{t('settings')}</CardTitle>
         <CardDescription>Manage your application settings.</CardDescription>
@@ -21,7 +21,7 @@ export default function SettingsPage() {
           <div className="grid gap-3">
             <Label htmlFor="language">{t('language')}</Label>
              <Select value={language} onValueChange={(value) => setLanguage(value as Language)}>
-                <SelectTrigger className="w-[280px]">
+                <SelectTrigger className="w-full">
                     <SelectValue placeholder="Select a language" />
                 </SelectTrigger>
                 <SelectContent>

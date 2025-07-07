@@ -14,13 +14,14 @@ export function Header() {
   const pathname = usePathname();
 
   return (
-    <header className="relative sticky top-0 z-30 flex h-16 items-center justify-between bg-primary px-4 text-primary-foreground sm:px-6">
-      <div className="flex items-center gap-2">
+    <header className="sticky top-0 z-30 flex h-16 items-center justify-between bg-primary px-4 text-primary-foreground sm:px-6">
+      {/* Left section */}
+      <div className="flex flex-1 items-center gap-2">
         {pathname !== '/' ? (
           <Link href="/" passHref>
             <Button variant="ghost" className="text-primary-foreground hover:bg-primary/80 hover:text-primary-foreground">
               <ArrowLeft className="h-5 w-5" />
-              <span>{t('back')}</span>
+              <span className="hidden sm:ml-2 sm:inline-block">{t('back')}</span>
             </Button>
           </Link>
         ) : (
@@ -30,11 +31,15 @@ export function Header() {
         )}
       </div>
       
-      <Link href="/" className="absolute left-1/2 -translate-x-1/2 text-xl font-bold">
-        <span>{t('app.name')}</span>
-      </Link>
+      {/* Center section (app name) */}
+      <div className="flex-shrink-0">
+        <Link href="/" className="text-xl font-bold">
+          <span>{t('app.name')}</span>
+        </Link>
+      </div>
 
-      <div className="flex items-center gap-2">
+      {/* Right section */}
+      <div className="flex flex-1 items-center justify-end gap-1">
         <Link href="/leaderboard" passHref>
           <Button variant="ghost" size="icon" className="text-primary-foreground hover:bg-primary/80 hover:text-primary-foreground">
             <Trophy className="h-5 w-5" />
