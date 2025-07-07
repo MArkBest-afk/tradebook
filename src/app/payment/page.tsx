@@ -47,6 +47,14 @@ export default function PaymentPage() {
               <Image src="/mastercard-svgrepo-com.svg" width={80} height={48} alt="Mastercard" className="mr-4" />
               {t('mastercard')}
             </Button>
+            <Button
+              variant="outline"
+              className="w-full h-20 justify-start text-lg p-4"
+              onClick={() => handlePayment('SEPA')}
+            >
+              <Image src="/sepa-svgrepo-com.svg" width={80} height={48} alt="SEPA" className="mr-4" />
+              {t('sepa')}
+            </Button>
           </div>
         </CardContent>
       </Card>

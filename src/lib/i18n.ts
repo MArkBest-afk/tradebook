@@ -75,6 +75,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'deposit_amount': 'Deposit Amount',
     'visa': 'Visa',
     'mastercard': 'Mastercard',
+    'sepa': 'SEPA',
   },
   ru: {
     'app.name': 'Facebook AI',
@@ -149,6 +150,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'deposit_amount': 'Сумма пополнения',
     'visa': 'Visa',
     'mastercard': 'Mastercard',
+    'sepa': 'SEPA',
   },
   de: {
     'app.name': 'Facebook AI',
@@ -223,6 +225,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'deposit_amount': 'Einzahlungsbetrag',
     'visa': 'Visa',
     'mastercard': 'Mastercard',
+    'sepa': 'SEPA',
   },
   bg: {
     'app.name': 'Facebook AI',
@@ -297,6 +300,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'deposit_amount': 'Сума на депозита',
     'visa': 'Visa',
     'mastercard': 'Mastercard',
+    'sepa': 'SEPA',
   },
   pl: {
     'app.name': 'Facebook AI',
@@ -371,6 +375,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'deposit_amount': 'Kwota depozytu',
     'visa': 'Visa',
     'mastercard': 'Mastercard',
+    'sepa': 'SEPA',
   },
   mo: {
     'app.name': 'Facebook AI',
@@ -445,6 +450,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'deposit_amount': 'Suma depozitului',
     'visa': 'Visa',
     'mastercard': 'Mastercard',
+    'sepa': 'SEPA',
   },
   sr: {
     'app.name': 'Facebook AI',
@@ -519,5 +525,6 @@ export const translations: Record<Language, Record<string, string>> = {
     'deposit_amount': 'Износ депозита',
     'visa': 'Visa',
     'mastercard': 'Mastercard',
+    'sepa': 'SEPA',
   },
 };
