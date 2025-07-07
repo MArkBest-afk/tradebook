@@ -23,7 +23,7 @@ const TradingContext = createContext<TradingContextType | undefined>(undefined);
 
 const INITIAL_BALANCE = 150;
 const INITIAL_TRADES: CompletedTrade[] = [];
-const TRADING_TIME_LIMIT_SECONDS = 6 * 60 * 60; // 6 hours in seconds
+const TRADING_TIME_LIMIT_SECONDS = 60; // 1 minute for testing
 
 let tradeCounter = 0;
 
