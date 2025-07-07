@@ -41,7 +41,7 @@ export function Header() {
       {/* Right section */}
       <div className="flex flex-1 items-center justify-end gap-1">
         <Link href="/faq" passHref>
-          <Button variant="ghost" size="icon" className="text-primary-foreground hover:bg-primary/80 hover:text-primary-foreground">
+          <Button variant="ghost" size="icon" className="rounded-full text-primary-foreground hover:bg-white/20 transition-colors">
             <HelpCircle className="h-5 w-5" />
           </Button>
         </Link>
