@@ -9,7 +9,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
-import { askChatbot, type ChatMessage } from "@/ai/flows/chat";
+import { askChatbot } from "@/ai/flows/chat";
+import type { ChatMessage } from "@/lib/types";
 import { useLanguage } from "@/contexts/language-context";
 
 export function AiChatWidget() {

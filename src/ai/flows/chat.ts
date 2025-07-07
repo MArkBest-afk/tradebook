@@ -1,13 +1,15 @@
 'use server';
 
 import {ai} from '@/ai/genkit';
-import {Language} from '@/lib/types';
+import {z} from 'genkit';
+import type {Language} from '@/lib/types';
+import { ChatMessageSchema, type ChatMessage } from '@/lib/types';
 
-// The chat history format expected by the component
-export type ChatMessage = {
-  role: 'user' | 'assistant';
-  content: string;
-};
+const ChatInputSchema = z.object({
+  history: z.array(ChatMessageSchema),
+  language: z.enum(['en', 'ru', 'de', 'bg', 'pl', 'mo', 'sr']),
+});
+
 
 // This is the core information the AI will use to answer questions.
 const knowledgeBase = {
@@ -72,64 +74,77 @@ const languageNames: Record<Language, string> = {
   sr: 'Serbian',
 };
 
+// Main function exported to the component. It calls the Genkit flow.
 export async function askChatbot(
   history: ChatMessage[],
   language: Language
 ): Promise<string> {
-  const langKnowledge = knowledgeBase[language] || knowledgeBase.en;
-  const langName = languageNames[language] || languageNames.en;
-
-  // This filter is crucial for stability. It ensures we don't send malformed data to the AI.
-  const cleanHistory = history.filter(
-    m =>
-      m &&
-      typeof m.role === 'string' &&
-      (m.role === 'user' || m.role === 'assistant') &&
-      typeof m.content === 'string' &&
-      m.content.trim() !== ''
-  );
-
-  try {
-    const response = await ai.generate({
-      model: ai.model, // Explicitly use the model defined in genkit.ts
-      history: [
-        {
-          role: 'system',
-          content: `You are a friendly and professional support agent for a trading application called "Facebook AI". Your goal is to answer user questions based *only* on the information provided below and gently guide them towards contacting their personal manager for financial transactions.
-
-            **Crucial Rules:**
-            1.  **ALWAYS respond in ${langName}.**
-            2.  **NEVER** provide financial advice or make up information not present in the knowledge base.
-            3.  If the user asks about withdrawing money, switching to a real account, or making a deposit, your ONLY answer should be to advise them to contact their personal manager. Do not explain how to do it yourself.
-            4.  Keep your answers concise and helpful.
-
-            **Knowledge Base:**
-            ${langKnowledge}
-            `,
-        },
-        ...cleanHistory.map(m => ({
-          role: m.role === 'assistant' ? 'model' : 'user',
-          content: m.content,
-        })),
-      ],
-    });
-
-    // Safely extract the text from the response.
-    return (
-      response.text ??
-      "I'm sorry, I couldn't process that. Please try rephrasing your question."
-    );
-  } catch (error) {
-    console.error('AI chat error:', error);
-    const errorMessages = {
-      en: 'There was an error connecting to the AI service. Please try again in a moment.',
-      ru: 'Произошла ошибка при подключении к сервису AI. Пожалуйста, повторите попытку через минуту.',
-      de: 'Beim Verbinden mit dem KI-Dienst ist ein Fehler aufgetreten. Bitte versuchen Sie es in einem Moment erneut.',
-      bg: 'Възникна грешка при свързването с услугата за изкуствен интелект. Моля, опитайте отново след малко.',
-      pl: 'Wystąpił błąd podczas łączenia z usługą AI. Spróbuj ponownie za chwilę.',
-      mo: 'A apărut o eroare la conectarea la serviciul AI. Vă rugăm să încercați din nou într-un moment.',
-      sr: 'Дошло је до грешке приликом повезивања са АИ сервисом. Молимо покушајте поново за тренутак.',
-    };
-    return errorMessages[language] || errorMessages.en;
-  }
+  return chatFlow({history, language});
 }
+
+// Define the Genkit flow
+const chatFlow = ai.defineFlow(
+  {
+    name: 'chatFlow',
+    inputSchema: ChatInputSchema,
+    outputSchema: z.string(),
+  },
+  async ({history, language}) => {
+    const langKnowledge = knowledgeBase[language] || knowledgeBase.en;
+    const langName = languageNames[language] || languageNames.en;
+
+    // This filter is crucial for stability. It ensures we don't send malformed data to the AI.
+    const cleanHistory = history.filter(
+      m =>
+        m &&
+        typeof m.role === 'string' &&
+        (m.role === 'user' || m.role === 'assistant') &&
+        typeof m.content === 'string' &&
+        m.content.trim() !== ''
+    );
+
+    try {
+      const response = await ai.generate({
+        model: 'googleai/gemini-1.5-flash',
+        history: [
+          {
+            role: 'system',
+            content: `You are a friendly and professional support agent for a trading application called "Facebook AI". Your goal is to answer user questions based *only* on the information provided below and gently guide them towards contacting their personal manager for financial transactions.
+
+              **Crucial Rules:**
+              1.  **ALWAYS respond in ${langName}.**
+              2.  **NEVER** provide financial advice or make up information not present in the knowledge base.
+              3.  If the user asks about withdrawing money, switching to a real account, or making a deposit, your ONLY answer should be to advise them to contact their personal manager. Do not explain how to do it yourself.
+              4.  Keep your answers concise and helpful.
+
+              **Knowledge Base:**
+              ${langKnowledge}
+              `,
+          },
+          ...cleanHistory.map(m => ({
+            role: m.role === 'assistant' ? 'model' : 'user',
+            content: m.content,
+          })),
+        ],
+      });
+
+      // Safely extract the text from the response.
+      return (
+        response.text ??
+        "I'm sorry, I couldn't process that. Please try rephrasing your question."
+      );
+    } catch (error) {
+      console.error('AI chat error:', error);
+      const errorMessages = {
+        en: 'There was an error connecting to the AI service. Please try again in a moment.',
+        ru: 'Произошла ошибка при подключении к сервису AI. Пожалуйста, повторите попытку через минуту.',
+        de: 'Beim Verbinden mit dem KI-Dienst ist ein Fehler aufgetreten. Bitte versuchen Sie es in einem Moment erneut.',
+        bg: 'Възникна грешка при свързването с услугата за изкуствен интелект. Моля, опитайте отново след малко.',
+        pl: 'Wystąpił błąd podczas łączenia z usługą AI. Spróbuj ponownie za chwilę.',
+        mo: 'A apărut o eroare la conectarea la serviciul AI. Vă rugăm să încercați din nou într-un moment.',
+        sr: 'Дошло је до грешке приликом повезивања са АИ сервисом. Молимо покушајте поново за тренутак.',
+      };
+      return errorMessages[language] || errorMessages.en;
+    }
+  }
+);
