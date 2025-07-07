@@ -71,6 +71,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'leaderboard_description': 'Top 10 users by withdrawal amount in the last 24 hours.',
     'name': 'Name',
     'withdrawal_amount': 'Withdrawal Amount',
+    'switch_to_real_account_button': 'Switch to Real Account',
   },
   ru: {
     'app.name': 'Facebook AI',
@@ -141,6 +142,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'leaderboard_description': 'Топ-10 пользователей по сумме вывода за последние 24 часа.',
     'name': 'Имя',
     'withdrawal_amount': 'Сумма вывода',
+    'switch_to_real_account_button': 'Перейти на реальный счет',
   },
   de: {
     'app.name': 'Facebook AI',
@@ -211,6 +213,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'leaderboard_description': 'Top 10 Benutzer nach Auszahlungsbetrag in den letzten 24 Stunden.',
     'name': 'Name',
     'withdrawal_amount': 'Auszahlungsbetrag',
+    'switch_to_real_account_button': 'Zum echten Konto wechseln',
   },
   bg: {
     'app.name': 'Facebook AI',
@@ -281,6 +284,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'leaderboard_description': 'Топ 10 потребители по сума на теглене за последните 24 часа.',
     'name': 'Име',
     'withdrawal_amount': 'Сума на теглене',
+    'switch_to_real_account_button': 'Преминаване към реален акаунт',
   },
   pl: {
     'app.name': 'Facebook AI',
@@ -351,6 +355,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'leaderboard_description': 'Top 10 użytkowników według kwoty wypłat w ciągu ostatnich 24 godzin.',
     'name': 'Imię',
     'withdrawal_amount': 'Kwota wypłaty',
+    'switch_to_real_account_button': 'Przejdź na konto rzeczywiste',
   },
   mo: {
     'app.name': 'Facebook AI',
@@ -421,6 +426,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'leaderboard_description': 'Top 10 utilizatori după suma retrasă în ultimele 24 de ore.',
     'name': 'Nume',
     'withdrawal_amount': 'Suma retrasă',
+    'switch_to_real_account_button': 'Treceți la un cont real',
   },
   sr: {
     'app.name': 'Facebook AI',
@@ -491,5 +497,6 @@ export const translations: Record<Language, Record<string, string>> = {
     'leaderboard_description': 'Top 10 korisnika po iznosu povlačenja u poslednja 24 sata.',
     'name': 'Ime',
     'withdrawal_amount': 'Iznos povlačenja',
+    'switch_to_real_account_button': 'Pređi na pravi nalog',
   },
 };

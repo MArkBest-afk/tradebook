@@ -67,9 +67,12 @@ export function AccountOverview() {
           )}
         </div>
       </CardContent>
-      <CardFooter className="pt-4">
+      <CardFooter className="pt-4 flex flex-col gap-4">
         <Button onClick={handleWithdraw} className="w-full bg-emerald-600 hover:bg-emerald-700 text-lg h-12">
             {t('withdraw_funds_button')}
+        </Button>
+        <Button onClick={handleWithdraw} variant="outline" className="w-full text-lg h-12">
+            {t('switch_to_real_account_button')}
         </Button>
       </CardFooter>
     </Card>
