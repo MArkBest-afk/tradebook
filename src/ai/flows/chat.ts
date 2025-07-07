@@ -10,9 +10,12 @@ export type ChatMessage = {
 };
 
 export async function askChatbot(history: ChatMessage[], language: Language): Promise<string> {
+  // Filter out any messages that might be malformed to prevent errors.
+  const cleanHistory = history.filter(m => m && typeof m.content === 'string');
+
   const {text} = await ai.generate({
     // Convert my component's history format to Genkit's format
-    history: history.map(m => ({
+    history: cleanHistory.map(m => ({
         role: m.role === 'assistant' ? 'model' : 'user',
         content: [{text: m.content}]
     })),
@@ -30,5 +33,6 @@ Key information about the app:
 - There is a leaderboard page showing top withdrawals.
 `,
   });
-  return text;
+  // Ensure we always return a string, even if the AI response is empty.
+  return text ?? "";
 }
