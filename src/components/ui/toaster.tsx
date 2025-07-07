@@ -13,7 +13,10 @@ import {
 export function Toaster() {
   const { toasts } = useToast()
 
+  // Toasts with `position: 'top-right'` go to the top right.
   const topRightToasts = toasts.filter(toast => toast.position === 'top-right');
+  
+  // All other toasts go to the bottom right (the default position).
   const bottomRightToasts = toasts.filter(toast => toast.position !== 'top-right');
 
   return (
@@ -35,7 +38,8 @@ export function Toaster() {
             </Toast>
           )
         })}
-        <ToastViewport className="flex-col top-0 right-0 sm:flex-col sm:top-4 sm:right-4 sm:bottom-auto" />
+        {/* Viewport for top-right toasts. Stacks from the top down. */}
+        <ToastViewport className="fixed top-0 right-0 flex-col p-4" />
       </ToastProvider>
 
       {/* Bottom Right Toaster (default) */}
@@ -55,7 +59,8 @@ export function Toaster() {
             </Toast>
           )
         })}
-        <ToastViewport className="bottom-0 flex-col" />
+        {/* Default viewport, positions at bottom-right */}
+        <ToastViewport />
       </ToastProvider>
     </>
   )
