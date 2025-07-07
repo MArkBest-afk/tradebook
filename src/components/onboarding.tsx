@@ -5,30 +5,38 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, Di
 import { Button } from "@/components/ui/button";
 import { useAppContext } from "@/contexts/app-context";
 import { useLanguage } from "@/contexts/language-context";
-import { ArrowRight, DollarSign, Clock } from "lucide-react";
-
-const onboardingSteps = [
-    {
-        icon: DollarSign,
-        titleKey: "onboarding_demo_account_title",
-        descriptionKey: "onboarding_demo_account_text",
-    },
-    {
-        icon: Clock,
-        titleKey: "onboarding_demo_time_title",
-        descriptionKey: "onboarding_demo_time_text",
-    },
-    {
-        icon: ArrowRight,
-        titleKey: "onboarding_finish_title",
-        descriptionKey: "onboarding_finish_text",
-    }
-];
+import { ArrowRight, DollarSign, Clock, Globe } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { languages, Language } from "@/lib/types";
 
 export function Onboarding() {
     const { completeOnboarding } = useAppContext();
-    const { t } = useLanguage();
+    const { t, language, setLanguage } = useLanguage();
     const [step, setStep] = useState(0);
+
+    const onboardingSteps = [
+        {
+            icon: Globe,
+            titleKey: "onboarding_language_title",
+            descriptionKey: "onboarding_language_text",
+        },
+        {
+            icon: DollarSign,
+            titleKey: "onboarding_demo_account_title",
+            descriptionKey: "onboarding_demo_account_text",
+        },
+        {
+            icon: Clock,
+            titleKey: "onboarding_demo_time_title",
+            descriptionKey: "onboarding_demo_time_text",
+        },
+        {
+            icon: ArrowRight,
+            titleKey: "onboarding_finish_title",
+            descriptionKey: "onboarding_finish_text",
+        }
+    ];
+
 
     const currentStep = onboardingSteps[step];
     const Icon = currentStep.icon;
@@ -63,6 +71,22 @@ export function Onboarding() {
                 <div className="py-4 text-center">
                     <h3 className="font-semibold text-lg mb-2">{t(currentStep.titleKey)}</h3>
                     <p className="text-sm text-muted-foreground">{t(currentStep.descriptionKey)}</p>
+                    {step === 0 && (
+                        <div className="mt-4 flex justify-center">
+                             <Select value={language} onValueChange={(value) => setLanguage(value as Language)}>
+                                <SelectTrigger className="w-[280px]">
+                                    <SelectValue placeholder="Select a language" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {languages.map((lang) => (
+                                        <SelectItem key={lang.value} value={lang.value}>
+                                            {lang.label}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                        </div>
+                    )}
                 </div>
                 
                 <div className="flex justify-center items-center space-x-2 my-4">
