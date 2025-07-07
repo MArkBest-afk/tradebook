@@ -25,9 +25,8 @@ export const languages: { value: Language; label: string }[] = [
 
 export type BotType = 'cautious' | 'balanced' | 'high-yield';
 
-// Schema and type for AI Chat
 export const ChatMessageSchema = z.object({
-  role: z.enum(['user', 'assistant']),
-  content: z.string(),
+    role: z.enum(['user', 'assistant']),
+    content: z.string(),
 });
 export type ChatMessage = z.infer<typeof ChatMessageSchema>;

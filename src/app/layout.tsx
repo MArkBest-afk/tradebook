@@ -3,7 +3,6 @@ import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import { AppProviders } from './providers';
 import { Header } from '@/components/layout/header';
-import { AiChatWidget } from '@/components/ai-chat/ai-chat-widget';
 
 export const metadata: Metadata = {
   title: 'Tradebot FacebookAI',
@@ -31,7 +30,6 @@ export default function RootLayout({
             </main>
           </div>
           <Toaster />
-          <AiChatWidget />
         </AppProviders>
       </body>
     </html>
