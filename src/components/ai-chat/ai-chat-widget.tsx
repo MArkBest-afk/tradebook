@@ -44,7 +44,7 @@ export function AiChatWidget() {
     const userMessage: ChatMessage = { role: "user", content: input };
     const historyForAI = [...messages, userMessage];
 
-    // 2. Update the UI to show the user's message immediately
+    // 2. Update the UI to show the user's message immediately and set loading state
     setMessages(historyForAI);
     setInput("");
     setIsLoading(true);
@@ -54,13 +54,16 @@ export function AiChatWidget() {
       const aiResponse = await askChatbot(historyForAI, language);
       const assistantMessage: ChatMessage = { role: 'assistant', content: aiResponse };
 
-      // 4. Update the UI with the AI's response
-      setMessages((prev) => [...prev, assistantMessage]);
+      // 4. Update the UI with the AI's response.
+      // We base the new state on `historyForAI` to avoid race conditions
+      // where the user's message might be missing from the state.
+      setMessages([...historyForAI, assistantMessage]);
 
     } catch (error) {
       console.error("Chatbot error:", error);
       const errorMessage: ChatMessage = { role: 'assistant', content: "Sorry, I'm having trouble connecting. Please try again later." };
-      setMessages((prev) => [...prev, errorMessage]);
+      // Also base the error state on `historyForAI`
+      setMessages([...historyForAI, errorMessage]);
     } finally {
       setIsLoading(false);
     }
