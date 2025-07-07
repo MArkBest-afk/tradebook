@@ -3,6 +3,9 @@ import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import { AppProviders } from './providers';
 import { Header } from '@/components/layout/header';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { HelpCircle } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Tradebot FacebookAI',
@@ -29,6 +32,17 @@ export default function RootLayout({
               {children}
             </main>
           </div>
+
+          <Link href="/faq" passHref>
+            <Button
+              variant="default"
+              size="icon"
+              className="fixed left-4 top-1/2 -translate-y-1/2 h-14 w-14 rounded-full shadow-lg z-50"
+            >
+              <HelpCircle className="h-7 w-7" />
+            </Button>
+          </Link>
+
           <Toaster />
         </AppProviders>
       </body>
