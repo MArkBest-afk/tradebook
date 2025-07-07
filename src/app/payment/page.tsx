@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/language-context";
 import Image from "next/image";
 import { useToast } from "@/hooks/use-toast";
+import { Gift } from "lucide-react";
 
 export default function PaymentPage() {
   const { t } = useLanguage();
@@ -54,6 +55,16 @@ export default function PaymentPage() {
             >
               <Image src="/sepa-svgrepo-com.svg" width={80} height={48} alt="SEPA" className="mr-4" />
               {t('sepa')}
+            </Button>
+            <Button
+              variant="outline"
+              className="w-full h-20 justify-start text-lg p-4"
+              onClick={() => handlePayment('Gift Cards')}
+            >
+              <div className="w-[80px] h-[48px] flex items-center justify-center mr-4">
+                 <Gift className="h-10 w-10 text-primary" />
+              </div>
+              {t('gift_cards')}
             </Button>
           </div>
         </CardContent>

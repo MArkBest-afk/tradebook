@@ -76,6 +76,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'visa': 'Visa',
     'mastercard': 'Mastercard',
     'sepa': 'SEPA',
+    'gift_cards': 'Gift Cards',
   },
   ru: {
     'app.name': 'Facebook AI',
@@ -151,6 +152,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'visa': 'Visa',
     'mastercard': 'Mastercard',
     'sepa': 'SEPA',
+    'gift_cards': 'Подарочные карты',
   },
   de: {
     'app.name': 'Facebook AI',
@@ -226,6 +228,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'visa': 'Visa',
     'mastercard': 'Mastercard',
     'sepa': 'SEPA',
+    'gift_cards': 'Geschenkkarten',
   },
   bg: {
     'app.name': 'Facebook AI',
@@ -301,6 +304,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'visa': 'Visa',
     'mastercard': 'Mastercard',
     'sepa': 'SEPA',
+    'gift_cards': 'Подаръчни карти',
   },
   pl: {
     'app.name': 'Facebook AI',
@@ -376,6 +380,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'visa': 'Visa',
     'mastercard': 'Mastercard',
     'sepa': 'SEPA',
+    'gift_cards': 'Karty podarunkowe',
   },
   mo: {
     'app.name': 'Facebook AI',
@@ -451,6 +456,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'visa': 'Visa',
     'mastercard': 'Mastercard',
     'sepa': 'SEPA',
+    'gift_cards': 'Carduri cadou',
   },
   sr: {
     'app.name': 'Facebook AI',
@@ -526,5 +532,6 @@ export const translations: Record<Language, Record<string, string>> = {
     'visa': 'Visa',
     'mastercard': 'Mastercard',
     'sepa': 'SEPA',
+    'gift_cards': 'Поклон картице',
   },
 };
