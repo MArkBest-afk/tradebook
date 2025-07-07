@@ -1,7 +1,7 @@
 
 "use client"
 
-import { Facebook, Trophy, ArrowLeft } from "lucide-react"
+import { Facebook, Trophy, ArrowLeft, HelpCircle } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 
@@ -40,6 +40,9 @@ export function Header() {
 
       {/* Right section */}
       <div className="flex flex-1 items-center justify-end gap-1">
+        <Button variant="ghost" size="icon" className="text-primary-foreground hover:bg-primary/80 hover:text-primary-foreground">
+          <HelpCircle className="h-5 w-5" />
+        </Button>
         <Link href="/leaderboard" passHref>
           <Button variant="ghost" size="icon" className="text-primary-foreground hover:bg-primary/80 hover:text-primary-foreground">
             <Trophy className="h-5 w-5" />
