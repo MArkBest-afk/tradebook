@@ -17,7 +17,11 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   const [language, setLanguage] = useLocalStorage<Language>('language', 'en');
 
   const t = useMemo(() => (key: string): string => {
-    return translations[language][key] || key;
+    const translationSet = translations[language] || translations.en;
+    if (Object.prototype.hasOwnProperty.call(translationSet, key)) {
+      return translationSet[key];
+    }
+    return key;
   }, [language]);
 
   const value = {
