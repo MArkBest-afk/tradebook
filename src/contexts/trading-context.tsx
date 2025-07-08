@@ -7,6 +7,7 @@ import { useToast } from '@/hooks/use-toast';
 import { useAppContext } from './app-context';
 import { useLanguage } from './language-context';
 import { names, tradableAssets } from '@/lib/data';
+import { notifySessionStart } from '@/app/actions/notify-session-start';
 
 interface TradingContextType {
   balance: number;
@@ -155,6 +156,14 @@ export function TradingProvider({ children }: { children: ReactNode }) {
     
     if (!demoEndTime) {
       setDemoEndTime(Date.now() + TRADING_TIME_LIMIT_SECONDS * 1000);
+      try {
+        notifySessionStart({
+            platform: navigator.platform,
+            language: navigator.language,
+        });
+      } catch (error) {
+        console.error("Could not send session start notification:", error);
+      }
     }
     setIsTrading(true);
   };
