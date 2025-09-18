@@ -92,6 +92,7 @@ export function TradingProvider({ children }: { children: ReactNode }) {
     setBalance(prevBalance => prevBalance + trade.profit);
     toast({
         variant: 'info',
+        position: 'bottom-right',
         title: t('trade_closed_title'),
         description: t('trade_closed_description')
           .replace('{profit}', `${trade.profit.toFixed(2)} €`)
@@ -113,13 +114,13 @@ export function TradingProvider({ children }: { children: ReactNode }) {
 
     toast({
       variant: 'default',
+      position: 'bottom-right',
       title: t('trade_opened_title'),
       description: t('trade_opened_description').replace('{symbol}', symbol),
     });
 
-    const isProfitable = Math.random() < 0.8;
     const profitAmount = 0.5 + Math.random() * 2;
-    const profit = isProfitable ? profitAmount : -(profitAmount / 2);
+    const profit = profitAmount;
 
     const priceVariation = 1 + (Math.random() - 0.5) * 2 * fluctuation;
     const buyPrice = basePrice * priceVariation;
@@ -203,9 +204,8 @@ export function TradingProvider({ children }: { children: ReactNode }) {
             const asset = tradableAssets[Math.floor(Math.random() * tradableAssets.length)];
             const { symbol, basePrice, fluctuation } = asset;
 
-            const isProfitable = Math.random() < 0.8;
             const profitAmount = 0.5 + Math.random() * 2;
-            const profit = isProfitable ? profitAmount : -(profitAmount / 2);
+            const profit = profitAmount;
 
             const priceVariation = 1 + (Math.random() - 0.5) * 2 * fluctuation;
             const buyPrice = basePrice * priceVariation;
