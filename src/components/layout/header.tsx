@@ -11,28 +11,29 @@ import { Button } from "../ui/button"
 export function Header() {
   const { t } = useLanguage();
   const pathname = usePathname();
+  const isHomePage = pathname === '/';
 
   return (
     <header className="sticky top-0 z-30 grid h-16 grid-cols-[auto_1fr_auto] items-center gap-x-4 bg-primary px-4 text-primary-foreground sm:px-6">
       {/* Left section */}
       <div className="flex items-center justify-start">
-        {pathname !== '/' ? (
+        {isHomePage ? (
+           <Link href="/" className="text-xl font-bold whitespace-nowrap">
+             <span>{t('app.name')}</span>
+           </Link>
+        ) : (
           <Link href="/" passHref>
             <Button variant="ghost" className="text-primary-foreground hover:bg-primary/80 hover:text-primary-foreground">
               <ArrowLeft className="h-5 w-5" />
               <span className="hidden sm:ml-2 sm:inline-block">{t('back')}</span>
             </Button>
           </Link>
-        ) : (
-           <Link href="/" className="text-xl font-bold whitespace-nowrap">
-             <span>{t('app.name')}</span>
-           </Link>
         )}
       </div>
       
-      {/* Center section (app name) */}
+      {/* Center section (app name on non-home pages) */}
       <div className="text-center">
-        {pathname !== '/' && (
+        {!isHomePage && (
           <Link href="/" className="text-xl font-bold whitespace-nowrap">
             <span>{t('app.name')}</span>
           </Link>
