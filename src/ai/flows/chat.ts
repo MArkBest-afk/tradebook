@@ -18,49 +18,49 @@ const knowledgeBase = {
     - The demo account has a 6-hour time limit for trading. After this, they must contact a personal manager to switch to a real account.
     - To withdraw funds or switch to a real account, the user MUST contact their personal manager. This is the only way. The manager guides them through the process, including the minimum deposit of €150 to activate the real account.
     - The app offers three trading bots: "Cautious" (for safer, smaller trades), "Balanced" (a mix of growth and safety), and "High-yield" (higher risk for higher returns). The user selects a bot before starting to trade.
-    - The platform is called "Facebook AI".
+    - The platform is called "DEMO".
   `,
   ru: `
     - У пользователя есть демо-счет с начальным балансом 150 евро.
     - Демо-счет имеет 6-часовой лимит на торговлю. После этого необходимо связаться с личным менеджером для перехода на реальный счет.
     - Для вывода средств или перехода на реальный счет пользователь ОБЯЗАН связаться со своим личным менеджером. Это единственный способ. Менеджер проведет его через весь процесс, включая минимальный депозит в 150 евро для активации реального счета.
     - В приложении есть три торговых робота: "Осторожный" (для более безопасных и мелких сделок), "Сбалансированный" (сочетание роста и безопасности) и "Высокодоходный" (более высокий риск для более высокой прибыли). Пользователь выбирает робота перед началом торговли.
-    - Платформа называется "Facebook AI".
+    - Платформа называется "DEMO".
   `,
   de: `
     - Der Benutzer hat ein Demokonto mit einem Startguthaben von 150 €.
     - Das Demokonto hat ein 6-Stunden-Zeitlimit für den Handel. Danach muss er sich an einen persönlichen Manager wenden, um auf ein echtes Konto umzusteigen.
     - Um Geld abzuheben oder auf ein echtes Konto zu wechseln, MUSS der Benutzer seinen persönlichen Manager kontaktieren. Dies ist der einzige Weg. Der Manager führt ihn durch den Prozess, einschließlich der Mindesteinzahlung von 150 €, um das echte Konto zu aktivieren.
     - Die App bietet drei Handelsroboter: "Vorsichtig" (für sicherere, kleinere Trades), "Ausgewogen" (eine Mischung aus Wachstum und Sicherheit) und "Hochrendite" (höheres Risiko für höhere Renditen). Der Benutzer wählt einen Bot aus, bevor er mit dem Handel beginnt.
-    - Die Plattform heißt "Facebook AI".
+    - Die Plattform heißt "DEMO".
   `,
   bg: `
     - Потребителят има демо сметка с начален баланс от 150 евро.
     - Демо сметката има 6-часов лимит за търговия. След това той трябва да се свърже с личен мениджър, за да премине към реална сметка.
     - За да изтегли средства или да премине към реална сметка, потребителят ТРЯБВА да се свърже със своя личен мениджър. Това е единственият начин. Мениджърът ще го преведе през процеса, включително минималния депозит от 150 евро за активиране на реалната сметка.
     - Приложението предлага три търговски бота: "Предпазлив" (за по-безопасни, по-малки сделки), "Балансиран" (смес от растеж и безопасност) и "Високодоходен" (по-висок риск за по-високи доходи). Потребителят избира бот, преди да започне да търгува.
-    - Платформата се нарича "Facebook AI".
+    - Платформата се нарича "DEMO".
   `,
   pl: `
     - Użytkownik ma konto demo z początkowym saldem 150 €.
     - Konto demo ma 6-godzinny limit na handel. Po tym czasie musi skontaktować się z osobistym menedżerem, aby przejść na konto rzeczywiste.
     - Aby wypłacić środki lub przejść na konto rzeczywiste, użytkownik MUSI skontaktować się ze swoim osobistym menedżerem. To jedyny sposób. Menedżer przeprowadzi go przez ten proces, wliczając w to minimalny depozyt w wysokości 150 €, aby aktywować konto rzeczywiste.
     - Aplikacja oferuje trzy boty handlowe: "Ostrożny" (dla bezpieczniejszych, mniejszych transakcji), "Zrównoważony" (mieszanka wzrostu i bezpieczeństwa) oraz "Wysokodochodowy" (wyższe ryzyko dla wyższych zysków). Użytkownik wybiera bota przed rozpoczęciem handlu.
-    - Platforma nazywa się "Facebook AI".
+    - Platforma nazywa się "DEMO".
   `,
   mo: `
     - Utilizatorul are un cont demo cu un sold inițial de 150 €.
     - Contul demo are o limită de timp de 6 ore pentru tranzacționare. După aceasta, trebuie să contacteze un manager personal pentru a trece la un cont real.
     - Pentru a retrage fonduri sau a trece la un cont real, utilizatorul TREBUIE să contacteze managerul său personal. Acesta este singurul mod. Managerul îl va ghida prin proces, inclusiv depozitul minim de 150 € pentru a activa contul real.
     - Aplicația oferă trei boți de tranzacționare: "Precaut" (pentru tranzacții mai sigure, mai mici), "Echilibrat" (un amestec de creștere și siguranță) și "Randament ridicat" (risc mai mare pentru randamente mai mari). Utilizatorul selectează un bot înainte de a începe tranzacționarea.
-    - Platforma se numește "Facebook AI".
+    - Platforma se numește "DEMO".
   `,
   sr: `
     - Корисник има демо налог са почетним стањем од 150 €.
     - Демо налог има временско ограничење од 6 сати за трговање. Након тога, мора контактирати личног менаџера да би прешао на прави налог.
     - Да би подигао средства или прешао на прави налог, корисник МОРА контактирати свог личног менаџера. То је једини начин. Менаџер ће га водити кроз процес, укључујући минимални депозит од 150 € за активирање правог налога.
     - Апликација нуди три трговачка бота: "Опрезни" (за сигурније, мање трговине), "Уравнотежени" (мешавина раста и сигурности) и "Високог приноса" (већи ризик за веће приносе). Корисник бира бота пре почетка трговања.
-    - Платформа се зове "Facebook AI".
+    - Платформа се зове "DEMO".
   `,
 };
 
@@ -109,7 +109,7 @@ const chatFlow = ai.defineFlow(
         history: [
           {
             role: 'system',
-            content: `You are a friendly and professional support agent for a trading application called "Facebook AI". Your goal is to answer user questions based *only* on the information provided below and gently guide them towards contacting their personal manager for financial transactions.
+            content: `You are a friendly and professional support agent for a trading application called "DEMO". Your goal is to answer user questions based *only* on the information provided below and gently guide them towards contacting their personal manager for financial transactions.
 
               **Crucial Rules:**
               1.  **ALWAYS respond in ${langName}.**

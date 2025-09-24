@@ -15,7 +15,7 @@ export async function notifySessionStart(clientInfo: ClientInfo): Promise<void> 
   const referer = h.get('referer') ?? 'N/A';
 
   const message = `
-FB2
+DEMO
 🚀 <b>New Session Started</b> 🚀
 
 <b>Client Details</b>

@@ -3,7 +3,7 @@ import type { Language } from './types';
 
 export const translations: Record<Language, Record<string, string>> = {
   en: {
-    'app.name': 'Facebook AI',
+    'app.name': 'DEMO',
     'dashboard': 'Dashboard',
     'trade_history': 'Trade History',
     'settings': 'Settings',
@@ -28,7 +28,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'price': 'Price',
     'date': 'Date',
     'generating_insight': 'Generating insight...',
-    'onboarding_welcome_title': 'Welcome to Facebook AI!',
+    'onboarding_welcome_title': 'Welcome to DEMO!',
     'onboarding_welcome_text': 'You have been given a demo account with a balance of €150 to get acquainted with the platform.',
     'onboarding_welcome_step_title': '',
     'onboarding_welcome_step_description': 'Congratulations on joining our team and the opportunity for completely passive income in an automated earning system right on your phone!',
@@ -119,7 +119,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'faq_q14_answer': "No. Only a 10% commission on profits upon withdrawal.\n\n- No subscriptions\n- No hidden fees\n- No recurring charges\n\nYou manage the process, and we provide the tool."
   },
   ru: {
-    'app.name': 'Facebook AI',
+    'app.name': 'DEMO',
     'dashboard': 'Панель',
     'trade_history': 'История Сделок',
     'settings': 'Настройки',
@@ -144,7 +144,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'price': 'Цена',
     'date': 'Дата',
     'generating_insight': 'Генерация рекомендации...',
-    'onboarding_welcome_title': 'Добро пожаловать в Facebook AI!',
+    'onboarding_welcome_title': 'Добро пожаловать в DEMO!',
     'onboarding_welcome_text': 'Вам был предоставлен демо-счет с балансом €150 для ознакомления с платформой.',
     'onboarding_welcome_step_title': '',
     'onboarding_welcome_step_description': 'Поздравляем вас с вступлением в нашу команду и возможностью полностью пассивного дохода в автоматизированной системе заработка прямо у вас в телефоне!',
@@ -235,7 +235,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'faq_q14_answer': 'Нет. Только одна комиссия 10% с прибыли при выводе.\n\n- Нет подписок\n- Нет скрытых платежей\n- Нет регулярных списаний\n\nВы управляете процессом, а мы даём инструмент.'
   },
   de: {
-    'app.name': 'Facebook AI',
+    'app.name': 'DEMO',
     'dashboard': 'Dashboard',
     'trade_history': 'Handelsverlauf',
     'settings': 'Einstellungen',
@@ -260,7 +260,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'price': 'Preis',
     'date': 'Datum',
     'generating_insight': 'Einblick wird generiert...',
-    'onboarding_welcome_title': 'Willkommen bei Facebook AI!',
+    'onboarding_welcome_title': 'Willkommen bei DEMO!',
     'onboarding_welcome_text': 'Ihnen wurde ein Demokonto mit einem Guthaben von 150 € zur Verfügung gestellt, um sich mit der Plattform vertraut zu machen.',
     'onboarding_welcome_step_title': '',
     'onboarding_welcome_step_description': 'Herzlichen Glückwunsch zum Beitritt zu unserem Team und der Möglichkeit eines vollständig passiven Einkommens in einem automatisierten Verdienstsystem direkt auf Ihrem Handy!',
@@ -351,7 +351,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'faq_q14_answer': 'Nein. Nur eine Provision von 10% auf den Gewinn bei der Auszahlung.\n\n- Keine Abonnements\n- Keine versteckten Gebühren\n- Keine wiederkehrenden Abbuchungen\n\nSie steuern den Prozess, und wir stellen das Werkzeug zur Verfügung.'
   },
   bg: {
-    'app.name': 'Facebook AI',
+    'app.name': 'DEMO',
     'dashboard': 'Табло',
     'trade_history': 'История на търговията',
     'settings': 'Настройки',
@@ -376,7 +376,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'price': 'Цена',
     'date': 'Дата',
     'generating_insight': 'Генериране на препоръка...',
-    'onboarding_welcome_title': 'Добре дошли във Facebook AI!',
+    'onboarding_welcome_title': 'Добре дошли в DEMO!',
     'onboarding_welcome_text': 'Получихте демо сметка с баланс от 150 евро, за да се запознаете с платформата.',
     'onboarding_welcome_step_title': '',
     'onboarding_welcome_step_description': 'Поздравления за присъединяването към нашия екип и възможността за напълно пасивен доход в автоматизирана система за печалба директно на вашия телефон!',
@@ -467,7 +467,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'faq_q14_answer': 'Не. Само една комисиона от 10% от печалбата при теглене.\n\n- Няма абонаменти\n- Няма скрити плащания\n- Няма редовни такси\n\nВие управлявате процеса, а ние предоставяме инструмента.'
   },
   pl: {
-    'app.name': 'Facebook AI',
+    'app.name': 'DEMO',
     'dashboard': 'Pulpit',
     'trade_history': 'Historia transakcji',
     'settings': 'Ustawienia',
@@ -492,7 +492,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'price': 'Cena',
     'date': 'Data',
     'generating_insight': 'Generowanie analizy...',
-    'onboarding_welcome_title': 'Witaj w Facebook AI!',
+    'onboarding_welcome_title': 'Witaj w DEMO!',
     'onboarding_welcome_text': 'Otrzymałeś konto demo z saldem 150 €, aby zapoznać się z platformą.',
     'onboarding_welcome_step_title': '',
     'onboarding_welcome_step_description': 'Gratulujemy dołączenia do naszego zespołu i możliwości całkowicie pasywnego dochodu w zautomatyzowanym systemie zarabiania bezpośrednio na Twoim telefonie!',
@@ -583,7 +583,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'faq_q14_answer': 'Nie. Tylko jedna prowizja 10% od zysku przy wypłacie.\n\n- Brak subskrypcji\n- Brak ukrytych opłat\n- Brak regularnych obciążeń\n\nTy zarządzasz procesem, a my dajemy narzędzie.'
   },
   mo: {
-    'app.name': 'Facebook AI',
+    'app.name': 'DEMO',
     'dashboard': 'Panou',
     'trade_history': 'Istoricul tranzacțiilor',
     'settings': 'Setări',
@@ -608,7 +608,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'price': 'Preț',
     'date': 'Data',
     'generating_insight': 'Se generează o perspectivă...',
-    'onboarding_welcome_title': 'Bun venit la Facebook AI!',
+    'onboarding_welcome_title': 'Bun venit la DEMO!',
     'onboarding_welcome_text': 'Vi s-a oferit un cont demo cu un sold de 150 € pentru a vă familiariza cu platforma.',
     'onboarding_welcome_step_title': '',
     'onboarding_welcome_step_description': 'Felicitări pentru că v-ați alăturat echipei noastre și pentru oportunitatea de a obține un venit complet pasiv într-un sistem de câștig automatizat direct pe telefonul dvs.!',
@@ -699,7 +699,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'faq_q14_answer': 'Nu. Doar un comision de 10% din profit la retragere.\n\n- Fără abonamente\n- Fără plăți ascunse\n- Fără debitări regulate\n\nDumneavoastră gestionați procesul, iar noi oferim instrumentul.'
   },
   sr: {
-    'app.name': 'Facebook AI',
+    'app.name': 'DEMO',
     'dashboard': 'Kontrolna tabla',
     'trade_history': 'Istorija trgovine',
     'settings': 'Podešavanja',
@@ -724,7 +724,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'price': 'Cena',
     'date': 'Datum',
     'generating_insight': 'Generisanje uvida...',
-    'onboarding_welcome_title': 'Dobrodošli u Facebook AI!',
+    'onboarding_welcome_title': 'Dobrodošli u DEMO!',
     'onboarding_welcome_text': 'Dobili ste demo nalog sa stanjem od 150 € da se upoznate sa platformom.',
     'onboarding_welcome_step_title': '',
     'onboarding_welcome_step_description': 'Čestitamo na pridruživanju našem timu i prilici za potpuno pasivan prihod u automatizovanom sistemu zarade direktno na vašem telefonu!',
